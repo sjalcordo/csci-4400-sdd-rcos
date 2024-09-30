@@ -63,6 +63,11 @@ namespace Webserver
             _serverProcess.Kill();
         }
 
+        public void ConnectToServer()
+        {
+            Sockets.ServerUtil.manager.Connect();
+        }
+
         private void OnApplicationQuit()
         {
             StopServer();
