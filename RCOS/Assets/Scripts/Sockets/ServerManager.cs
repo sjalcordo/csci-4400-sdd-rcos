@@ -25,8 +25,10 @@ namespace Sockets
 
     public class ServerManager : MonoBehaviour
     {
-        [SerializeField] private string _uri = "http://localhost:3000";
+        [SerializeField] private string _uri = "http://companionship.cs.rpi.edu:3000";
+        [SerializeField] private bool _joinOnStart;
         private SocketIOUnity _socket;
+        public SocketIOUnity socket => _socket;
 
         private void Awake()
         {
@@ -64,9 +66,27 @@ namespace Sockets
             };
         }
 
+        private void Start()
+        {
+            if (_joinOnStart)
+            {
+                Connect();
+            }
+        }
+
         public void Connect()
         {
             _socket.Connect();
+        }
+
+        public void SendEvent(string eventName)
+        {
+            _socket.Emit(eventName);
+        }
+
+        public void SendEvent(string eventName, params object[] data)
+        {
+            _socket.Emit(eventName, data);
         }
     }
 }
