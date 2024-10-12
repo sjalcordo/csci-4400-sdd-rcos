@@ -1359,6 +1359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uri: http://companionship.cs.rpi.edu:3000
+  _joinOnStart: 1
 --- !u!4 &1630747294
 Transform:
   m_ObjectHideFlags: 0
