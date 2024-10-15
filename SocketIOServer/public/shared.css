@@ -1,0 +1,24 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: #FFF5F5; /*light pink*/
+    font-family: "Prompt", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+button {
+    font-family: "Prompt", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.5em;
+    color: #D6202A;
+    background-color: transparent;
+    border: none;
+}
+
+button:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
