@@ -1,0 +1,25 @@
+#container {
+    padding-top: 80px;
+    text-align: center;
+}
+
+#codeForm {
+    padding-top: 10px;
+}
+
+.code {
+    font-family: "Anta", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 128px;
+    text-align: center;
+    height: 220px;
+    width: 152px;
+    background-color: transparent;
+    border: 5px solid #D6202A;
+    border-radius: 36px;
+}
+
+.code:focus {
+    background-color: #ffb9c1;
+}
