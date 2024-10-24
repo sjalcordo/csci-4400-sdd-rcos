@@ -7,6 +7,13 @@
     padding-top: 10px;
 }
 
+#codeGroup {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 20px;
+}
+
 .code {
     font-family: "Anta", sans-serif;
     font-weight: 400;
