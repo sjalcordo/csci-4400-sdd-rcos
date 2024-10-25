@@ -34,6 +34,7 @@ io.on('connection', (socket) => {
     
     // Pass through any signals except those overridden above
     socket.onAny((eventName, args) => {
+        console.log(eventName + ": " + args);
         io.emit(eventName, args);
     });
 });
