@@ -15,8 +15,16 @@ namespace Sockets
             {
                 if (_instance == null)
                 {
-                    GameObject serverManagerObj = new GameObject("Server Manager");
-                    _instance = serverManagerObj.AddComponent<ServerManager>();
+                    GameObject serverManagerObj = GameObject.Find("Server Manager");
+                    if (serverManagerObj == null)
+                    {
+                        serverManagerObj = new GameObject("Server Manager");
+                        _instance = serverManagerObj.AddComponent<ServerManager>();
+                    }
+                    else
+                    {
+                        _instance = serverManagerObj.GetComponent<ServerManager>();
+                    }
                 }
                 return _instance;
             }
@@ -87,6 +95,11 @@ namespace Sockets
         public void SendEvent(string eventName, params object[] data)
         {
             _socket.Emit(eventName, data);
+        }
+
+        private void OnDestroy()
+        {
+            _socket.Disconnect();
         }
     }
 }
