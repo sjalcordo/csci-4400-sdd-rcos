@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
         }
 
         // Removes the player socket from the server
-        if (lobbyID != null && lobbyID != "") {
+        if (lobbyID != null && lobbyID != "" && lobbyDict[lobbyID].players != null) {
             delete lobbyDict[lobbyID].players[hashedIP];
         }
     });
@@ -117,6 +117,7 @@ io.on('connection', (socket) => {
             return;
 
         lobbyDict[lobbyID].players[hashedIP].name = name;
+        lobbyDict[lobbyID].host.emit("new-player", hashedIP, name);
     });
 
     // Tested and works.
