@@ -81,7 +81,12 @@ io.on('connection', (socket) => {
 
     // Tested and works.
     socket.on('join-lobby', (lobby) => {
+        // If the lobby does not exist
         if (!lobby in lobbyDict) 
+            return;
+
+        // Limit the amount of players
+        if (lobbyDict[lobby].players.keys().length() >= 8) 
             return;
 
         // If the player's hashedIP is already in the players list
