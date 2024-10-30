@@ -73,6 +73,7 @@ namespace Sockets
 
             socket.OnAnyInUnityThread((name, response) =>
             {
+                Debug.Log("Received Message:\n\tName:" + name + "\n\tData:" + response);
                 OnSocketEvent.Invoke(name, response);
             });
 

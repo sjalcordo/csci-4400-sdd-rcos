@@ -136,6 +136,13 @@ io.on('connection', (socket) => {
         lobbyDict[lobbyID].host.emit('on-downvote', hashedIP);
     });
 
+    socket.on('prompt-response', (response) => {
+        if (lobbyID == "") 
+            return;
+
+        lobbyDict[lobbyID].host.emit('on-prompt-response', hashedIP, response);
+    });
+
     // Debug to show messages in console.
     socket.onAny((eventName, args) => {
         if (args == null) {
