@@ -142,12 +142,22 @@ io.on('connection', (socket) => {
         }
         console.log("Received Message\n\tEventName: " + eventName + "\n\tArgs: " + args);
     });
-});
 
-// Open server to the 3000 port.
-server.listen(3000, () => {
-    console.log('listening on *:3000');
-})
+    // Prints out the submitCode given from the client 
+    socket.on('submitCode', (codeValues) => {
+        let code = codeValues.join('');
+        console.log('Received code:', code);
+
+        //TODO: Return if the code of the lobby is correct, for now assumes any code would work
+        let lobbyConnection = "Connecting to Lobby";
+
+        //Sends a message to the client
+        socket.emit('lobbyConnection', lobbyConnection);
+
+    });
+
+  
+});
 
 function makeid(length) {
     let result = '';
@@ -160,3 +170,9 @@ function makeid(length) {
     }
     return result;
 }
+
+// Open server to the 3000 port.
+server.listen(3000, () => {
+    console.log('listening on *:3000');
+})
+
