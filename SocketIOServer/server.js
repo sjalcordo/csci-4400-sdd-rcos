@@ -9,7 +9,7 @@ const fs = require("fs");
 var path = require('path');
 var md5 = require('js-md5');
 
-var bannedServerNames = ["tests"]
+var bannedServerNames = ["tests"];
 let lobbyDict = {};
 
 class Lobby {
@@ -60,34 +60,45 @@ io.on('connection', (socket) => {
         }
 
         // Removes the player socket from the server
-        if (lobbyID != null && lobbyID != "") {
+        if (lobbyID != null && lobbyID != "" && lobbyDict[lobbyID].players != null) {
             delete lobbyDict[lobbyID].players[hashedIP];
+        }
+
+        if (lobbyID in lobbyDict && lobbyDict[lobbyID].host == socket) {
+            delete lobbyDict[lobbyID];
         }
     });
 
+    /* 
+    LOBBY CREATION 
+    */
+    
     // Tested and works.
     socket.on('create-lobby', function() {
         // Generate lobby ID
         lobbyName = makeid(5);
-        while (bannedServerNames.includes(lobbyName)) {
+        while (bannedServerNames.includes(lobbyName) || lobbyName in lobbyDict) {
             lobbyName = makeid(5);
         }
 
-        socket.emit('verify-lobby', lobbyName);
         lobbyDict[lobbyName] = new Lobby(socket);
-        console.log(lobbyDict);
+        socket.emit('verify-lobby', lobbyName);
     });
 
 
     // Tested and works.
     socket.on('join-lobby', (lobby) => {
         // If the lobby does not exist
-        if (!lobby in lobbyDict) 
+        if (!lobby in lobbyDict) {
+            socket.emit('join-lobby-fail-dne');
             return;
+        }
 
         // Limit the amount of players
-        if (Object.keys(lobbyDict[lobby].players).length >= 8) 
+        if (Object.keys(lobbyDict[lobby].players).length >= 8) {
+            socket.emit('join-lobby-fail-plimit')
             return;
+        }
 
         // If the player's hashedIP is already in the players list
         if (hashedIP in lobbyDict[lobby].players) {
@@ -110,6 +121,10 @@ io.on('connection', (socket) => {
 
         delete lobbyDict[lobby];
     });
+    
+    /* 
+    PROFILE CREATION 
+    */
 
     // Tested and works.
     socket.on('set-name', (name) => {
@@ -117,7 +132,19 @@ io.on('connection', (socket) => {
             return;
 
         lobbyDict[lobbyID].players[hashedIP].name = name;
+        lobbyDict[lobbyID].host.emit("new-player", hashedIP, name);
     });
+
+    socket.on('prompt-response', (response) => {
+        if (lobbyID == "") 
+            return;
+
+        lobbyDict[lobbyID].host.emit('on-prompt-response', hashedIP, response); 
+    });
+
+    /* 
+    VOTING
+    */
 
     // Tested and works.
     socket.on('upvote', function() {
@@ -134,6 +161,10 @@ io.on('connection', (socket) => {
 
         lobbyDict[lobbyID].host.emit('on-downvote', hashedIP);
     });
+ 
+    /* 
+    DEBUGGING
+    */
 
     // Debug to show messages in console.
     socket.onAny((eventName, args) => {
