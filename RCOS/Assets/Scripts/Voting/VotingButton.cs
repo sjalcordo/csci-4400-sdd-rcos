@@ -8,12 +8,12 @@ namespace Voting
     {
         public void SendApproval()
         {
-            Sockets.ServerUtil.manager.SendEvent("Approval");
+            Sockets.ServerUtil.manager.SendEvent("approval");
         }
 
         public void SendDisapproval()
         {
-            Sockets.ServerUtil.manager.SendEvent("Disapproval");
+            Sockets.ServerUtil.manager.SendEvent("disapproval");
         }
     }
 }
