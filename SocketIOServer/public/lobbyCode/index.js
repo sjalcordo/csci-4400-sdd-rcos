@@ -43,3 +43,37 @@ function handleKeyDown(event, input) {
         }
     }
 }
+
+// Connect to the server
+const socket = io();
+
+// Listen to form submission
+document.getElementById('codeForm').addEventListener('submit', (event) => {
+     event.preventDefault(); 
+
+     // Get all input elements with class "code"
+     const codeInputs = document.querySelectorAll('.code');
+     
+     let codeValues = [];
+
+     // Loop through each input and get its value
+     codeInputs.forEach(input => {
+         codeValues.push(input.value); 
+     });
+
+     // Send the array of code values to the server
+     socket.emit('submitCode', codeValues);
+
+     // Clear the input fields after submission
+     codeInputs.forEach(input => input.value = '');
+ });
+
+ // Listen for the 'lobbyConnection' event from the server
+ socket.on('lobbyConnection', (message) => {
+    lobbyConnection = message;
+    // If we receive the message from the server let's print it on screen
+    if (message != "" ){
+        document.getElementById('response').textContent = lobbyConnection;
+    }
+});
+ 

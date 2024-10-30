@@ -37,9 +37,25 @@ io.on('connection', (socket) => {
         console.log(eventName + ": " + args);
         io.emit(eventName, args);
     });
+
+    // Prints out the submitCode given from the client 
+    socket.on('submitCode', (codeValues) => {
+        let code = codeValues.join('');
+        console.log('Received code:', code);
+
+        //TODO: Return if the code of the lobby is correct, for now assumes any code would work
+        let lobbyConnection = "Connecting to Lobby";
+
+        //Sends a message to the client
+        socket.emit('lobbyConnection', lobbyConnection);
+
+    });
+
+  
 });
 
 // Open server to the 3000 port.
 server.listen(3000, () => {
     console.log('listening on *:3000');
 })
+
