@@ -30,8 +30,10 @@ namespace Gameplay
     {
         private Dictionary<string, Prompt> _currentPrompts = new Dictionary<string, Prompt>();
         [SerializeField] private string _promptFilename = "prompts";
+        [SerializeField] private string _answerFilename = "answers";
 
         [SerializeField] private List<Prompt> _prompts = new List<Prompt>();
+        [SerializeField] private List<string> _answers = new List<string>();
 
         private void Start()
         {
@@ -74,7 +76,14 @@ namespace Gameplay
             List<Dictionary<string, object>> sheetLines = Helpers.CSVReader.Read(_promptFilename);
             foreach (Dictionary<string, object> line in sheetLines)
             {
+                Debug.Log(line.Keys);
                 _prompts.Add(new Prompt(line["prompt"].ToString()));
+            }
+
+            sheetLines = Helpers.CSVReader.Read(_answerFilename);
+            foreach (Dictionary<string, object> line in sheetLines)
+            {
+                _answers.Add(line["answers"].ToString());
             }
         }
     }
