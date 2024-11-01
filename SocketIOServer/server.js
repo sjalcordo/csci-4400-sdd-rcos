@@ -11,12 +11,14 @@ var md5 = require('js-md5');
 
 var bannedServerNames = ["tests"];
 let lobbyDict = {};
+let cachedPlayers = {};
 
 class Lobby {
     host;
     players = {};
 
     constructor(hostSocket) {
+        this.players = {};
         this.host = hostSocket;
     }
 }
@@ -39,6 +41,10 @@ io.on('connection', (socket) => {
     let ipAddress = socket.handshake.address;
     let hashedIP = md5.hmac('RCOS', ipAddress);
     let lobbyID = "";
+    
+    if (hashedIP in cachedPlayers) {
+        joinLobby(socket, cachedPlayers[hashedIP], hashedIP);
+    }
 
     // If the socket has "UNITY" as the token, recognize the client as the Unity client.
     if(socket.handshake.query.token === "UNITY") {
@@ -82,36 +88,17 @@ io.on('connection', (socket) => {
         }
 
         lobbyDict[lobbyName] = new Lobby(socket);
+        console.log(lobbyDict[lobbyName]);
         socket.emit('verify-lobby', lobbyName);
     });
 
 
     // Tested and works.
-    socket.on('join-lobby', (lobby) => {
-        // If the lobby does not exist
-        if (!lobby in lobbyDict) {
-            socket.emit('join-lobby-fail-dne');
-            return;
-        }
+    socket.on('join-lobby', (lobby) => {      
+        joinLobby(socket,lobby, hashedIP);
 
-        // Limit the amount of players
-        if (Object.keys(lobbyDict[lobby].players).length >= 8) {
-            socket.emit('join-lobby-fail-plimit')
-            return;
-        }
-
-        // If the player's hashedIP is already in the players list
-        if (hashedIP in lobbyDict[lobby].players) {
-            lobbyDict[lobby].players[hashedIP].socket = socket;
-        }
-        // Otherwise, create a new player
-        else {
-            lobbyDict[lobby].players[hashedIP] = new Player(socket);
-        }
-
-        console.log(lobbyDict);
-        console.log(lobbyDict[lobby].players[hashedIP]);
         lobbyID = lobby;
+        cachedPlayers[hashedIP] = lobby;
     });
 
     // Tested and works.
@@ -200,6 +187,31 @@ function makeid(length) {
       counter += 1;
     }
     return result;
+}
+
+function joinLobby(socket, lobby, hashedIP) {
+    // If the lobby does not exist
+    if (!(lobby in lobbyDict)) {
+        socket.emit('join-lobby-fail-dne');
+        return;
+    }
+
+    // Limit the amount of players
+    if (lobbyDict[lobby] != null && Object.keys(lobbyDict[lobby].players).length >= 8) {
+        socket.emit('join-lobby-fail-plimit')
+        return;
+    }
+
+    // If the player's hashedIP is already in the players list
+    if (hashedIP in lobbyDict[lobby].players) {
+        lobbyDict[lobby].players[hashedIP].socket = socket;
+    }
+    // Otherwise, create a new player
+    else {
+        lobbyDict[lobby].players[hashedIP] = new Player(socket);
+    }
+    
+    socket.emit('join-lobby-success', lobby);
 }
 
 // Open server to the 3000 port.

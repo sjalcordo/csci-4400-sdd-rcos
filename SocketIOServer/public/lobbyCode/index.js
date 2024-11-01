@@ -54,26 +54,32 @@ document.getElementById('codeForm').addEventListener('submit', (event) => {
      // Get all input elements with class "code"
      const codeInputs = document.querySelectorAll('.code');
      
-     let codeValues = [];
+     let codeValues = "";
 
      // Loop through each input and get its value
      codeInputs.forEach(input => {
-         codeValues.push(input.value); 
+         codeValues += input.value; 
      });
 
      // Send the array of code values to the server
-     socket.emit('submitCode', codeValues);
+     socket.emit('join-lobby', codeValues.toLowerCase());
 
      // Clear the input fields after submission
      codeInputs.forEach(input => input.value = '');
  });
 
- // Listen for the 'lobbyConnection' event from the server
- socket.on('lobbyConnection', (message) => {
-    lobbyConnection = message;
+// Listen for the 'lobbyConnection' event from the server
+socket.on('join-lobby-success', (code) => {
     // If we receive the message from the server let's print it on screen
-    if (message != "" ){
-        document.getElementById('response').textContent = lobbyConnection;
+    if (code != "" ){
+        document.getElementById('response').textContent = "successfully joined lobby: " + code;
     }
 });
+
+// Listen for the 'lobbyConnection' event from the server
+socket.on('join-lobby-fail-dne', function(){
+    document.getElementById('response').textContent = "Lobby does not exist.";
+});
+
+
  
