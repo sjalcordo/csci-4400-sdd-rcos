@@ -1,0 +1,82 @@
+#container {
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    position: relative;
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#timer {
+    font-size: 40px;
+    font-weight: 800;
+    color: #D6202A;
+    padding: 10px 0 0 20px;
+}
+
+#prompt {
+    width: 90%;
+    margin: auto;
+}
+
+#answers {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.answerCard {
+    width: 25%;
+    height: 150px;
+    overflow: auto;
+    border: 5px solid #D6202A;
+    border-radius: 36px;
+    padding: 10px;
+    letter-spacing: 1px;
+    line-height: 1.6;
+    font-size: 16px;
+    font-weight: 300;
+    color: #000000;
+}
+
+.answerCard:hover {
+    transform: scale(1.1);
+}
+
+#next {
+    position: absolute;
+    bottom: 50px;
+    right: 80px;
+}
+
+.timerBar {
+    width: 80%;
+    position: absolute;
+    bottom: 30px;
+    margin: 0 10%;
+}
+
+.timerBar div {
+    height: 8px;
+    background: #D6202A;
+    border-radius: 20px;
+    animation: timerBar linear forwards;
+    animation-duration: 5s; /* change based on timer amount */
+    transform-origin: left center;
+}
+
+@keyframes timerBar {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
