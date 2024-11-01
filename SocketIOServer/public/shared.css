@@ -9,6 +9,9 @@ body {
 }
 
 h1 {
+    letter-spacing: 1px;
+    text-align: center;
+    line-height: 1.6;
     font-size: 96px;
     font-weight: 800;
     color: #D6202A;
@@ -20,6 +23,15 @@ h3 {
     font-weight: 500;
     margin: 0;
 }
+
+p {
+    letter-spacing: 1px;
+    line-height: 1.6;
+    font-size: 25px;
+    font-weight: 500;
+    color: #000000;
+}
+
 
 button {
     font-family: "Prompt", sans-serif;

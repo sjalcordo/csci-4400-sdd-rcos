@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Profile_Creation</title>
+        <link rel="stylesheet" type="text/css" href="../shared.css">
+        <link rel="stylesheet" type="text/css" href="./profile_creation.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="outerContainer">
+            <h1 id="profile">Profile</h1>
+            <div id="container">
+                <div id="imageContainer">
+                    <img src="../Resources/user-icon.png" alt="An icon representing a generic user." id="image" width="400px" height="300px">
+                    <div id="buttons">
+                        <button type="button" id="libraryButton"><img src="../Resources/image-icon.png" alt="An image icon" width="68px"></button>
+                        <form>
+                            <label for="upload" id="uploadLabel"><img src="../Resources/upload-icon.png" alt="An upload icon."></label>
+                            <input type="file" id="upload" hidden>
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div id="profileForm">
+                    <form >
+                        <label for="name">Name</label><br>
+                        <input type="text" id="name" name="name" placeholder="Name">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <button id="next">Next</button>
+
+        <div id="modal">
+            <div id="modal-content">
+                <span id="close">&times;</span>
+                <h3>Select an Image</h3>
+                <p>images go here</p>
+                <button type="button" id="continueButton">Continue</button>
+            </div>
+        </div>
+
+        <script src="./profile_creation.js"></script>
+       
+    </body>
+
+
+</html>
