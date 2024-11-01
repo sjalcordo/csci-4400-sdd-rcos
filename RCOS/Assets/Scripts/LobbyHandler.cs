@@ -10,6 +10,7 @@ namespace Gameplay
     {
         public string name;
 
+        public Player() { }
         public Player(string name)
         {
             this.name = name;
@@ -28,6 +29,9 @@ namespace Gameplay
         private Coroutine _lobbyCoroutine;
 
         private Dictionary<string, Player> _players = new Dictionary<string, Player>();
+        public Dictionary<string, Player> players => _players;
+
+        private Dictionary<string, PlayerIcon> _playerIcons = new Dictionary<string, PlayerIcon>();
 
         // Public events that are called when creating a lobby succeeds or fails.
         public UnityEvent<string> OnLobbyCreationSuccess = new UnityEvent<string>();
@@ -43,7 +47,7 @@ namespace Gameplay
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
-            if (name != "verify-lobby" && name != "new-player") return;
+            if (name != "verify-lobby" && name != "new-player" && name != "set-name") return;
 
             switch (name)
             {
@@ -51,7 +55,10 @@ namespace Gameplay
                     OnLobbyVerification(response.GetValue<string>());
                     break;
                 case "new-player":
-                    OnPlayerSetup(response.GetValue<string>(0), response.GetValue<string>(1));
+                    OnPlayerSetup(response.GetValue<string>(0));
+                    break;
+                case "set-name":
+                    OnPlayerSetName(response.GetValue<string>(0), response.GetValue<string>(1));
                     break;
             }
         }
@@ -68,22 +75,24 @@ namespace Gameplay
             OnLobbyCreationSuccess.Invoke(_lobbyCode);
         }
 
-        private void OnPlayerSetup(string hashedIP, string name)
+        private void OnPlayerSetup(string hashedIP)
         {
-            Debug.Log("Hashed IP: " + hashedIP + " Name: " + name);
-
             if (!_players.ContainsKey(hashedIP))
             {
                 GameObject IconObj = GameObject.Instantiate(_playerIconPrefab, _playerContainer.transform);
-                PlayerIcon playerIcon = IconObj.GetComponent<PlayerIcon>(); 
-                playerIcon.SetName(name);
+                PlayerIcon playerIcon = IconObj.GetComponent<PlayerIcon>();
+                _playerIcons[hashedIP] = playerIcon;
             }
-            _players[hashedIP] = new Player(name);
+            _players[hashedIP] = new Player();
+        }
 
-            foreach (KeyValuePair<string, Player> entry in _players)
+        private void OnPlayerSetName(string hashedIP, string name)
+        {
+            if (!_players.ContainsKey(hashedIP))
             {
-                Debug.Log(entry.Value.name);
+                return;
             }
+            _playerIcons[hashedIP].SetName(name);
         }
 
         public void AttemptCreateLobby()

@@ -65,6 +65,10 @@ io.on('connection', (socket) => {
             console.log("Browser disconnected");
         }
 
+        if (!(lobbyID in lobbyDict)){
+            return;
+        }
+
         // Removes the player socket from the server
         if (lobbyID != null && lobbyID != "" && lobbyDict[lobbyID].players != null) {
             delete lobbyDict[lobbyID].players[hashedIP];
@@ -119,7 +123,7 @@ io.on('connection', (socket) => {
             return;
 
         lobbyDict[lobbyID].players[hashedIP].name = name;
-        lobbyDict[lobbyID].host.emit("new-player", hashedIP, name);
+        lobbyDict[lobbyID].host.emit("set-name", hashedIP, name);
     });
 
     socket.on('prompt-response', (response) => {
@@ -212,6 +216,7 @@ function joinLobby(socket, lobby, hashedIP) {
     }
     
     socket.emit('join-lobby-success', lobby);
+    lobbyDict[lobby].host.emit('new-player', hashedIP);
 }
 
 // Open server to the 3000 port.
