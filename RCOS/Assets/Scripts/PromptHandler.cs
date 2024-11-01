@@ -76,7 +76,6 @@ namespace Gameplay
             List<Dictionary<string, object>> sheetLines = Helpers.CSVReader.Read(_promptFilename);
             foreach (Dictionary<string, object> line in sheetLines)
             {
-                Debug.Log(line.Keys);
                 _prompts.Add(new Prompt(line["prompt"].ToString()));
             }
 
