@@ -9,6 +9,7 @@ namespace Gameplay
     public class Player
     {
         public string name;
+        public Texture texture;
 
         public Player() { }
         public Player(string name)
@@ -47,7 +48,7 @@ namespace Gameplay
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
-            if (name != "verify-lobby" && name != "new-player" && name != "set-name") return;
+            if (name != "verify-lobby" && name != "new-player" && name != "on-set-name" && name != "on-set-pfp") return;
 
             switch (name)
             {
@@ -57,8 +58,11 @@ namespace Gameplay
                 case "new-player":
                     OnPlayerSetup(response.GetValue<string>(0));
                     break;
-                case "set-name":
+                case "on-set-name":
                     OnPlayerSetName(response.GetValue<string>(0), response.GetValue<string>(1));
+                    break;
+                case "on-set-pfp":
+                    OnPlayerSetPfp(response.GetValue<string>(0), response.GetValue<string>(1));
                     break;
             }
         }
@@ -95,6 +99,16 @@ namespace Gameplay
             _playerIcons[hashedIP].SetName(name);
         }
 
+        private void OnPlayerSetPfp(string hashedIP, string b64)
+        {
+            if (!_players.ContainsKey(hashedIP))
+            {
+                return;
+            }
+            _players[hashedIP].texture = b64toTex.convert(b64);
+            _playerIcons[hashedIP].SetPfp(b64toTex.convert(b64));
+        }
+
         public void AttemptCreateLobby()
         {
             // Don't re-attempt if we are already attempting
@@ -102,7 +116,7 @@ namespace Gameplay
 
             // Tell the server we are creating a lobby.
             Sockets.ServerUtil.manager.SendEvent("create-lobby");
-            _lobbyCoroutine = StartCoroutine(WaitForLobbyCreation(10f));
+            _lobbyCoroutine = StartCoroutine(WaitForLobbyCreation(2f));
         }
 
         public void DestroyLobby()

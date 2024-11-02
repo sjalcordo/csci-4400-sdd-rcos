@@ -123,7 +123,14 @@ io.on('connection', (socket) => {
             return;
 
         lobbyDict[lobbyID].players[hashedIP].name = name;
-        lobbyDict[lobbyID].host.emit("set-name", hashedIP, name);
+        lobbyDict[lobbyID].host.emit("on-set-name", hashedIP, name);
+    });
+
+    socket.on('set-pfp', (base64) => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
+            return;
+
+        lobbyDict[lobbyID].host.emit('on-set-pfp', hashedIP, base64);
     });
 
     socket.on('prompt-response', (response) => {
@@ -193,10 +200,19 @@ function makeid(length) {
     return result;
 }
 
+// function to encode file data to base64 encoded string
+function base64_encode(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer.from(bitmap).toString('base64');
+}
+
 function joinLobby(socket, lobby, hashedIP) {
     // If the lobby does not exist
     if (!(lobby in lobbyDict)) {
         socket.emit('join-lobby-fail-dne');
+        delete cachedPlayers[hashedIP];
         return;
     }
 
