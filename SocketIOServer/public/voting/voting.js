@@ -20,6 +20,11 @@ const submit = document.getElementById('submit');
 const confirmation = document.getElementById('confirmation');
 let timeout = 0; // reference to timeout call
 submit.addEventListener('click', () => submitVote());
+document.addEventListener('keydown', (event) => {
+    if (event.key === "Enter") {
+        submitVote();
+    }
+})
 function submitVote() {
     // get vote
     // assumes that only one vote button will be true at the same time
