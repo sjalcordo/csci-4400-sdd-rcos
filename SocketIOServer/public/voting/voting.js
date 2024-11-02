@@ -6,7 +6,7 @@ buttons.forEach((button) => {
 function select(selectedButton) {
     // if the button was already selected and was clicked again, deselect button
     const status = selectedButton.dataset.selected;
-    buttons.forEach((button, index) => {
+    buttons.forEach((button) => {
         button.dataset.selected = 'false';
         button.style.background = 'transparent';
     })
@@ -17,6 +17,8 @@ function select(selectedButton) {
 }
 
 const submit = document.getElementById('submit');
+const confirmation = document.getElementById('confirmation');
+let timeout = 0; // reference to timeout call
 submit.addEventListener('click', () => submitVote());
 function submitVote() {
     // get vote
@@ -26,14 +28,30 @@ function submitVote() {
         vote = "dislike";
     };
 
-    // if user has finished voting before others are ready to move on, display that voting was successful
-    // continues to next voting page after presenter is ready to move on
-    // would only need to change CSS property and user (theoretically)
-    // below code displays vote submitted
-    document.getElementById('voteContainer').style.display = 'none';
-    submit.style.display = 'none';
-    document.getElementById('confirmation').style.display = 'block';
-
     // send to server
+
+    // display vote submission confirmation
+    if (confirmation.classList.contains('fadeOut')){
+        // if vote is submitted while confirmation is still displayed, restart confirmation message
+        confirmation.classList.remove('fadeOut');
+        confirmation.offsetHeight;  // triggers reflow and does the line above before continuing
+        confirmation.classList.add('fadeOut');
+        clearTimeout(timeout);  // remove previous timeout
+    }
+    else {
+        // display confirmation
+        confirmation.classList.remove('hidden');
+        confirmation.classList.add('fadeOut');
+    }
+    timeout = window.setTimeout(() => {
+        confirmation.classList.add('hidden');
+        confirmation.classList.remove('fadeOut');
+    }, 3000)
+
+    // reset buttons
+    buttons.forEach((button) => {
+        button.dataset.selected = 'false';
+        button.style.background = 'transparent';
+    })
 }
 
