@@ -88,6 +88,7 @@ namespace Gameplay
                 _playerIcons[hashedIP] = playerIcon;
             }
             _players[hashedIP] = new Player();
+            Debug.Log("New Player: " + hashedIP);
         }
 
         private void OnPlayerSetName(string hashedIP, string name)

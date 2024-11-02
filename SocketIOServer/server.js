@@ -133,6 +133,16 @@ io.on('connection', (socket) => {
         lobbyDict[lobbyID].host.emit('on-set-pfp', hashedIP, base64);
     });
 
+    /*
+    PROMPTS
+    */
+    socket.on('send-prompt', (hashedIP, prompt) => {
+        if (lobbyID == "") 
+            return;
+
+        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt); 
+    });
+
     socket.on('prompt-response', (response) => {
         if (lobbyID == "") 
             return;
