@@ -194,6 +194,13 @@ function makeid(length) {
 }
 
 function joinLobby(socket, lobby, hashedIP) {
+
+    // For testing purposes, I'm creating an lobby with a code name "11111"
+    //so I'm able to work on creating connections between the server and client
+    if(lobby == "11111" && !(lobby in lobbyDict)){
+        lobbyDict["11111"] =  new Lobby(socket);
+    }
+
     // If the lobby does not exist
     if (!(lobby in lobbyDict)) {
         socket.emit('join-lobby-fail-dne');
