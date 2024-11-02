@@ -1,0 +1,34 @@
+#container {
+    padding-top: 80px;
+    text-align: center;
+}
+.votingButton {
+    border: 5px solid #D6202A;
+    border-radius: 36px;
+    padding: 20px;
+}
+.votingButton:hover {
+    transform: scale(1.1);
+}
+#confirmation {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translate(-50%);
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+}
+.hidden {
+    display:none;
+}
+.fadeOut {
+    animation-name: fadeOut;
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
