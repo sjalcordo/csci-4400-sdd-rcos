@@ -8,7 +8,11 @@ namespace Menus
     {
         None,
         MainMenu,
-        Lobby
+        Lobby,
+        Progress,
+        Presenting,
+        Graph,
+        PostGame
     }
 
     [System.Serializable]

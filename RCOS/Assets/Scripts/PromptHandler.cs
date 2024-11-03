@@ -28,6 +28,9 @@ namespace Gameplay
 
     public class PromptHandler : MonoBehaviour
     {
+        [SerializeField] private LobbyHandler _lobbyHandler;
+        [Space(5)]
+
         private Dictionary<string, Prompt> _currentPrompts = new Dictionary<string, Prompt>();
         [SerializeField] private string _promptFilename = "prompts";
         [SerializeField] private string _answerFilename = "answers";
@@ -69,6 +72,20 @@ namespace Gameplay
 
                     break;
             }
+        }
+
+        public void StartPrompts()
+        {
+            foreach (KeyValuePair<string, Player> playerPair in _lobbyHandler.players)
+            {
+                string prompt = GetRandomPrompt();
+                Sockets.ServerUtil.manager.SendEvent("send-prompt", playerPair.Key, prompt);
+            }
+        }
+
+        private string GetRandomPrompt()
+        {
+            return _prompts[Random.Range(0, _prompts.Count)].prompt;
         }
 
         private void ParsePrompts()
