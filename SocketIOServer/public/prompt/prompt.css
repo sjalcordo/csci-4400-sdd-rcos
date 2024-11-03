@@ -68,7 +68,7 @@
     background: #D6202A;
     border-radius: 20px;
     animation: timerBar linear forwards;
-    animation-duration: 5s; /* change based on timer amount */
+    animation-duration: 60s; /* change based on timer amount */
     transform-origin: left center;
 }
 

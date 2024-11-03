@@ -15,6 +15,8 @@ let cachedPlayers = {};
 
 //Testing purposes
 let players = [["Larry","./image0.png"],["Bob","./image1.png"],[]];
+let questions = ["How do you feel about pineapple on pizza?","What's your spirit animal?","Choose a dream job:"]
+let answers = ["Love it! Sweet and salty, just like me!", "Only if I’m trying to impress my taste buds.","It’s an unforgivable sin, honestly.","If you like it, we are not compatible.","A sloth. Nap all day, every day."]
 
 class Lobby {
     host;
