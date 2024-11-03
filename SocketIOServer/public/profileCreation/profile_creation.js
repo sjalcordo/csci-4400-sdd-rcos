@@ -29,7 +29,7 @@ function sendImage() {
     reader.readAsDataURL(file);
 
     socket.on('set-pfp-successful', function() {
-        //window.location.href = "/lobby/lobby.html";
+        window.location.href = "/lobby/lobby.html";
     });
 }
 
