@@ -13,6 +13,9 @@ var bannedServerNames = ["tests"];
 let lobbyDict = {};
 let cachedPlayers = {};
 
+//Testing 
+let players = [["Larry","./image0.png"],["Bob","./image1.png"]];
+
 class Lobby {
     host;
     players = {};
@@ -119,20 +122,50 @@ io.on('connection', (socket) => {
 
     // Tested and works.
     socket.on('set-name', (name) => {
-        
-        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
+        /*if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
             return;
         lobbyDict[lobbyID].players[hashedIP].name = name;
         lobbyDict[lobbyID].host.emit("set-name", hashedIP, name);
-        socket.emit('set-name-successful', "Name got saved to server");
         lobbyDict[lobbyID].host.emit("on-set-name", hashedIP, name);
+        */
+        socket.emit('set-name-successful', "Name got saved to server");
+        
     });
 
     socket.on('set-pfp', (base64) => {
-        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
+        /*if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
             return;
+        console.log('Received image in Base64 format');
+        lobbyDict[lobbyID].host.emit('on-set-pfp', hashedIP, base64);*/
+        socket.emit('set-pfp-successful',"Image has been successfully saved into server");
+    });
+    
+    socket.on('save-pfp', (base64Image) => {
+        console.log('Received image in Base64 format');
+        const buffer = Buffer.from(base64Image, 'base64');
+        let num = 1;
+        let filepath = `./image${num}.png`;
+        console.log('filepath: ' + filepath);
+        fs.writeFile(filepath, buffer , (err) => {
+            if (err) {
+                console.error('Error writing file:', err);
+            } else {
+                console.log('File written successfully');
+            }
+        });
+        socket.emit('save-pfp-successful',"Image has been successfully saved into server");
+    });  
 
-        lobbyDict[lobbyID].host.emit('on-set-pfp', hashedIP, base64);
+    socket.on('return-pfp', (base64Image) => {
+        // Checking to see if the image actually gets send over
+        fs.readFile('./image.png', (err, data) => {
+            if (err) {
+                console.error('Error reading image:', err);
+            } else {
+                const imageBase64 = data.toString('base64');
+                socket.emit('imageBack', imageBase64); 
+            }
+        });
     });
 
     /*
@@ -145,32 +178,6 @@ io.on('connection', (socket) => {
         lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt); 
 
     });
-
-    const fs = require('fs');
-
-    socket.on('set-pfp', (base64Image) => {
-        console.log('Received image in Base64 format');
-        const buffer = Buffer.from(base64Image, 'base64');
-        fs.writeFile('./image.png', buffer , (err) => {
-            if (err) {
-                console.error('Error writing file:', err);
-            } else {
-                console.log('File written successfully');
-            }
-        });
-        socket.emit('set-pfp-successful',"Image has been successfully received by the server");
-       
-        // Checking to see if the image actually gets send over
-        fs.readFile('./image.png', (err, data) => {
-            if (err) {
-                console.error('Error reading image:', err);
-            } else {
-                const imageBase64 = data.toString('base64');
-                socket.emit('imageBack', imageBase64); 
-            }
-        });
-    });
-
 
     socket.on('prompt-response', (response) => {
         if (lobbyID == "") 
@@ -197,6 +204,27 @@ io.on('connection', (socket) => {
             return;
 
         lobbyDict[lobbyID].host.emit('on-downvote', hashedIP);
+    });
+
+    /*
+    LOBBY SCREEN
+    */
+
+    // Sends over the array of player's name and base64(pfp image)
+    socket.on('update', function() {
+        console.log('Sending over players info')
+        players.forEach(player => {
+            fs.readFile(player[1], (err, data) => {
+                if (err) {
+                    console.error('Error reading image:', err);
+                } else {
+                    player[1] = data.toString('base64');
+                }
+            });
+        });
+        console.log('Converted images on server to base64');
+        io.emit('updated-players',players);
+        console.log('sent over!')
     });
  
     /* 
@@ -281,7 +309,7 @@ function joinLobby(socket, lobby, hashedIP) {
 }
 
 // Open server to the 3000 port.
-server.listen(2900, () => {
+server.listen(2990, () => {
     console.log('listening on *:3000');
 })
 

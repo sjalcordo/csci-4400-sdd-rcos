@@ -33,7 +33,6 @@ function sendImage() {
     });
 }
 
-
 // open modal
 libraryButton.onclick = function() {
     modal.style.display = "block";
@@ -93,7 +92,6 @@ nextButton.addEventListener('click',() =>{
     
     //clear data
     profileName.value = '';
-    image.value = '../Resources/user-icon.png';
     image.src = '../Resources/user-icon.png';
 });
 
@@ -107,6 +105,9 @@ socket.onAny((eventName, args) => {
 
 /*DEBUGGING*/
 // Listen for the image sent back from the server
+/*to test if it works add code to html        
+<p>Returned Image:</p>
+<img id="returnedImage" style="display: none" width="400px" > */
 socket.on('imageBack', (imageBase64) => {
     const returnedImage = document.getElementById('returnedImage');
     returnedImage.src = `data:image/png;base64,${imageBase64}`;
