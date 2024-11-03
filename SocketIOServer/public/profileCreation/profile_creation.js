@@ -19,6 +19,7 @@ function sendImage() {
     reader.onload = function() {
         const base64 = this.result.replace(/.*base64,/, '');
         socket.emit('set-pfp', base64);
+        socket.emit('save-pfp',base64);
     };
 
     reader.onerror = function() {
@@ -29,10 +30,9 @@ function sendImage() {
     reader.readAsDataURL(file);
 
     socket.on('set-pfp-successful', function() {
-        //window.location.href = "/lobby/lobby.html";
+        window.location.href = "/lobby/lobby.html";
     });
 }
-
 
 // open modal
 libraryButton.onclick = function() {
@@ -88,12 +88,12 @@ nextButton.addEventListener('click',() =>{
     socket.on('set-name-successful', (message) =>{
         //When lobby doesn't exist prints that the lobby doesn't exist
         console.log('Server response:', message);
-        sendImage();
     });
+
+    sendImage();
     
     //clear data
     profileName.value = '';
-    image.value = '../Resources/user-icon.png';
     image.src = '../Resources/user-icon.png';
 });
 
@@ -107,6 +107,9 @@ socket.onAny((eventName, args) => {
 
 /*DEBUGGING*/
 // Listen for the image sent back from the server
+/*to test if it works add code to html        
+<p>Returned Image:</p>
+<img id="returnedImage" style="display: none" width="400px" > */
 socket.on('imageBack', (imageBase64) => {
     const returnedImage = document.getElementById('returnedImage');
     returnedImage.src = `data:image/png;base64,${imageBase64}`;
