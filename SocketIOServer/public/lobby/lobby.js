@@ -22,7 +22,7 @@ socket.on('updated-players', (players) => {
         imageElement.src = `data:image/png;base64,${base64}`;
         imageElement.alt = `${name}'s image`;
         imageElement.className = 'userImage'
-        imageElement.style.width = '150px'; 
+        imageElement.style.width = '200px'; 
 
         // User name
         let nameElement = document.createElement('h3');

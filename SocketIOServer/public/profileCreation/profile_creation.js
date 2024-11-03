@@ -19,6 +19,7 @@ function sendImage() {
     reader.onload = function() {
         const base64 = this.result.replace(/.*base64,/, '');
         socket.emit('set-pfp', base64);
+        socket.emit('save-pfp',base64);
     };
 
     reader.onerror = function() {
@@ -87,8 +88,9 @@ nextButton.addEventListener('click',() =>{
     socket.on('set-name-successful', (message) =>{
         //When lobby doesn't exist prints that the lobby doesn't exist
         console.log('Server response:', message);
-        sendImage();
     });
+
+    sendImage();
     
     //clear data
     profileName.value = '';
