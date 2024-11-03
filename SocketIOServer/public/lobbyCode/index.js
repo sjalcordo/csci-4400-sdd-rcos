@@ -69,7 +69,7 @@ document.getElementById('codeForm').addEventListener('submit', (event) => {
  });
 
 // Listen for the 'lobbyConnection' event from the server
-socket.on('join-lobby-success', (code) => {
+socket.on('join-lobby-success', function() {
     window.location.href = "/profileCreation/profile_creation.html";
 });
 
