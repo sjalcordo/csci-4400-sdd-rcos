@@ -119,10 +119,12 @@ io.on('connection', (socket) => {
 
     // Tested and works.
     socket.on('set-name', (name) => {
+        
         if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
             return;
-
         lobbyDict[lobbyID].players[hashedIP].name = name;
+        lobbyDict[lobbyID].host.emit("set-name", hashedIP, name);
+        socket.emit('set-name-successful', "Name got saved to server");
         lobbyDict[lobbyID].host.emit("on-set-name", hashedIP, name);
     });
 
@@ -141,7 +143,34 @@ io.on('connection', (socket) => {
             return;
 
         lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt); 
+
     });
+
+    const fs = require('fs');
+
+    socket.on('set-pfp', (base64Image) => {
+        console.log('Received image in Base64 format');
+        const buffer = Buffer.from(base64Image, 'base64');
+        fs.writeFile('./image.png', buffer , (err) => {
+            if (err) {
+                console.error('Error writing file:', err);
+            } else {
+                console.log('File written successfully');
+            }
+        });
+        socket.emit('set-pfp-successful',"Image has been successfully received by the server");
+       
+        // Checking to see if the image actually gets send over
+        fs.readFile('./image.png', (err, data) => {
+            if (err) {
+                console.error('Error reading image:', err);
+            } else {
+                const imageBase64 = data.toString('base64');
+                socket.emit('imageBack', imageBase64); 
+            }
+        });
+    });
+
 
     socket.on('prompt-response', (response) => {
         if (lobbyID == "") 
@@ -179,7 +208,7 @@ io.on('connection', (socket) => {
         if (args == null) {
             args = "{null}";
         }
-        console.log("Received Message\n\tEventName: " + eventName + "\n\tArgs: " + args);
+       console.log("Received Message\n\tEventName: " + eventName + "\n\tArgs: " + args);
     });
 
     // Prints out the submitCode given from the client 
@@ -194,7 +223,6 @@ io.on('connection', (socket) => {
         socket.emit('lobbyConnection', lobbyConnection);
 
     });
-
   
 });
 
@@ -253,7 +281,7 @@ function joinLobby(socket, lobby, hashedIP) {
 }
 
 // Open server to the 3000 port.
-server.listen(3000, () => {
+server.listen(2900, () => {
     console.log('listening on *:3000');
 })
 

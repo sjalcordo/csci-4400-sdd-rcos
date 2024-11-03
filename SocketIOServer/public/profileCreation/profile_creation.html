@@ -14,30 +14,31 @@
     <body>
         <div id="outerContainer">
             <h1 id="profile">Profile</h1>
-            <div id="container">
-                <div id="imageContainer">
-                    <img src="../Resources/user-icon.png" alt="An icon representing a generic user." id="image" width="400px" height="300px">
-                    <div id="buttons">
-                        <button type="button" id="libraryButton"><img src="../Resources/image-icon.png" alt="An image icon" width="68px"></button>
-                        <form>
-                            <label for="upload" id="uploadLabel"><img src="../Resources/upload-icon.png" alt="An upload icon."></label>
-                            <input type="file" id="upload" hidden>
-                        </form>
+            <form id="user_profile">
+                <div id="container">
+                    <div id="imageContainer">
+                        <img src="../Resources/user-icon.png" alt="An icon representing a generic user." id="image" width="400px" height="300px">
+                        <div id="buttons">
+                            <button type="button" id="libraryButton"><img src="../Resources/image-icon.png" alt="An image icon" width="68px" ></button>
+                            <form>
+                                <label for="upload" id="uploadLabel"><img src="../Resources/upload-icon.png" alt="An upload icon."></label>
+                                <input type="file" id="upload" accept="image/*" hidden>
+                            </form>
+
+                        </div>
 
                     </div>
 
-                </div>
-
-                <div id="profileForm">
-                    <form >
-                        <label for="name">Name</label><br>
-                        <input type="text" id="name" name="name" placeholder="Name">
-                    </form>
+                    <div id="profileForm">
+                        <form id="userName">
+                            <label for="name">Name</label><br>
+                            <input type="text" id="name" name="name" placeholder="Name">
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <button id="next">Next</button>
-
+            <button id="next">Next</button>
+        </form>
         <div id="modal">
             <div id="modal-content">
                 <span id="close">&times;</span>
@@ -46,7 +47,9 @@
                 <button type="button" id="continueButton">Continue</button>
             </div>
         </div>
-
+        <p>Returned Image:</p>
+        <img id="returnedImage" style="display: none" width="400px" >
+        <script src="/socket.io/socket.io.js"></script>
         <script src="./profile_creation.js"></script>
        
     </body>
