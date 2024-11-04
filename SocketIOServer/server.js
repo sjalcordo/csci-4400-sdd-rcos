@@ -15,6 +15,8 @@ let cachedPlayers = {};
 
 //Testing purposes
 let players = [["Larry","./image0.png"],["Bob","./image1.png"],[]];
+let question = [1,"How do you feel about pineapple on pizza?"];
+let answers = ["Love it! Sweet and salty, just like me!", "Only if I’m trying to impress my taste buds.","It’s an unforgivable sin, honestly.","If you like it, we are not compatible.","A sloth. Nap all day, every day."]
 
 class Lobby {
     host;
@@ -174,19 +176,30 @@ io.on('connection', (socket) => {
     PROMPTS
     */
     socket.on('send-prompt', (hashedIP, prompt) => {
-        if (lobbyID == "") 
+       if (lobbyID == "") 
             return;
-
-        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt); 
+        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt);
+        socket.emit('prompt-return', question);
 
     });
 
     socket.on('prompt-response', (response) => {
-        if (lobbyID == "") 
+       if (lobbyID == "") 
             return;
 
         lobbyDict[lobbyID].host.emit('on-prompt-response', hashedIP, response); 
+        console.log("User press: " + response);
     });
+
+    socket.on('send-answer', function(){
+        console.log("Sending over answers");
+        socket.emit('answers-return', answers);
+    });
+
+    /*
+    TODO: when game is over
+    io.emit('end-of-questions');
+     */
 
     /* 
     VOTING
@@ -313,7 +326,7 @@ function joinLobby(socket, lobby, hashedIP) {
 }
 
 // Open server to the 3000 port.
-server.listen(3000, () => {
+server.listen(2000, () => {
     console.log('listening on *:3000');
 })
 

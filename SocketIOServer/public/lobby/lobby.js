@@ -36,3 +36,7 @@ socket.on('updated-players', (players) => {
         lobbyContainer.appendChild(playerCard);
     });
 });
+
+socket.on('game-start', function(){
+    window.location.href = "/prompt/prompt.html";
+})
