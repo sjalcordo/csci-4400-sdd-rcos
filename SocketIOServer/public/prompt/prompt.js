@@ -88,8 +88,7 @@ socket.on('on-send-answers', (responses) =>{
 });
 
 socket.on('end-of-question', function() {
-    //TODO: Need to create the "Let's Date Page!" Right now will just go to the voting page 
-    window.location.href = "/prompt/prompt.html";
+    window.location.href = "/swipe/swipe.html";
 })
 
 

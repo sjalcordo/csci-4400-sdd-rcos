@@ -23,14 +23,23 @@ function animate () {
 
 animate();
 
-//Waits till server alerts to go to next question
+//Waits for all players to finish answering to move on to next question
 socket.on('all-answered', function(){
     window.location.href = "/prompt/prompt.html";
 });
 
 //When all the questions have been answered, lets go to the voting page
-socket.on('to-voting-page', function(){
+socket.on('go-to-voting', function(){
     window.location.href = "/voting/voting.html"
 })
 
-//
+//If its the client turn, change webpage to presenting 
+socket.on('go-to-presentation', function(){
+    window.location.href = "/presenting/presenting.html"
+});
+
+//If game is over, change webpage to postgame
+socket.on('go-to-postgame', function(){
+    window.location.href = "/postGame/postGame.html"
+});
+
