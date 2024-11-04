@@ -197,6 +197,11 @@ io.on('connection', (socket) => {
         socket.emit('answers-return', answers);
     });
 
+    /*
+    TODO: when game is over
+    io.emit('end-of-questions');
+     */
+
     /* 
     VOTING
     */
