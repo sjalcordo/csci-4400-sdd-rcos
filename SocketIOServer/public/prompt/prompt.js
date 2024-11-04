@@ -1,3 +1,31 @@
+
+// Connect to the server
+const socket = io();
+
+//Timer Stuff
+let timeRemaining =  10; 
+// Select the timer bar element
+const timerBar = document.querySelector('.timerBar div');
+
+// Update the timer display and progress bar every second
+const updateTimer = setInterval(() => {
+    const minutes = Math.floor(timeRemaining / 60);
+    const seconds = timeRemaining % 60;
+    document.getElementById('timer').textContent =
+        `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    timeRemaining--;
+
+    if (timeRemaining < 0) {
+        clearInterval(updateTimer);
+        document.getElementById('timer').textContent = "0:00";
+    }
+}, 1000);
+
+// Set animation duration dynamically (in seconds)
+const durationInSeconds = timeRemaining + 1; // there's a one sec lag
+timerBar.style.animationDuration = `${durationInSeconds}s`;
+
 const answers = document.querySelectorAll('.answerCard');
 answers.forEach((answer, index) => {
     answer.addEventListener('click', () => select(answer))
@@ -15,28 +43,45 @@ function select(selectedAnswer) {
         selectedAnswer.style.background = '#ffb9c1';
     }
 }
+socket.emit('send-prompt');
+socket.on('prompt-return',(question) =>{
+    const questionContainer = document.getElementById('questionContainer');
+    questionContainer.innerHTML = ''; 
 
-//Timer
-let timeRemaining =  60; 
-// Select the timer bar element
-const timerBar = document.querySelector('.timerBar div');
+    const questionElement = document.createElement('h1');
+    questionElement.textContent = `Question ${question[0]}`;
 
-// Set animation duration dynamically (in seconds)
-const durationInSeconds = timeRemaining + 1; // there's a one sec lag
-timerBar.style.animationDuration = `${durationInSeconds}s`;
+    const promptElement = document.createElement('h4');
+    promptElement.textContent = `${question[1]}`;
+
+    questionContainer.appendChild(questionElement);
+    questionContainer.appendChild(promptElement);
+});
+
+socket.emit('send-answer');
+socket.on('answers-return', (responses) =>{
+    const answersContainer = document.getElementById('answers');
+    answersContainer.innerHTML = '';
+
+    responses.forEach((response) => {
+        const answerButton = document.createElement('button');
+        answerButton.textContent = response;
+        answerButton.className = 'answerCard';
+        answerButton.dataSelected = 'false';
 
 
-// Update the timer display and progress bar every second
-const updateTimer = setInterval(() => {
-    const minutes = Math.floor(timeRemaining / 60);
-    const seconds = timeRemaining % 60;
-    document.getElementById('timer').textContent =
-        `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        // When an answer is clicked, send it to the server
+        answerButton.addEventListener('click', () => {
+            socket.emit('prompt-response', response);
+        });
 
-    timeRemaining--;
+        answersContainer.appendChild(answerButton);
+    })
 
-    if (timeRemaining < 0) {
-        clearInterval(updateTimer);
-        document.getElementById('timer').textContent = "0:00";
-    }
-}, 1000);
+});
+
+
+
+
+
+
