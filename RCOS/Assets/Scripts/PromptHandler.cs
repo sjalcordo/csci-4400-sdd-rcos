@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using SocketIOClient;
-
 namespace Gameplay
 {
     [System.Serializable]
@@ -54,7 +53,7 @@ namespace Gameplay
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
-            if (name != "on-prompt-response" && name != "request-prompt") return;
+            if (name != "on-prompt-response" && name != "on-request-prompt" && name != "on-request-answers") return;
 
             switch (name)
             {
@@ -67,19 +66,33 @@ namespace Gameplay
                         return;
 
                     Debug.Log("Received Prompt Response: " + response.GetValue<string>() + " " + response.GetValue<string>(1));
+                    _currentPrompts[hashedIP].response = promptResponse;
                     break;
-                case "request-prompt":
+                case "on-request-prompt":
+                    hashedIP = response.GetValue<string>(0);
+                    
+                    Sockets.ServerUtil.manager.SendEvent("send-prompt", hashedIP, _currentPrompts[hashedIP].prompt);
+                    break;
+                case "on-request-answers":
 
+                    hashedIP = response.GetValue<string>(0);
+                    List<string> answers = new List<string>();
+                    for (int i = 0; i < 5; i++)
+                    {
+                        answers.Add(_answers[Random.Range(i, answers.Count)]);
+                    }
+                    Sockets.ServerUtil.manager.SendEvent("send-answers", hashedIP, answers);
                     break;
             }
         }
 
         public void StartPrompts()
         {
+            Sockets.ServerUtil.manager.SendEvent("game-start");
             foreach (KeyValuePair<string, Player> playerPair in _lobbyHandler.players)
             {
                 string prompt = GetRandomPrompt();
-                Sockets.ServerUtil.manager.SendEvent("send-prompt", playerPair.Key, prompt);
+                _currentPrompts[playerPair.Key] = new Prompt(prompt);
             }
         }
 

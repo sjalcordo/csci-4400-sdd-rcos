@@ -19,7 +19,7 @@ function sendImage() {
     reader.onload = function() {
         const base64 = this.result.replace(/.*base64,/, '');
         socket.emit('set-pfp', base64);
-        socket.emit('save-pfp',base64);
+        //socket.emit('save-pfp',base64);
     };
 
     reader.onerror = function() {
@@ -28,10 +28,6 @@ function sendImage() {
 
     // Convert the file to a Data URL, which includes the Base64 encoding
     reader.readAsDataURL(file);
-
-    socket.on('set-pfp-successful', function() {
-        window.location.href = "/lobby/lobby.html";
-    });
 }
 
 // open modal
@@ -84,25 +80,31 @@ nextButton.addEventListener('click',() =>{
     //sends the data to the server
     socket.emit('set-name',profileName.value);
 
-     // Listen for the 'profile-creation-successful' event from the server
-    socket.on('set-name-successful', (message) =>{
-        //When lobby doesn't exist prints that the lobby doesn't exist
-        console.log('Server response:', message);
-    });
-
+    console.log(profileName.value);
     sendImage();
     
+    /*
     //clear data
     profileName.value = '';
     image.src = '../Resources/user-icon.png';
+    */
 });
 
+// Listen for the 'profile-creation-successful' event from the server
+socket.on('set-name-successful', (message) =>{
+    //When lobby doesn't exist prints that the lobby doesn't exist
+    console.log('Server response:', message);
+});
 
 socket.onAny((eventName, args) => {
     if (args == null) {
         args = "{null}";
     }
    console.log("Received Message\n\tEventName: " + eventName + "\n\tArgs: " + args);
+});
+
+socket.on('set-pfp-successful', function() {
+    window.location.href = "/lobby/lobby.html";
 });
 
 /*DEBUGGING*/

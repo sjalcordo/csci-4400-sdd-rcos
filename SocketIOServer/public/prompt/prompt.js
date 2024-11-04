@@ -47,23 +47,26 @@ function select(selectedAnswer) {
         selectedAnswer.style.background = '#ffb9c1';
     }
 }
-socket.emit('send-prompt');
-socket.on('prompt-return',(question) =>{
+
+socket.emit('request-prompt');
+
+socket.on('on-send-prompt',(question) =>{
     const questionContainer = document.getElementById('questionContainer');
     questionContainer.innerHTML = ''; 
 
     const questionElement = document.createElement('h1');
-    questionElement.textContent = `Question ${question[0]}`;
+    questionElement.textContent = `Question 1`;
 
     const promptElement = document.createElement('h4');
-    promptElement.textContent = `${question[1]}`;
+    promptElement.textContent = `${question}`;
 
     questionContainer.appendChild(questionElement);
     questionContainer.appendChild(promptElement);
 });
 
-socket.emit('send-answer');
-socket.on('answers-return', (responses) =>{
+socket.emit('request-answers');
+
+socket.on('on-send-answers', (responses) =>{
     const answersContainer = document.getElementById('answers');
     answersContainer.innerHTML = '';
 

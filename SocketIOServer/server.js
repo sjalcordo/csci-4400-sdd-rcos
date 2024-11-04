@@ -49,6 +49,7 @@ io.on('connection', (socket) => {
     
     if (hashedIP in cachedPlayers) {
         joinLobby(socket, cachedPlayers[hashedIP], hashedIP);
+        lobbyID = cachedPlayers[hashedIP];
     }
 
     // If the socket has "UNITY" as the token, recognize the client as the Unity client.
@@ -96,8 +97,9 @@ io.on('connection', (socket) => {
             lobbyName = makeid(5);
         }
 
+        lobbyID = lobbyName;
+
         lobbyDict[lobbyName] = new Lobby(socket);
-        console.log(lobbyDict[lobbyName]);
         socket.emit('verify-lobby', lobbyName);
     });
 
@@ -124,13 +126,15 @@ io.on('connection', (socket) => {
 
     // Tested and works.
     socket.on('set-name', (name) => {
-        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
+        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players) {
+            console.log(lobbyID);
             return;
+        }
+
         lobbyDict[lobbyID].players[hashedIP].name = name;
-        lobbyDict[lobbyID].host.emit("set-name", hashedIP, name);
         lobbyDict[lobbyID].host.emit("on-set-name", hashedIP, name);
-        socket.emit('set-name-successful', "Name got saved to server");
-        players[2].push(name);
+        //socket.emit('set-name-successful', "Name got saved to server");
+        //players[2].push(name);
     });
 
     socket.on('set-pfp', (base64) => {
@@ -175,12 +179,44 @@ io.on('connection', (socket) => {
     /*
     PROMPTS
     */
+
+    socket.on('game-start', function(){
+        if (lobbyID == "" || !(lobbyID in lobbyDict)) {
+            return;
+        }
+        
+        Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
+            value.socket.emit("on-game-start");
+        });
+        //lobbyDict[lobbyID].players
+    });
+
+    socket.on('request-prompt', function() {
+        if (lobbyID == "")
+            return;
+        lobbyDict[lobbyID].host.emit("on-request-prompt", hashedIP);
+    });
+
     socket.on('send-prompt', (hashedIP, prompt) => {
        if (lobbyID == "") 
             return;
-        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt);
-        socket.emit('prompt-return', question);
 
+        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt);
+        //socket.emit('prompt-return', question);
+
+    });
+
+    socket.on('request-answers', function() {
+        if (lobbyID == "")
+            return;
+        lobbyDict[lobbyID].host.emit("on-request-answers", hashedIP);
+    });
+
+    socket.on('send-answers', (hashedIP, answers) => {
+        if (lobbyID == "") 
+             return;
+ 
+         lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-answers', answers);
     });
 
     socket.on('prompt-response', (response) => {
@@ -225,6 +261,7 @@ io.on('connection', (socket) => {
     LOBBY SCREEN
     */
 
+    /*
     // Sends over the array of player's name and base64(pfp image)
     socket.on('update', function() {
         console.log('Sending over players info')
@@ -243,6 +280,7 @@ io.on('connection', (socket) => {
         io.emit('updated-players',players);
         console.log('sent over!')
     });
+    */
  
     /* 
     DEBUGGING
@@ -326,7 +364,7 @@ function joinLobby(socket, lobby, hashedIP) {
 }
 
 // Open server to the 3000 port.
-server.listen(2000, () => {
+server.listen(3000, () => {
     console.log('listening on *:3000');
 })
 
