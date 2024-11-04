@@ -176,19 +176,18 @@ io.on('connection', (socket) => {
     PROMPTS
     */
     socket.on('send-prompt', (hashedIP, prompt) => {
-       /*if (lobbyID == "") 
+       if (lobbyID == "") 
             return;
-        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt); */
+        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt);
         socket.emit('prompt-return', question);
 
     });
 
     socket.on('prompt-response', (response) => {
-       /* if (lobbyID == "") 
+       if (lobbyID == "") 
             return;
 
         lobbyDict[lobbyID].host.emit('on-prompt-response', hashedIP, response); 
-   */
         console.log("User press: " + response);
     });
 
