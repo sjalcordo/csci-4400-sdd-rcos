@@ -37,6 +37,6 @@ socket.on('updated-players', (players) => {
     });
 });
 
-socket.on('on-game-start', function(){
-    window.location.href = "/prompt/prompt.html";
-});
+socket.on('game-start', function(){
+    window.location.href = "/countdown/countdown.html";
+})

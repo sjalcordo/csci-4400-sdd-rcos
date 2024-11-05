@@ -12,7 +12,7 @@
 <div id="container">
     <div id="voteContainer">
         <h1>Cast your vote for</h1>
-        <h1 style="color: black">User</h1>
+        <h1 id ="name" style="color: black">User</h1>
         <div style="display: flex; justify-content: center; flex-direction: row; gap: 50px; margin-top: 20px;">
             <button id="like" class="votingButton" data-selected="false"><img src="../Resources/heart-filled.png" alt="Heart icon." width="160px"></button>
             <button id="dislike" class="votingButton" data-selected="false"><img src="../Resources/thumbs-down.png" alt="Downwards thumb for dislike." width="160px"></button>
@@ -21,7 +21,7 @@
     <button id="submit" style="position: absolute; bottom: 50px; right: 80px;">Submit</button>
     <h3 id="confirmation" class="hidden">Vote submitted</h3>
 </div>
+<script src="/socket.io/socket.io.js"></script>
 <script src="voting.js"></script>
-
 </body>
 </html>

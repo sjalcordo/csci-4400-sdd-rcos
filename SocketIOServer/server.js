@@ -103,7 +103,6 @@ io.on('connection', (socket) => {
         socket.emit('verify-lobby', lobbyName);
     });
 
-
     // Tested and works.
     socket.on('join-lobby', (lobby) => {      
         joinLobby(socket,lobby, hashedIP);
