@@ -9,6 +9,17 @@ buttons.forEach((button) => {
     button.addEventListener('click', () => select(button));
 })
 
+//Changes player's name on screen
+socket.on('presenter-name', (player) => {
+    var UserName = document.getElementById("name");
+    UserName.textContent = player;
+})
+
+//The presenter is done presenting, send players to waiting room 
+socket.on('presenter-done', function() {
+    window.location.href = "/waitingForPlayers/waitingForPlayers.html";
+});
+
 function select(selectedButton) {
     // if the button was already selected and was clicked again, deselect button
     const status = selectedButton.dataset.selected;
