@@ -1,7 +1,24 @@
+// Connect to the server
+const socket = io();
+
+var like = document.getElementById("like");
+var dislike = document.getElementById("dislike");
+
 const buttons = document.querySelectorAll('.votingButton');
 buttons.forEach((button) => {
     button.addEventListener('click', () => select(button));
 })
+
+//Changes player's name on screen
+socket.on('presenter-name', (player) => {
+    var UserName = document.getElementById("name");
+    UserName.textContent = player;
+})
+
+//The presenter is done presenting, send players to waiting room 
+socket.on('presenter-done', function() {
+    window.location.href = "/waitingForPlayers/waitingForPlayers.html";
+});
 
 function select(selectedButton) {
     // if the button was already selected and was clicked again, deselect button
@@ -60,3 +77,14 @@ function submitVote() {
     })
 }
 
+like.addEventListener('click',() =>{
+    const timestamp = new Date().toISOString(); 
+    console.log("User UpVote @ " + timestamp);
+    socket.emit('upvote', timestamp );
+});
+
+dislike.addEventListener('click',() =>{
+    const timestamp = new Date().toISOString(); 
+    console.log("User DownVote @ " + timestamp);
+    socket.emit('downvote', timestamp );
+});
