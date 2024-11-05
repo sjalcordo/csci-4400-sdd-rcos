@@ -33,3 +33,5 @@ function animate (count) {
 };
 
 animate(current);
+
+window.location.href = "/prompt/prompt.html";
