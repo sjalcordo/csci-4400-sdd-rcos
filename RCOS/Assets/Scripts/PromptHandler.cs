@@ -86,6 +86,7 @@ namespace Gameplay
             }
         }
 
+<<<<<<< Updated upstream
         public void StartPrompts()
         {
             Sockets.ServerUtil.manager.SendEvent("game-start");
@@ -93,6 +94,17 @@ namespace Gameplay
             {
                 string prompt = GetRandomPrompt();
                 _currentPrompts[playerPair.Key] = new Prompt(prompt);
+=======
+<<<<<<< Updated upstream
+=======
+        public void StartPrompts()
+        {
+            Sockets.ServerUtil.manager.SendEvent("game-start");
+            foreach (string hashedIP in _lobbyHandler.hashedIPs)
+            {
+                string prompt = GetRandomPrompt();
+                _currentPrompts[hashedIP] = new Prompt(prompt);
+>>>>>>> Stashed changes
             }
         }
 
@@ -101,6 +113,10 @@ namespace Gameplay
             return _prompts[Random.Range(0, _prompts.Count)].prompt;
         }
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         private void ParsePrompts()
         {
             List<Dictionary<string, object>> sheetLines = Helpers.CSVReader.Read(_promptFilename);

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 namespace Gameplay
 {
+<<<<<<< Updated upstream
     public class Player
     {
         public string name;
@@ -18,6 +19,8 @@ namespace Gameplay
         }
     }
 
+=======
+>>>>>>> Stashed changes
     public class LobbyHandler : MonoBehaviour
     {
         [SerializeField] private GameObject _playerIconPrefab;
@@ -28,11 +31,24 @@ namespace Gameplay
 
         // Keep track of the attempt timer (Coroutine)
         private Coroutine _lobbyCoroutine;
+<<<<<<< Updated upstream
 
         private Dictionary<string, Player> _players = new Dictionary<string, Player>();
+<<<<<<< Updated upstream
         public Dictionary<string, Player> players => _players;
 
         private Dictionary<string, PlayerIcon> _playerIcons = new Dictionary<string, PlayerIcon>();
+=======
+=======
+        private List<string> _hashedIPs = new List<string>();
+        public List<string> hashedIPs => _hashedIPs;
+        private Dictionary<string, string> _names = new Dictionary<string, string>();
+        public Dictionary<string, string> names => _names;
+        private Dictionary<string, string> _b64Textures = new Dictionary<string, string>();
+        public Dictionary<string, string> b64Textures => _b64Textures;
+        public Dictionary<string, PlayerIcon> _playerIcons = new Dictionary<string, PlayerIcon>();
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
         // Public events that are called when creating a lobby succeeds or fails.
         public UnityEvent<string> OnLobbyCreationSuccess = new UnityEvent<string>();
@@ -48,7 +64,15 @@ namespace Gameplay
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
+<<<<<<< Updated upstream
             if (name != "verify-lobby" && name != "new-player" && name != "on-set-name" && name != "on-set-pfp") return;
+=======
+<<<<<<< Updated upstream
+            if (name != "verify-lobby" && name != "new-player") return;
+=======
+            if (name != "verify-lobby" && name != "new-player" && name != "on-set-name" && name != "on-set-pfp" && name != "request-player-info") return;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
             switch (name)
             {
@@ -63,6 +87,17 @@ namespace Gameplay
                     break;
                 case "on-set-pfp":
                     OnPlayerSetPfp(response.GetValue<string>(0), response.GetValue<string>(1));
+                    break;
+                case "request-player-info":
+                    List<string> names = new List<string>();
+                    List<string> b64 = new List<string>();
+                    foreach (string hashedIP in _hashedIPs)
+                    {
+                        string[] playerArray = new string[2];
+                        names.Add(_names[hashedIP]);
+                        b64.Add(_b64Textures[hashedIP]);
+                    }
+                    Sockets.ServerUtil.manager.SendEvent("on-request-player-info", names.ToArray(), b64.ToArray());
                     break;
             }
         }
@@ -81,6 +116,12 @@ namespace Gameplay
 
         private void OnPlayerSetup(string hashedIP)
         {
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+            Debug.Log("Hashed IP: " + hashedIP + " Name: " + name);
+
+>>>>>>> Stashed changes
             if (!_players.ContainsKey(hashedIP))
             {
                 GameObject IconObj = GameObject.Instantiate(_playerIconPrefab, _playerContainer.transform);
@@ -91,23 +132,61 @@ namespace Gameplay
             Debug.Log("New Player: " + hashedIP);
         }
 
+<<<<<<< Updated upstream
         private void OnPlayerSetName(string hashedIP, string name)
         {
             if (!_players.ContainsKey(hashedIP))
+=======
+            foreach (KeyValuePair<string, Player> entry in _players)
+=======
+            if (!_hashedIPs.Contains(hashedIP)) 
+            {
+                GameObject IconObj = GameObject.Instantiate(_playerIconPrefab, _playerContainer.transform);
+                PlayerIcon playerIcon = IconObj.GetComponent<PlayerIcon>();
+                _playerIcons[hashedIP] = playerIcon;
+
+                _hashedIPs.Add(hashedIP);
+            }
+
+        }
+
+        private void OnPlayerSetName(string hashedIP, string name)
+        {
+            if (!_hashedIPs.Contains(hashedIP))
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             {
                 return;
             }
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+
+            _names[hashedIP] = name;
+>>>>>>> Stashed changes
             _playerIcons[hashedIP].SetName(name);
         }
 
         private void OnPlayerSetPfp(string hashedIP, string b64)
         {
+<<<<<<< Updated upstream
             if (!_players.ContainsKey(hashedIP))
             {
                 return;
             }
             _players[hashedIP].texture = b64toTex.convert(b64);
             _playerIcons[hashedIP].SetPfp(b64toTex.convert(b64));
+=======
+            if (!_hashedIPs.Contains(hashedIP))
+            {
+                return;
+            }
+            
+            _b64Textures[hashedIP] = b64;
+            _playerIcons[hashedIP].SetPfp(b64toTex.convert(b64));
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         }
 
         public void AttemptCreateLobby()

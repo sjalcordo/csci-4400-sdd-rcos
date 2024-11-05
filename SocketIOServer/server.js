@@ -255,14 +255,27 @@ io.on('connection', (socket) => {
 
         lobbyDict[lobbyID].host.emit('on-downvote', hashedIP);
     });
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 
     /*
     LOBBY SCREEN
     */
 
+<<<<<<< Updated upstream
     /*
     // Sends over the array of player's name and base64(pfp image)
     socket.on('update', function() {
+=======
+    
+    // Sends over the array of player's name and base64(pfp image)
+    socket.on('update', function() {
+        lobbyDict[lobbyID].host.emit('request-player-info');
+        /*
+>>>>>>> Stashed changes
         console.log('Sending over players info')
         //TODO: On the Host, players pfp is being saved as base64, so this isn't needed, 
         // just here for testing
@@ -275,11 +288,34 @@ io.on('connection', (socket) => {
                 }
             });
         });
+<<<<<<< Updated upstream
         console.log('Converted images on server to base64');
         io.emit('updated-players',players);
         console.log('sent over!')
     });
     */
+=======
+
+        console.log('Converted images on server to base64');
+        io.emit('updated-players',players);
+        console.log('sent over!')
+        
+        */
+    });
+
+    socket.on('on-request-player-info', (names, b64) => {
+        if (lobbyID == "" || !(lobbyID in lobbyDict)) {
+            return;
+        }
+
+        Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
+            console.log(key);
+            value.socket.emit("updated-players", names, b64);
+        });
+    });
+    
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
  
     /* 
     DEBUGGING
@@ -318,6 +354,12 @@ function makeid(length) {
       counter += 1;
     }
     return result;
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+}
+=======
+>>>>>>> Stashed changes
 }
 
 // function to encode file data to base64 encoded string
@@ -349,11 +391,19 @@ function joinLobby(socket, lobby, hashedIP) {
     // Otherwise, create a new player
     else {
         lobbyDict[lobby].players[hashedIP] = new Player(socket);
+<<<<<<< Updated upstream
     }
     
     socket.emit('join-lobby-success', lobby);
     lobbyDict[lobby].host.emit('new-player', hashedIP);
     console.log(lobbyDict[lobby].players);
+=======
+        lobbyDict[lobby].host.emit('new-player', hashedIP);
+        console.log("STARTING NEW PLAYER");
+    }
+    
+    socket.emit('join-lobby-success', lobby);
+>>>>>>> Stashed changes
 }
 
 // Open server to the 3000 port.
@@ -361,3 +411,7 @@ server.listen(3000, () => {
     console.log('listening on *:3000');
 })
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
