@@ -79,7 +79,7 @@ namespace Gameplay
                     List<string> answers = new List<string>();
                     for (int i = 0; i < 5; i++)
                     {
-                        answers.Add(_answers[Random.Range(i, answers.Count)]);
+                        answers.Add(_answers[Random.Range(0, _answers.Count)]);
                     }
                     Sockets.ServerUtil.manager.SendEvent("send-answers", hashedIP, answers);
                     break;
