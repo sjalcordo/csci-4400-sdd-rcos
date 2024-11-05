@@ -1,3 +1,9 @@
+// Connect to the server
+const socket = io();
+
+var like = document.getElementById("like");
+var dislike = document.getElementById("dislike");
+
 const buttons = document.querySelectorAll('.votingButton');
 buttons.forEach((button) => {
     button.addEventListener('click', () => select(button));
@@ -60,3 +66,14 @@ function submitVote() {
     })
 }
 
+like.addEventListener('click',() =>{
+    const timestamp = new Date().toISOString(); 
+    console.log("User UpVote @ " + timestamp);
+    socket.emit('upvote', timestamp );
+});
+
+dislike.addEventListener('click',() =>{
+    const timestamp = new Date().toISOString(); 
+    console.log("User DownVote @ " + timestamp);
+    socket.emit('downvote', timestamp );
+});
