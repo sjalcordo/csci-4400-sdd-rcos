@@ -36,13 +36,6 @@ namespace Gameplay
 
         // Keep track of the attempt timer (Coroutine)
         private Coroutine _lobbyCoroutine;
-
-<<<<<<< Updated upstream
-        private Dictionary<string, Player> _players = new Dictionary<string, Player>();
-        public Dictionary<string, Player> players => _players;
-
-        private Dictionary<string, PlayerIcon> _playerIcons = new Dictionary<string, PlayerIcon>();
-=======
         // Keep track of the hashedIPs, names, textures, and icons of each player.
         private List<string> _hashedIPs = new List<string>();
         public List<string> hashedIPs => _hashedIPs;
@@ -51,7 +44,6 @@ namespace Gameplay
         private Dictionary<string, string> _b64Textures = new Dictionary<string, string>();
         public Dictionary<string, string> b64Textures => _b64Textures;
         public Dictionary<string, PlayerIcon> _playerIcons = new Dictionary<string, PlayerIcon>();
->>>>>>> Stashed changes
 
         // Public events that are called when creating a lobby succeeds or fails.
         public UnityEvent<string> OnLobbyCreationSuccess = new UnityEvent<string>();
@@ -67,7 +59,7 @@ namespace Gameplay
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
-            if (name != "verify-lobby" && name != "new-player" && name != "on-set-name" && name != "on-set-pfp") return;
+            if (name != "verify-lobby" && name != "new-player" && name != "on-set-name" && name != "on-set-pfp" && name != "request-player-info") return;
 
             switch (name)
             {
@@ -82,6 +74,17 @@ namespace Gameplay
                     break;
                 case "on-set-pfp":
                     OnPlayerSetPfp(response.GetValue<string>(0), response.GetValue<string>(1));
+                    break;
+                case "request-player-info":
+                    List<string> names = new List<string>();
+                    List<string> b64 = new List<string>();
+                    foreach (string hashedIP in _hashedIPs)
+                    {
+                        string[] playerArray = new string[2];
+                        names.Add(_names[hashedIP]);
+                        b64.Add(_b64Textures[hashedIP]);
+                    }
+                    Sockets.ServerUtil.manager.SendEvent("on-request-player-info", names.ToArray(), b64.ToArray());
                     break;
             }
         }
@@ -100,32 +103,35 @@ namespace Gameplay
 
         private void OnPlayerSetup(string hashedIP)
         {
-            if (!_players.ContainsKey(hashedIP))
+            if (!_hashedIPs.Contains(hashedIP))
             {
                 GameObject IconObj = GameObject.Instantiate(_playerIconPrefab, _playerContainer.transform);
                 PlayerIcon playerIcon = IconObj.GetComponent<PlayerIcon>();
                 _playerIcons[hashedIP] = playerIcon;
+                _hashedIPs.Add(hashedIP);
             }
-            _players[hashedIP] = new Player();
-            Debug.Log("New Player: " + hashedIP);
         }
+
 
         private void OnPlayerSetName(string hashedIP, string name)
         {
-            if (!_players.ContainsKey(hashedIP))
+            if (!_hashedIPs.Contains(hashedIP))
             {
                 return;
             }
+
+            _names[hashedIP] = name;
             _playerIcons[hashedIP].SetName(name);
         }
 
         private void OnPlayerSetPfp(string hashedIP, string b64)
         {
-            if (!_players.ContainsKey(hashedIP))
+            if (!_hashedIPs.Contains(hashedIP))
             {
                 return;
             }
-            _players[hashedIP].texture = b64toTex.convert(b64);
+            
+            _b64Textures[hashedIP] = b64;
             _playerIcons[hashedIP].SetPfp(b64toTex.convert(b64));
         }
 

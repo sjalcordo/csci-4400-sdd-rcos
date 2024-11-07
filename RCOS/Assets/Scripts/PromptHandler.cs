@@ -98,10 +98,10 @@ namespace Gameplay
         public void StartPrompts()
         {
             Sockets.ServerUtil.manager.SendEvent("game-start");
-            foreach (KeyValuePair<string, Player> playerPair in _lobbyHandler.players)
+            foreach (string hashedIP in _lobbyHandler.hashedIPs)
             {
                 string prompt = GetRandomPrompt();
-                _currentPrompts[playerPair.Key] = new Prompt(prompt);
+                _currentPrompts[hashedIP] = new Prompt(prompt);
             }
         }
 

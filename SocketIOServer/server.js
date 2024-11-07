@@ -218,37 +218,22 @@ io.on('connection', (socket) => {
 
         lobbyDict[lobbyID].host.emit('on-downvote', hashedIP);
     });
-
     /*
     LOBBY SCREEN
     */
-<<<<<<< Updated upstream
-
-    /*
-    // Sends over the array of player's name and base64(pfp image)
-    socket.on('update', function() {
-        console.log('Sending over players info')
-        //TODO: On the Host, players pfp is being saved as base64, so this isn't needed, 
-        // just here for testing
-        players.forEach(player => {
-            fs.readFile(player[1], (err, data) => {
-                if (err) {
-                    console.error('Error reading image:', err);
-                } else {
-                    player[1] = data.toString('base64');
-                }
-            });
-        });
-        console.log('Converted images on server to base64');
-        io.emit('updated-players',players);
-        console.log('sent over!')
-=======
-    // Sends over the array of player's name and base64(pfp image)
-    socket.on('update', function() {
-        lobbyDict[lobbyID].host.emit('request-player-info');
->>>>>>> Stashed changes
     });
-    */
+
+    socket.on('on-request-player-info', (names, b64) => {
+        if (lobbyID == "" || !(lobbyID in lobbyDict)) {
+            return;
+        }
+
+        Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
+            console.log(key);
+            value.socket.emit("updated-players", names, b64);
+        });
+    });
+    
  
     /* 
     DEBUGGING
@@ -296,11 +281,11 @@ function joinLobby(socket, lobby, hashedIP) {
     // Otherwise, create a new player
     else {
         lobbyDict[lobby].players[hashedIP] = new Player(socket);
+        lobbyDict[lobby].host.emit('new-player', hashedIP);
+        console.log("STARTING NEW PLAYER");
     }
     
     socket.emit('join-lobby-success', lobby);
-    lobbyDict[lobby].host.emit('new-player', hashedIP);
-    console.log(lobbyDict[lobby].players);
 }
 
 function GenerateLobbyName(lobbyDictionary) {
@@ -313,11 +298,5 @@ function GenerateLobbyName(lobbyDictionary) {
 
 // Open server to the 3000 port.
 server.listen(3000, () => {
-<<<<<<< Updated upstream
-    console.log('listening on *:3000');
-})
-
-=======
     console.log('RC:OS Server listening on *:3000');
 });
->>>>>>> Stashed changes
