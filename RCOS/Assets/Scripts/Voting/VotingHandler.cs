@@ -1,8 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Listens to voting signals from the connected clients and keeps track of the vote, who sent it, and when.
+ */
+
 using UnityEngine;
-using SocketIOClient;
-using UnityEngine.Events;
+using SocketIOClient; // Used to receive signals from SocketIO.
 
 namespace Gameplay
 {

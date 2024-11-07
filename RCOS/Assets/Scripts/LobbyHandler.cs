@@ -1,3 +1,7 @@
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Class that manages the current lobby, connected players, their icons, and their setup.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +10,7 @@ using UnityEngine.Events;
 
 namespace Gameplay
 {
+    // Class that stores the name and texture of a connected player.
     public class Player
     {
         public string name;
@@ -20,14 +25,18 @@ namespace Gameplay
 
     public class LobbyHandler : MonoBehaviour
     {
+        // Reference Prefabs for lobby handling.
         [SerializeField] private GameObject _playerIconPrefab;
         [SerializeField] private GameObject _playerContainer;
 
         [Space(8)]
+        [SerializeField] private float _connectTime = 2f;
+
         private string _lobbyCode;
 
         // Keep track of the attempt timer (Coroutine)
         private Coroutine _lobbyCoroutine;
+        // Keep track of the hashedIPs, names, textures, and icons of each player.
         private List<string> _hashedIPs = new List<string>();
         public List<string> hashedIPs => _hashedIPs;
         private Dictionary<string, string> _names = new Dictionary<string, string>();
@@ -133,7 +142,7 @@ namespace Gameplay
 
             // Tell the server we are creating a lobby.
             Sockets.ServerUtil.manager.SendEvent("create-lobby");
-            _lobbyCoroutine = StartCoroutine(WaitForLobbyCreation(2f));
+            _lobbyCoroutine = StartCoroutine(WaitForLobbyCreation(_connectTime));
         }
 
         public void DestroyLobby()

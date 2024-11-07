@@ -1,4 +1,7 @@
-using System.Collections;
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Public static helper class ServerUtil as well as the ServerManager which handles the connection to the SocketIO server.
+ */
 using System.Collections.Generic;
 using UnityEngine;
 using SocketIOClient;
@@ -7,9 +10,11 @@ using UnityEngine.Events;
 
 namespace Sockets
 {
+    // Used to reference the ServerManager without needing to couple with a specific reference.
     public static class ServerUtil
     {
         private static ServerManager _instance;
+        // If the manager does not exist, attempt to find it and if we cannot find it, create one and store the reference to it.
         public static ServerManager manager
         {
             get
@@ -38,20 +43,28 @@ namespace Sockets
 
     public class ServerManager : MonoBehaviour
     {
+        // Private variables exposed to the inspector.
         [SerializeField] private string _serverURI = "http://companionship.cs.rpi.edu:3000";
         [SerializeField] private bool _useLocalHost;
         [SerializeField] private bool _joinOnStart;
+
+        // Socket and a read-only accessor.
         private SocketIOUnity _socket;
         public SocketIOUnity socket => _socket;
 
+        // Public events for the publisher-subscriber pattern.
         public SocketEvent OnSocketEvent;
         public UnityEvent OnDisconnect;
 
         private void Awake()
         {
+            // Mark this object to not be destroyed upon scene swapping.
             DontDestroyOnLoad(gameObject);
+
+            // Depending on if we use the local host or not, connect using a localhost URL or the given URI.
             string uri = _useLocalHost ? "http://127.0.0.1:3000" : _serverURI;
 
+            // Creates a new socket with a Unity Token.
             _socket = new SocketIOUnity(uri, new SocketIOOptions
             {
                 Query = new Dictionary<string, string>
@@ -65,7 +78,7 @@ namespace Sockets
             });
             _socket.JsonSerializer = new NewtonsoftJsonSerializer();
 
-            ///// reserved socketio events
+            // reserved Socket IO events
             _socket.OnConnected += (sender, e) =>
             {
                 Debug.Log("socket.OnConnected");
@@ -91,16 +104,28 @@ namespace Sockets
             }
         }
 
+        /// <summary>
+        /// Connects the socket to the given URI.
+        /// </summary>
         public void Connect()
         {
             _socket.Connect();
         }
 
+        /// <summary>
+        /// Sends an event with only its name and null parameters.
+        /// </summary>
+        /// <param name="eventName"></param>
         public void SendEvent(string eventName)
         {
             _socket.Emit(eventName);
         }
 
+        /// <summary>
+        /// Seds an event with its name and an array of parameters.
+        /// </summary>
+        /// <param name="eventName"></param>
+        /// <param name="data"></param>
         public void SendEvent(string eventName, params object[] data)
         {
             _socket.Emit(eventName, data);

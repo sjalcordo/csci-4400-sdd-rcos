@@ -1,3 +1,7 @@
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Converts a given base64 string to a Unity texture that can be applied to images.
+ */
 using System;
 using UnityEngine;
 

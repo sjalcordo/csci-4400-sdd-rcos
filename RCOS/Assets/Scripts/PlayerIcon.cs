@@ -1,5 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Helper class used to easily set the text and picture of a player icon.
+ */
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
