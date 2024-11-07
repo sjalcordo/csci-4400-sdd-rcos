@@ -1,5 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Used on an object with text to easily change the text.
+ */
+
 using UnityEngine;
 using TMPro;
 

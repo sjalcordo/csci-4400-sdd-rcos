@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="InputPlaceholder">
+    <Position X="7" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQgAIAAAAQAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\InputPlaceholder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="b64toTex">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\b64toTex.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerIcon">
+    <Position X="6.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAABAAAAAAAAIAQAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\PlayerIcon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProgressBarHandler">
+    <Position X="13.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAQACAAAAIAAAgAAAAAAAQQEAAAAAAEAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\ProgressBarHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Helpers.CSVReader">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAADAAAAAgAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\CSVReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Helpers.TextHelper">
+    <Position X="9.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKEA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\TextHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gameplay.Player">
+    <Position X="2.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\LobbyHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gameplay.LobbyHandler">
+    <Position X="17.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAQIAgQBCAgAAQCAAECAAAggAQCABIAAACAAABAAIA=</HashCode>
+      <FileName>Assets\Scripts\LobbyHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gameplay.Prompt">
+    <Position X="8.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\PromptHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gameplay.PromptHandler">
+    <Position X="13.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAEAQACAwAQAAAAAAACAAAAAACAAAAAAAAMAAABA=</HashCode>
+      <FileName>Assets\Scripts\PromptHandler.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_prompts" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Gameplay.VotingHandler">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Voting\VotingHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menus.MenuHandler">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACCAAAAAAIAIAAAAAAABAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\Scripts\MenuHandler.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_currentState" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="_menuObjs" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Sockets.ServerUtil">
+    <Position X="9.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Sockets\ServerManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sockets.SocketEvent">
+    <Position X="10.5" Y="2" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Sockets\ServerManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sockets.ServerManager">
+    <Position X="4" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAACAAAACEEAAAAIAAABAAAAAAAAEAQAAABEA=</HashCode>
+      <FileName>Assets\Scripts\Sockets\ServerManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Voting.VotingButton">
+    <Position X="2.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAEAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Voting\VotingButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Menus.MenuObject">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MenuHandler.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="Menus.EMenuState">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAQAAAAAAgAAAAAAAGQABA=</HashCode>
+      <FileName>Assets\Scripts\MenuHandler.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

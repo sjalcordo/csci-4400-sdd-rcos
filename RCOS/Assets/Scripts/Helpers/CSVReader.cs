@@ -1,6 +1,8 @@
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Helper class used to read a CSV file and parse it into a List<Dictionary<string, object>> where the keys are the column names.
+ */
 using UnityEngine;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 

@@ -1,5 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+/*
+ *  AUTHOR: Michael (zhangy90@rpi.edu)
+ *  DESC: Class used to manage the progress bar of each player.
+ */
+
 using UnityEngine;
 using UnityEngine.UI;
 

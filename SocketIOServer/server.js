@@ -1,23 +1,8 @@
-// Required constants for setting up the server and sockets
-const express = require('express');
-const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
-const fs = require("fs"); 
-var path = require('path');
-var md5 = require('js-md5');
+/*
+Server script used to host an Express server to serve files at a URL at the 3000 port using Socket.IO as a data communication line.
+*/
 
-var bannedServerNames = ["tests"];
-let lobbyDict = {};
-let cachedPlayers = {};
-
-//Testing purposes
-let players = [["Larry","./image0.png"],["Bob","./image1.png"],[]];
-let question = [1,"How do you feel about pineapple on pizza?"];
-let answers = ["Love it! Sweet and salty, just like me!", "Only if I’m trying to impress my taste buds.","It’s an unforgivable sin, honestly.","If you like it, we are not compatible.","A sloth. Nap all day, every day."]
-
+// Helper class that is used to organize servers.
 class Lobby {
     host;
     players = {};
@@ -28,6 +13,7 @@ class Lobby {
     }
 }
 
+// Helper class that contains everything needed to store a player.
 class Player {
     name = "";
     socket;
@@ -37,6 +23,25 @@ class Player {
     }
 }
 
+// Required constants for setting up the server and sockets
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+const fs = require("fs"); 
+
+// Used for hashing a connected player's IP
+var md5 = require('js-md5');
+
+var bannedServerNames = ["tests"];
+// Key: <string> hashedIP
+// Value: <Lobby>
+let lobbyDict = {};
+// Key: <string> hashedIP
+// Value: <string> lobbyID
+let cachedPlayers = {};
 
 // Allow connected clients to use the public folder.
 app.use(express.static('public'));
@@ -62,7 +67,6 @@ io.on('connection', (socket) => {
 
     // On disconnect, keep track of if a browser or the Unity client disconnects.
     // If the Unity browser disconnects, then clear the demo list.
-    // Tested and works.
     socket.on('disconnect', function() {
         if(socket.handshake.query.token === "UNITY") {
             console.log("Unity Socket disconnected");
@@ -70,7 +74,8 @@ io.on('connection', (socket) => {
         else {
             console.log("Browser disconnected");
         }
-
+        
+        // If the cached lobbyID no longer exists in the dictionary, short-circuit. 
         if (!(lobbyID in lobbyDict)){
             return;
         }
@@ -79,7 +84,6 @@ io.on('connection', (socket) => {
         if (lobbyID != null && lobbyID != "" && lobbyDict[lobbyID].players != null) {
             delete lobbyDict[lobbyID].players[hashedIP];
         }
-
         if (lobbyID in lobbyDict && lobbyDict[lobbyID].host == socket) {
             delete lobbyDict[lobbyID];
         }
@@ -88,22 +92,16 @@ io.on('connection', (socket) => {
     /* 
     LOBBY CREATION 
     */
-    
-    // Tested and works.
+    // Creates a lobby and sends a verification signal back to the requesting client.
     socket.on('create-lobby', function() {
         // Generate lobby ID
-        lobbyName = makeid(5);
-        while (bannedServerNames.includes(lobbyName) || lobbyName in lobbyDict) {
-            lobbyName = makeid(5);
-        }
-
-        lobbyID = lobbyName;
-
-        lobbyDict[lobbyName] = new Lobby(socket);
-        socket.emit('verify-lobby', lobbyName);
+        lobbyID = GenerateLobbyName(lobbyDict);
+        
+        lobbyDict[lobbyID] = new Lobby(socket);
+        socket.emit('verify-lobby', lobbyID);
     });
 
-    // Tested and works.
+    // Joins an existing lobby
     socket.on('join-lobby', (lobby) => {      
         joinLobby(socket,lobby, hashedIP);
 
@@ -111,7 +109,7 @@ io.on('connection', (socket) => {
         cachedPlayers[hashedIP] = lobby;
     });
 
-    // Tested and works.
+    // Destroys a lobby if it currently exists.
     socket.on('destroy-lobby', (lobby) => {
         if (!lobby in lobbyDict) 
             return;
@@ -122,95 +120,63 @@ io.on('connection', (socket) => {
     /* 
     PROFILE CREATION 
     */
-
-    // Tested and works.
+    // Sets a players name and sends the hashedIP of the player and the name to the hosting client.
     socket.on('set-name', (name) => {
         if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players) {
-            console.log(lobbyID);
             return;
         }
 
         lobbyDict[lobbyID].players[hashedIP].name = name;
         lobbyDict[lobbyID].host.emit("on-set-name", hashedIP, name);
-        //socket.emit('set-name-successful', "Name got saved to server");
-        //players[2].push(name);
     });
 
+    // Receives an image in base64 format and sends that string to the hosting client.
     socket.on('set-pfp', (base64) => {
         if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
             return;
-        console.log('Received image in Base64 format');
+
         lobbyDict[lobbyID].host.emit('on-set-pfp', hashedIP, base64);
         socket.emit('set-pfp-successful',"Image has been successfully saved into server");
-    });
-    
-    //Used for testing
-    socket.on('save-pfp', (base64Image) => {
-        console.log('Received image in Base64 format');
-        const buffer = Buffer.from(base64Image, 'base64');
-        let num = 2;
-        let filepath = `./image${num}.png`;
-        console.log('filepath: ' + filepath);
-        fs.writeFile(filepath, buffer , (err) => {
-            if (err) {
-                console.error('Error writing file:', err);
-            } else {
-                console.log('File written successfully');
-            }
-        });
-        players[2].push(filepath);
-        console.log(players);
-        socket.emit('save-pfp-successful',"Image has been successfully saved into server");
-    });  
-
-    socket.on('return-pfp', (base64Image) => {
-        // Checking to see if the image actually gets send over
-        fs.readFile('./image.png', (err, data) => {
-            if (err) {
-                console.error('Error reading image:', err);
-            } else {
-                const imageBase64 = data.toString('base64');
-                socket.emit('imageBack', imageBase64); 
-            }
-        });
     });
 
     /*
     PROMPTS
     */
-
+    // Called when the game flow begins.
     socket.on('game-start', function(){
         if (lobbyID == "" || !(lobbyID in lobbyDict)) {
             return;
         }
         
+        // Sends the signal to each connected player of the lobby
         Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
             value.socket.emit("on-game-start");
         });
-        //lobbyDict[lobbyID].players
     });
 
+    // Requests a prompt from the host.
     socket.on('request-prompt', function() {
         if (lobbyID == "")
             return;
         lobbyDict[lobbyID].host.emit("on-request-prompt", hashedIP);
     });
 
+    // Sends a prompt to a player via hashedIP.
     socket.on('send-prompt', (hashedIP, prompt) => {
        if (lobbyID == "") 
             return;
 
         lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt);
-        //socket.emit('prompt-return', question);
-
     });
 
+    // Called when the client requests the answers for a prompt.
     socket.on('request-answers', function() {
         if (lobbyID == "")
             return;
         lobbyDict[lobbyID].host.emit("on-request-answers", hashedIP);
     });
 
+    // Sends a client their answers from the host.
     socket.on('send-answers', (hashedIP, answers) => {
         if (lobbyID == "") 
              return;
@@ -218,6 +184,7 @@ io.on('connection', (socket) => {
          lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-answers', answers);
     });
 
+    // Sends the response to a prompt, tied to the hashedIP.
     socket.on('prompt-response', (response) => {
        if (lobbyID == "") 
             return;
@@ -239,16 +206,12 @@ io.on('connection', (socket) => {
     /* 
     VOTING
     */
-
-    // Tested and works.
     socket.on('upvote', function() {
         if (lobbyID == "")
             return;
 
         lobbyDict[lobbyID].host.emit('on-upvote', hashedIP);
     });
-
-    // Tested and works.
     socket.on('downvote', function() {
         if (lobbyID == "")
             return;
@@ -259,6 +222,7 @@ io.on('connection', (socket) => {
     /*
     LOBBY SCREEN
     */
+<<<<<<< Updated upstream
 
     /*
     // Sends over the array of player's name and base64(pfp image)
@@ -278,6 +242,11 @@ io.on('connection', (socket) => {
         console.log('Converted images on server to base64');
         io.emit('updated-players',players);
         console.log('sent over!')
+=======
+    // Sends over the array of player's name and base64(pfp image)
+    socket.on('update', function() {
+        lobbyDict[lobbyID].host.emit('request-player-info');
+>>>>>>> Stashed changes
     });
     */
  
@@ -291,21 +260,7 @@ io.on('connection', (socket) => {
             args = "{null}";
         }
        console.log("Received Message\n\tEventName: " + eventName + "\n\tArgs: " + args);
-    });
-
-    // Prints out the submitCode given from the client 
-    socket.on('submitCode', (codeValues) => {
-        let code = codeValues.join('');
-        console.log('Received code:', code);
-
-        //TODO: Return if the code of the lobby is correct, for now assumes any code would work
-        let lobbyConnection = "Connecting to Lobby";
-
-        //Sends a message to the client
-        socket.emit('lobbyConnection', lobbyConnection);
-
-    });
-  
+    });  
 });
 
 function makeid(length) {
@@ -318,14 +273,6 @@ function makeid(length) {
       counter += 1;
     }
     return result;
-}
-
-// function to encode file data to base64 encoded string
-function base64_encode(file) {
-    // read binary data
-    var bitmap = fs.readFileSync(file);
-    // convert binary data to base64 encoded string
-    return new Buffer.from(bitmap).toString('base64');
 }
 
 function joinLobby(socket, lobby, hashedIP) {
@@ -356,8 +303,21 @@ function joinLobby(socket, lobby, hashedIP) {
     console.log(lobbyDict[lobby].players);
 }
 
+function GenerateLobbyName(lobbyDictionary) {
+    let lobbyName = makeid(5);
+        while (bannedServerNames.includes(lobbyName) || lobbyName in lobbyDictionary) {
+            lobbyName = makeid(5);
+    }
+    return lobbyName;
+}
+
 // Open server to the 3000 port.
 server.listen(3000, () => {
+<<<<<<< Updated upstream
     console.log('listening on *:3000');
 })
 
+=======
+    console.log('RC:OS Server listening on *:3000');
+});
+>>>>>>> Stashed changes

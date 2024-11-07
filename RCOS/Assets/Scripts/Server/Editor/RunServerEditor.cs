@@ -1,3 +1,7 @@
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Script used to draw custom inspector GUI to include custom buttons.
+ */
 using UnityEditor;
 using UnityEngine;
 
@@ -10,6 +14,8 @@ namespace Webserver
         {
             RunServer script = (RunServer)target;
             DrawDefaultInspector();
+
+            // Creates buttons in the Inspector.
             if (GUILayout.Button("Start Server"))
             {
                 script.StartServer();
