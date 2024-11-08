@@ -246,7 +246,7 @@ io.on('connection', (socket) => {
         }
        console.log("Received Message\n\tEventName: " + eventName + "\n\tArgs: " + args);
     });  
-});
+
 
 function makeid(length) {
     let result = '';
