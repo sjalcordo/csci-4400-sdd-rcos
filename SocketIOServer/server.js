@@ -221,7 +221,6 @@ io.on('connection', (socket) => {
     /*
     LOBBY SCREEN
     */
-    });
 
     socket.on('on-request-player-info', (names, b64) => {
         if (lobbyID == "" || !(lobbyID in lobbyDict)) {
