@@ -10,6 +10,8 @@ namespace Menus
         MainMenu,
         Lobby,
         Progress,
+        PrePresenting,
+        Presenter,
         Presenting,
         Graph,
         PostGame
@@ -26,6 +28,8 @@ namespace Menus
     {
         [SerializeField] private MenuObject _currentState;
         [SerializeField] private MenuObject[] _menuObjs;
+        [Space(5)]
+        [SerializeField] private float _delayedTime = 5f;
 
         private void Start()
         {
@@ -39,6 +43,11 @@ namespace Menus
             {
                 menuObj.gameObject.SetActive(false);
             }
+        }
+
+        public void SwitchStateDelayed(int state)
+        {
+            StartCoroutine(DelayedSwitch(state, _delayedTime));
         }
 
         public void SwitchState(int state)
@@ -80,6 +89,12 @@ namespace Menus
         {
             _currentState = menuObj;
             menuObj.gameObject.SetActive(true);
+        }
+
+        IEnumerator DelayedSwitch(int state, float time)
+        {
+            yield return new WaitForSeconds(time);
+            SwitchState(state);
         }
     }
 }

@@ -6,6 +6,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SocketIOClient;
+using UnityEngine.Events;
+
 namespace Gameplay
 {
     public class ProfileHandler : MonoBehaviour
@@ -15,6 +17,8 @@ namespace Gameplay
         [SerializeField] private int _maxAnswers = 5;
 
         private Dictionary<string, List<Prompt>> _playerResponses = new Dictionary<string, List<Prompt>>();
+
+        public UnityEvent OnProfileCompletion;
 
         private void Start()
         {
@@ -55,7 +59,7 @@ namespace Gameplay
 
             if(CheckCompletion())
             {
-
+                OnProfileCompletion.Invoke();
             }
         }
 
