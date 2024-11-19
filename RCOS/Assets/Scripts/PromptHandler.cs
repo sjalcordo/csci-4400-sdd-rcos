@@ -23,6 +23,12 @@ namespace Gameplay
             this.prompt = prompt;
         }
 
+        public Prompt(string prompt, string response)
+        {
+            this.prompt = prompt;
+            this.response = response;
+        }
+
         // Copy constructor
         public Prompt(Prompt prompt)
         {
@@ -43,8 +49,15 @@ namespace Gameplay
         [Space(5)]
         [SerializeField] private List<Prompt> _prompts = new List<Prompt>();
         [SerializeField] private List<string> _answers = new List<string>();
+        [Space(5)]
+        [SerializeField] 
 
-        private Dictionary<string, Prompt> _currentPrompts = new Dictionary<string, Prompt>();
+        private Dictionary<string, string> _currentPrompts = new Dictionary<string, string>();
+        public Dictionary<string, string> currentPrompts => _currentPrompts;
+        private Dictionary<string, List<string>> _answerPools = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<string>> _availableAnswers = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<Prompt>> _playerResponses = new Dictionary<string, List<Prompt>>();
+
         private void Start()
         {
             // Adds a listener to when we receive a message from the server.
@@ -53,55 +66,79 @@ namespace Gameplay
             ParsePrompts();
         }
 
+        public void PopulateAnswerPool()
+        {
+            foreach (string hashedIP in _lobbyHandler.hashedIPs)
+            {
+                _answerPools[hashedIP] = new List<string>();
+
+                RefillAnswers(hashedIP);
+
+                string log = hashedIP + "'s answers:\n";
+                foreach(string answer in _answerPools[hashedIP])
+                {
+                    log += "\t" + answer + "\n";
+                }
+                Debug.Log(log);
+            }
+        }
+
+        public void RefillAnswers(string hashedIP)
+        {
+            // If the key does not exist
+            if (!_answerPools.ContainsKey(hashedIP))
+                return;
+
+            while (_answerPools[hashedIP].Count < 5)
+            {
+                // If there are no more available answers, refill the list.
+                if (!_availableAnswers.ContainsKey(hashedIP) || _availableAnswers[hashedIP].Count <= 0)
+                {
+                    _availableAnswers[hashedIP] = _answers;
+                }
+
+                // Add Answer
+                int index = Random.Range(0, _availableAnswers[hashedIP].Count);
+                Debug.Log("Available answers length " + _availableAnswers[hashedIP].Count + " " + index);
+                _answerPools[hashedIP].Add(_availableAnswers[hashedIP][index]);
+                _availableAnswers[hashedIP].RemoveAt(index);
+            }
+        }
+
         public void SetPrompt(string ID, string prompt)
         {
-            _currentPrompts[ID] = new Prompt(prompt);
+            _currentPrompts[ID] = prompt;
         }
 
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
-            if (name != "on-prompt-response" && name != "on-request-prompt" && name != "on-request-answers") return;
+            if (name != "on-request-prompt" && name != "on-request-answers") return;
 
             switch (name)
             {
-                case "on-prompt-response":
-                    OnPromptResponse(response.GetValue<string>(0), response.GetValue<string>(1));
-                    break;
                 case "on-request-prompt":
                     string hashedIP = response.GetValue<string>(0);
                     
-                    Sockets.ServerUtil.manager.SendEvent("send-prompt", hashedIP, _currentPrompts[hashedIP].prompt);
+                    Sockets.ServerUtil.manager.SendEvent("send-prompt", hashedIP, _currentPrompts[hashedIP]);
                     break;
                 case "on-request-answers":
                     hashedIP = response.GetValue<string>(0);
-                    List<string> answers = new List<string>();
-                    for (int i = 0; i < 5; i++)
-                    {
-                        answers.Add(_answers[Random.Range(0, _answers.Count)]);
-                    }
-                    Sockets.ServerUtil.manager.SendEvent("send-answers", hashedIP, answers);
+                    Sockets.ServerUtil.manager.SendEvent("send-answers", hashedIP, _answerPools[hashedIP]);
                     break;
             }
-        }
-
-        private void OnPromptResponse(string hashedIP, string promptResponse)
-        {
-            // If there is no active prompt for the current key.
-            if (!_currentPrompts.ContainsKey(hashedIP))
-                return;
-
-            Debug.Log("Received Prompt Response: " + hashedIP + " " + promptResponse);
-            _currentPrompts[hashedIP].response = promptResponse;
         }
 
         public void StartPrompts()
         {
             Sockets.ServerUtil.manager.SendEvent("game-start");
+
+            PopulateAnswerPool();
+
             foreach (string hashedIP in _lobbyHandler.hashedIPs)
             {
                 string prompt = GetRandomPrompt();
-                _currentPrompts[hashedIP] = new Prompt(prompt);
+                _currentPrompts[hashedIP] = prompt;
             }
         }
 
