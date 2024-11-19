@@ -176,6 +176,8 @@ MonoBehaviour:
     gameObject: {fileID: 2078509971}
   - state: 3
     gameObject: {fileID: 1944938150}
+  - state: 4
+    gameObject: {fileID: 1644102573}
 --- !u!1 &25846876
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serverURI: http://companionship.cs.rpi.edu:3000
-  _useLocalHost: 0
+  _useLocalHost: 1
   _joinOnStart: 1
   OnSocketEvent:
     m_PersistentCalls:
@@ -1407,6 +1409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lobbyHandler: {fileID: 1903000569}
+  _profileHandler: {fileID: 1570320323}
   _promptFilename: prompts
   _answerFilename: answers
   _prompts: []
@@ -1820,7 +1823,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1644102574}
   m_Layer: 5
-  m_Name: VotingScreen
+  m_Name: Presenting Page
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -162,11 +162,11 @@ io.on('connection', (socket) => {
     });
 
     // Sends a prompt to a player via hashedIP.
-    socket.on('send-prompt', (hashedIP, prompt) => {
+    socket.on('send-prompt', (hashedIP, prompt, num) => {
        if (lobbyID == "") 
             return;
 
-        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt);
+        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-send-prompt', prompt, num);
     });
 
     // Called when the client requests the answers for a prompt.
@@ -233,6 +233,12 @@ io.on('connection', (socket) => {
         });
     });
     
+    socket.on('questions-finished', hashedIP => {
+        if (lobbyID == "") 
+             return;
+
+        lobbyDict[lobbyID].players[hashedIP].socket.emit('end-of-question');
+    });
  
     /* 
     DEBUGGING
@@ -245,7 +251,7 @@ io.on('connection', (socket) => {
         }
        console.log("Received Message\n\tEventName: " + eventName + "\n\tArgs: " + args);
     });  
-
+});
 
 function makeid(length) {
     let result = '';
@@ -289,8 +295,8 @@ function joinLobby(socket, lobby, hashedIP) {
 
 function GenerateLobbyName(lobbyDictionary) {
     let lobbyName = makeid(5);
-        while (bannedServerNames.includes(lobbyName) || lobbyName in lobbyDictionary) {
-            lobbyName = makeid(5);
+    while (bannedServerNames.includes(lobbyName) || lobbyName in lobbyDictionary) {
+        lobbyName = makeid(5);
     }
     return lobbyName;
 }

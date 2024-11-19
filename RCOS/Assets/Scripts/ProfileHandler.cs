@@ -42,6 +42,21 @@ namespace Gameplay
 
             _playerResponses[hashedIP].Add(new Prompt(_promptHandler.currentPrompts[hashedIP], promptResponse));
             _progressHandler.UpdateProgress(hashedIP, (float) _playerResponses[hashedIP].Count / _maxAnswers);
+
+            if (_playerResponses[hashedIP].Count < _maxAnswers)
+            {
+                _promptHandler.RemoveAnswer(hashedIP, promptResponse);
+                _promptHandler.SendNextPrompt(hashedIP);
+            }
+            else
+            {
+                Sockets.ServerUtil.manager.SendEvent("questions-finished", hashedIP);
+            }
+
+            if(CheckCompletion())
+            {
+
+            }
         }
 
         private bool CheckCompletion()
@@ -54,6 +69,14 @@ namespace Gameplay
                 }
             }
             return true;
+        }
+
+        public int GetResponseCount(string hashedIP)
+        {
+            if (!_playerResponses.ContainsKey(hashedIP))
+                return 0;
+
+            return _playerResponses[hashedIP].Count;
         }
     }
 }

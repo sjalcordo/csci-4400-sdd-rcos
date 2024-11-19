@@ -41,6 +41,7 @@ namespace Gameplay
     {
         // Reference to the lobby handler to get the list of players.
         [SerializeField] private LobbyHandler _lobbyHandler;
+        [SerializeField] private ProfileHandler _profileHandler;
         [Space(5)]
 
         // Inspector-Exposed Private Variables.
@@ -53,6 +54,7 @@ namespace Gameplay
         [SerializeField] 
 
         private Dictionary<string, string> _currentPrompts = new Dictionary<string, string>();
+        private Dictionary<string, List<Prompt>> _availablePrompts = new Dictionary<string, List<Prompt>>();
         public Dictionary<string, string> currentPrompts => _currentPrompts;
         private Dictionary<string, List<string>> _answerPools = new Dictionary<string, List<string>>();
         private Dictionary<string, List<string>> _availableAnswers = new Dictionary<string, List<string>>();
@@ -120,7 +122,7 @@ namespace Gameplay
                 case "on-request-prompt":
                     string hashedIP = response.GetValue<string>(0);
                     
-                    Sockets.ServerUtil.manager.SendEvent("send-prompt", hashedIP, _currentPrompts[hashedIP]);
+                    Sockets.ServerUtil.manager.SendEvent("send-prompt", hashedIP, _currentPrompts[hashedIP], _profileHandler.GetResponseCount(hashedIP) + 1);
                     break;
                 case "on-request-answers":
                     hashedIP = response.GetValue<string>(0);
@@ -137,14 +139,40 @@ namespace Gameplay
 
             foreach (string hashedIP in _lobbyHandler.hashedIPs)
             {
-                string prompt = GetRandomPrompt();
+                _availablePrompts[hashedIP] = _prompts;
+
+                string prompt = GetRandomPrompt(hashedIP);
                 _currentPrompts[hashedIP] = prompt;
             }
         }
 
-        private string GetRandomPrompt()
+        public void RemoveAnswer(string hashedIP, string response)
         {
-            return _prompts[Random.Range(0, _prompts.Count)].prompt;
+            if (!_answerPools.ContainsKey(hashedIP))
+            {
+                return;
+            }
+
+            _answerPools[hashedIP].Remove(response);
+            RefillAnswers(hashedIP);
+        }
+
+        public void SendNextPrompt(string hashedIP)
+        {
+            RefillAnswers(hashedIP);
+            _currentPrompts[hashedIP] = GetRandomPrompt(hashedIP);
+            Sockets.ServerUtil.manager.SendEvent("send-answers", hashedIP, _answerPools[hashedIP]);
+            Sockets.ServerUtil.manager.SendEvent("send-prompt", hashedIP, _currentPrompts[hashedIP], _profileHandler.GetResponseCount(hashedIP) + 1);
+        }
+
+        private string GetRandomPrompt(string hashedIP)
+        {
+            if (!_availablePrompts.ContainsKey(hashedIP))
+            {
+                return "";
+            }
+
+            return _availablePrompts[hashedIP][Random.Range(0, _prompts.Count)].prompt;
         }
 
         private void ParsePrompts()
