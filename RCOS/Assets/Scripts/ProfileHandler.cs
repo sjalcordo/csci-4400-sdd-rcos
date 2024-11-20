@@ -15,8 +15,10 @@ namespace Gameplay
         [SerializeField] private PromptHandler _promptHandler;
         [SerializeField] private ProgressHandler _progressHandler;
         [SerializeField] private int _maxAnswers = 5;
+        public int maxAnswers => _maxAnswers;
 
         private Dictionary<string, List<Prompt>> _playerResponses = new Dictionary<string, List<Prompt>>();
+        public Dictionary<string, List<Prompt>> playerResponses => _playerResponses;
 
         public UnityEvent OnProfileCompletion;
 
