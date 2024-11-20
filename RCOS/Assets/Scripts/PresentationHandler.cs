@@ -33,6 +33,7 @@ namespace Gameplay
         [SerializeField] private float _timeToPresenter = 3f;
         [SerializeField] private float _timeToPresentation = 10f;
         [SerializeField] private float _sideSectionOffset = -500f;
+        [SerializeField] private float _timeBeforeAutoProgress = 20f;
 
         private string _currentPresenter;
         public string currentPresenter => _currentPresenter;
@@ -40,6 +41,8 @@ namespace Gameplay
 
         private Prompt _currentPrompt;
         private int _currentPromptIndex;
+
+        private Coroutine _advanceTimer;
 
         private void Start()
         {
@@ -125,6 +128,8 @@ namespace Gameplay
             _questionText.text = "Question " + (index + 1);
             _promptText.text = _currentPrompt.prompt;
             _answerText.text = _currentPrompt.response;
+
+            _advanceTimer = StartCoroutine(AutoFinishPrompt(_timeBeforeAutoProgress));
         }
 
         private void AddPromptToProfile(Prompt prompt)
@@ -153,6 +158,8 @@ namespace Gameplay
         [ContextMenu("Finish Prompt")]
         private void OnFinishPrompt()
         {
+            StopCoroutine(_advanceTimer);
+
             if (_currentPromptIndex >= _profileHandler.maxAnswers)
             {
                 return;
@@ -167,6 +174,13 @@ namespace Gameplay
                 return;
             }
             SetupAnswer(_currentPromptIndex);
+        }
+
+        private IEnumerator AutoFinishPrompt(float time)
+        {
+            yield return new WaitForSeconds(time);
+
+            OnFinishPrompt();
         }
     }
 }
