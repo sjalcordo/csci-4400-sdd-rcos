@@ -1,10 +1,10 @@
 // Connect to the server
 const socket = io();
 
-socket.emit('update');
+socket.emit('on-request-player-info');
 
 // Listen for updates to the lobby list from the server
-socket.on('on-request-player-info', (names, b64) => {
+socket.on('updated-players', (names, b64) => {
     const lobbyContainer = document.getElementById('players');
     lobbyContainer.innerHTML = ''; // Clear existing player cards
 
