@@ -229,7 +229,7 @@ io.on('connection', (socket) => {
 
         Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
             console.log(key);
-            value.socket.emit("updated-players", names, b64);
+            value.io.emit("updated-players", names, b64);
         });
     });
     
@@ -298,4 +298,5 @@ function GenerateLobbyName(lobbyDictionary) {
 // Open server to the 3000 port.
 server.listen(3000, () => {
     console.log('RC:OS Server listening on *:3000');
+});
 });

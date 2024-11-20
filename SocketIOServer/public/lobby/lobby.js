@@ -4,7 +4,7 @@ const socket = io();
 socket.emit('update');
 
 // Listen for updates to the lobby list from the server
-socket.on('updated-players', (names, b64) => {
+socket.on('on-request-player-info', (names, b64) => {
     const lobbyContainer = document.getElementById('players');
     lobbyContainer.innerHTML = ''; // Clear existing player cards
 
