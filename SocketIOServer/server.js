@@ -232,6 +232,20 @@ io.on('connection', (socket) => {
 
         lobbyDict[lobbyID].host.emit('on-downvote', hashedIP);
     });
+
+    socket.on("get-presenter-name", function() {
+        if (lobbyID == "")
+            return;
+
+        lobbyDict[lobbyID].host.emit('on-get-presenter-name', hashedIP);
+    });
+
+    socket.on('send-presenter-name', (user, username) => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !user in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[user].socket == null)
+            return;
+
+        lobbyDict[lobbyID].players[user].socket.emit('on-send-presenter-name', username);
+    });
     /*
     LOBBY SCREEN
     */
@@ -247,23 +261,50 @@ io.on('connection', (socket) => {
         });
     });
     
-    socket.on('questions-finished', hashedIP => {
+    socket.on('questions-finished', user => {
         if (lobbyID == "") 
              return;
 
-        lobbyDict[lobbyID].players[hashedIP].socket.emit('end-of-question');
+        lobbyDict[lobbyID].players[user].socket.emit('end-of-question');
     });
 
     /*
     PRESENTATION
     */
 
+    socket.on('between-presentations', function() {
+        if (lobbyID == "" || !lobbyID in lobbyDict)
+            return;
+
+        Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
+            value.socket.emit("on-between-presentations");
+        });
+    });
+
     socket.on("next-presentation-slide", function()  {
         if (lobbyID == "")
             return;
 
-        lobbyDict[lobbyID].host.emit('on-next-presentation-slide', hashedIP);
+        lobbyDict[lobbyID].host.emit('on-next-presentation-slide');
 
+    });
+
+    socket.on("presentation-start", (user) => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !user in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[user].socket == null)
+            return;
+
+        lobbyDict[lobbyID].players[user].socket.emit('on-presentation-start');
+    });
+
+    socket.on('voting-start', (user) => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !user in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[user].socket == null)
+            return;
+
+        Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
+            if (key != user){
+                value.socket.emit("on-voting-start");
+            }
+        });
     });
  
     /* 
