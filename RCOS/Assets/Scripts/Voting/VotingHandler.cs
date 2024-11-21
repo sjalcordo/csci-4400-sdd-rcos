@@ -79,7 +79,7 @@ namespace Gameplay
                 return;
             }
 
-            _graphHandler.Graph(_lobbyHandler.names[hashedIP], _voteSections[hashedIP]);
+            _graphHandler.Graph(hashedIP, _voteSections[hashedIP]);
             Debug.Log("Sending to graph");
         }
 

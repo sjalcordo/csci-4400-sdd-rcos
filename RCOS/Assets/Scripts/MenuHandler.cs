@@ -14,7 +14,8 @@ namespace Menus
         Presenter,
         Presenting,
         Graph,
-        PostGame
+        PostGame,
+        Customization,
     }
 
     [System.Serializable]

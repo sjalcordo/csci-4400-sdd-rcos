@@ -15,6 +15,7 @@ namespace Gameplay
         [SerializeField] private MenuHandler _menuHandler;
         [SerializeField] private ProfileHandler _profileHandler;
         [SerializeField] private VotingHandler _votingHandler;
+        [SerializeField] private RankHandler _rankHandler;
         [Space(8)]
         [SerializeField] private RectTransform _sideSection;
         [SerializeField] private RectTransform _questionSection;
@@ -206,7 +207,7 @@ namespace Gameplay
             }
             else
             {
-
+                _rankHandler.StartPostGame();
             }
         }
 

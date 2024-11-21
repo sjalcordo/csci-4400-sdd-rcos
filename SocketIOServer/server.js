@@ -334,6 +334,32 @@ io.on('connection', (socket) => {
         lobbyDict[lobbyID].players[user].socket.emit('on-presentations-finished');
     });
 
+    /*
+    POST GAME
+    */
+    socket.on('start-post-game', () => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !user in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[user].socket == null)
+            return;
+
+        Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
+            value.socket.emit("on-start-post-game");
+        });
+    });
+ 
+    socket.on("get-rank", function() {
+       if (lobbyID == "") 
+        return;
+    
+       lobbyDict[lobbyID].host.emit('on-get-rank', hashedIP);
+    });
+
+    socket.on("send-rank", (user, rank) => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !user in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[user].socket == null)
+            return;
+
+        lobbyDict[lobbyID].players[user].socket.emit('on-send-rank', rank);
+    });
+
     /* 
     DEBUGGING
     */

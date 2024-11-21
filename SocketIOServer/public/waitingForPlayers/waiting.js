@@ -28,7 +28,7 @@ socket.on('go-to-presentation', function(){
     window.location.href = "/presenting/presenting.html"
 });
 
-socket.on('on-presentations-finished', function() {
+socket.on('on-start-post-game', function() {
     window.location.href = "/postGame/postGame.html";
 });
 

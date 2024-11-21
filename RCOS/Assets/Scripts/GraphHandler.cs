@@ -19,6 +19,8 @@ namespace Gameplay
         [SerializeField] private Color _averageColor;
 
         private Dictionary<string, Color> _colors = new Dictionary<string, Color>();
+        private Dictionary<string, float> _playerAverages = new Dictionary<string, float>();
+        public Dictionary<string, float> playerAverages => _playerAverages;
         private List<int> _currentSums = new List<int>();
 
         public void GetPlayerColors()
@@ -34,7 +36,7 @@ namespace Gameplay
             }
         }
 
-        public void Graph(string name, Dictionary<string, List<int>> votes)
+        public void Graph(string hashedIP, Dictionary<string, List<int>> votes)
         {
             for (int i = _container.transform.childCount - 1; i >= 0; i--)
             {
@@ -53,7 +55,7 @@ namespace Gameplay
                 return;
             }
 
-            _name.text = name;
+            _name.text = _lobbyHandler.names[hashedIP];
 
             for (int i = 0; i < votes[firstKey].Count; i++)
             {
@@ -70,11 +72,14 @@ namespace Gameplay
                 }
             }
 
+            float average = 0;
             for (int i = 0; i < _currentSums.Count; i++)
             {
-                
+                average += _currentSums[i];
                 SetupAndPlaceVoteIcon(_averageColor, i, _currentSums[i] / votes.Count, _currentSums.Count);
             }
+            average /= (float) _currentSums.Count;
+            _playerAverages[hashedIP] = average;
         }
 
         private void SetupAndPlaceVoteIcon(Color color, int column, float value, int columnCount)
