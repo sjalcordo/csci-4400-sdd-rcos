@@ -19,6 +19,9 @@ function animate (count) {
         current = count - 1;
         if (count == 1) {   // stop after filling in hearts for 1
             container.innerHTML="<h1>GAME START!</h1>";
+            setTimeout(() => {
+                window.location.href = "/prompt/prompt.html";
+            }, 500);
             return;
         }
         number.innerHTML = current;
@@ -34,4 +37,3 @@ function animate (count) {
 
 animate(current);
 
-window.location.href = "/prompt/prompt.html";

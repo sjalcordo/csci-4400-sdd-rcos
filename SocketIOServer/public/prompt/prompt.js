@@ -1,34 +1,15 @@
+let firstConnect = true;
 
 // Connect to the server
 const socket = io();
 
-//Timer Stuff
-let timeRemaining =  30; 
-// Select the timer bar element
 const timerBar = document.querySelector('.timerBar div');
 
-// Update the timer display and progress bar every second
-const updateTimer = setInterval(() => {
-    const minutes = Math.floor(timeRemaining / 60);
-    const seconds = timeRemaining % 60;
-    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-
-    timeRemaining--;
-
-    if (timeRemaining < 0) {
-        clearInterval(updateTimer);
-        document.getElementById('timer').textContent = "0:00";
-        // will refresh page to move on to the next question
-        // MAYBE: A time out page? or pop up? 
-        // NOTE: Maybe we should signal to the host that the player's timer ran out so
-        // they know to move on to the next question
-        window.location.href = "/prompt/prompt.html";
-    }
-}, 1000);
-
+/*
 // Set animation duration dynamically (in seconds)
 const durationInSeconds = timeRemaining + 5; // there's a 5 sec lag
 timerBar.style.animationDuration = `${durationInSeconds}s`;
+*/
 
 const answers = document.querySelectorAll('.answerCard');
 answers.forEach((answer, index) => {
@@ -48,7 +29,16 @@ function select(selectedAnswer) {
     }
 }
 
-socket.emit('request-prompt');
+socket.on('connect', () => {
+    if (!firstConnect) {
+        return;
+    }
+
+    firstConnect = false;
+    socket.emit('request-prompt');
+    socket.emit('request-answers');
+});
+
 
 socket.on('on-send-prompt',(question, num) =>{
     const questionContainer = document.getElementById('questionContainer');
@@ -63,8 +53,6 @@ socket.on('on-send-prompt',(question, num) =>{
     questionContainer.appendChild(questionElement);
     questionContainer.appendChild(promptElement);
 });
-
-socket.emit('request-answers');
 
 socket.on('on-send-answers', (responses) =>{
     const answersContainer = document.getElementById('answers');
@@ -87,9 +75,19 @@ socket.on('on-send-answers', (responses) =>{
 
 });
 
+socket.on('on-timer-update', (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.ceil(time % 60);
+    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+});
+
+socket.on('on-timeout', function() {
+
+});
+
 socket.on('end-of-question', function() {
     window.location.href = "/swipe/swipe.html";
-})
+});
 
 
 

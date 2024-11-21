@@ -50,8 +50,6 @@ namespace Gameplay
         [Space(5)]
         [SerializeField] private List<Prompt> _prompts = new List<Prompt>();
         [SerializeField] private List<string> _answers = new List<string>();
-        [Space(5)]
-        [SerializeField] 
 
         private Dictionary<string, string> _currentPrompts = new Dictionary<string, string>();
         private Dictionary<string, List<Prompt>> _availablePrompts = new Dictionary<string, List<Prompt>>();
@@ -66,6 +64,7 @@ namespace Gameplay
             Sockets.ServerUtil.manager.OnSocketEvent.AddListener(OnSocket);
 
             ParsePrompts();
+
         }
 
         public void PopulateAnswerPool()
@@ -143,6 +142,7 @@ namespace Gameplay
 
                 string prompt = GetRandomPrompt(hashedIP);
                 _currentPrompts[hashedIP] = prompt;
+
             }
         }
 

@@ -1,7 +1,15 @@
 // Connect to the server
 const socket = io();
+let firstConnect = true;
 
-socket.emit('update');
+socket.on('connect', () => {
+    if (!firstConnect) {
+        return;
+    }
+
+    firstConnect = false;
+    socket.emit('update');
+});
 
 // Listen for updates to the lobby list from the server
 socket.on('updated-players', (names, b64) => {
