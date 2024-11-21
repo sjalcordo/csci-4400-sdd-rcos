@@ -49,6 +49,8 @@ namespace Gameplay
             if (invalidPresenter || invalidSection || invalidUser) return;
 
             int index = _voteSections[_currentPresenter][hashedIP].Count - 1;
+
+            Debug.Log("Received " + name);
             switch (name)
             {
                 case "on-upvote":
