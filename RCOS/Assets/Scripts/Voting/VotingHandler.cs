@@ -16,6 +16,7 @@ namespace Gameplay
         [Header("References")]
         [SerializeField] private LobbyHandler _lobbyHandler;
         [SerializeField] private PresentationHandler _presentationHandler;
+        [SerializeField] private GraphHandler _graphHandler;
 
         [Header("Parameters")]
         [SerializeField] private float _timePerUnit;
@@ -70,6 +71,16 @@ namespace Gameplay
         public void StopVoting()
         {
             StopCoroutine(_votingTimer);
+        }
+
+        public void SendToGraph(string hashedIP)
+        {
+            if (!_voteSections.ContainsKey(hashedIP)) {
+                return;
+            }
+
+            _graphHandler.Graph(_voteSections[hashedIP]);
+            Debug.Log("Sending to graph");
         }
 
         private IEnumerator CreateVotingUnit()

@@ -87,6 +87,7 @@ namespace Gameplay
             {
                 _timers[hashedIP] = _defaultTimers;
                 _activePlayers[hashedIP] = false;
+                _playerResponses[hashedIP] = new List<Prompt>();
             }
         }
 
@@ -112,10 +113,6 @@ namespace Gameplay
             if (!_promptHandler.currentPrompts.ContainsKey(hashedIP))
                 return;
 
-            if (!_playerResponses.ContainsKey(hashedIP))
-            {
-                _playerResponses[hashedIP] = new List<Prompt>();
-            }
 
             _playerResponses[hashedIP].Add(new Prompt(_promptHandler.currentPrompts[hashedIP], promptResponse));
             _progressHandler.UpdateProgress(hashedIP, (float) _playerResponses[hashedIP].Count / _maxAnswers);

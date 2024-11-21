@@ -273,6 +273,17 @@ io.on('connection', (socket) => {
              return;
 
         Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
+            if (key == value) {
+                value.socket.emit("on-move-to-waiting");
+            }
+        });
+    });
+
+    socket.on('move-all-to-waiting', function() {
+        if (lobbyID == "") 
+             return;
+
+        Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
             value.socket.emit("on-move-to-waiting");
         });
     });

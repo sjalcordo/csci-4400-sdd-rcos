@@ -188,10 +188,11 @@ namespace Gameplay
         private void ShowGraph()
         {
             _menuHandler.SwitchState(EMenuState.Graph);
+            _votingHandler.SendToGraph(_currentPresenter);
 
             _votingHandler.StopVoting();
 
-            Sockets.ServerUtil.manager.SendEvent("move-to-waiting");
+            Sockets.ServerUtil.manager.SendEvent("move-all-to-waiting");
 
             Invoke(nameof(PostGraph), 10f);
         }
