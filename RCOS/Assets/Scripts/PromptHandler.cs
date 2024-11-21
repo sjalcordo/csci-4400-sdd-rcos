@@ -172,6 +172,9 @@ namespace Gameplay
                 return "";
             }
 
+            int index = Random.Range(0, _prompts.Count);
+            string prompt = _availablePrompts[hashedIP][Random.Range(0, _prompts.Count)].prompt;
+            _availablePrompts[hashedIP].RemoveAt(index);
             return _availablePrompts[hashedIP][Random.Range(0, _prompts.Count)].prompt;
         }
 

@@ -15,6 +15,7 @@ namespace Gameplay
     {
         [Header("References")]
         [SerializeField] private LobbyHandler _lobbyHandler;
+        [SerializeField] private PresentationHandler _presentationHandler;
 
         [Header("Parameters")]
         [SerializeField] private float _timePerUnit;
@@ -26,7 +27,6 @@ namespace Gameplay
         // Value:   Key:    Voting Player's Hashed IP
         //          Value:  List of Vote Counts
         private Dictionary<string, Dictionary<string, List<int>> > _voteSections = new Dictionary<string, Dictionary<string, List<int>> >();
-        private List<string> _users = new List<string>();
         private Coroutine _votingTimer;
         private string _currentPresenter;
 
@@ -62,10 +62,6 @@ namespace Gameplay
          
         public void StartVoting()
         {
-            _users = _lobbyHandler.hashedIPs;
-            int index = Random.Range(0, _users.Count);
-            _currentPresenter = _users[index];
-            _users.RemoveAt(index);
             _votingTimer = StartCoroutine(CreateVotingUnit());
         }
 

@@ -239,6 +239,18 @@ io.on('connection', (socket) => {
 
         lobbyDict[lobbyID].players[hashedIP].socket.emit('end-of-question');
     });
+
+    /*
+    PRESENTATION
+    */
+
+    socket.on("next-presentation-slide", function()  {
+        if (lobbyID == "")
+            return;
+
+        lobbyDict[lobbyID].host.emit('on-next-presentation-slide', hashedIP);
+
+    });
  
     /* 
     DEBUGGING

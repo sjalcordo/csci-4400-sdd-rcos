@@ -178,9 +178,9 @@ MonoBehaviour:
     gameObject: {fileID: 1944938150}
   - state: 4
     gameObject: {fileID: 1644102573}
-  - state: 6
-    gameObject: {fileID: 1723582126}
   - state: 5
+    gameObject: {fileID: 1723582126}
+  - state: 6
     gameObject: {fileID: 180814746}
   _delayedTime: 5
 --- !u!1 &25718574
@@ -896,6 +896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lobbyHandler: {fileID: 1903000569}
+  _presentationHandler: {fileID: 259589589}
   _timePerUnit: 5
   _max: 5
   _min: -5
@@ -936,6 +937,66 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &259589587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 259589588}
+  - component: {fileID: 259589589}
+  m_Layer: 0
+  m_Name: PresentationHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &259589588
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259589587}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2003246799}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &259589589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259589587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa46314fdf1a05542b98121079adf79b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lobbyHandler: {fileID: 1903000569}
+  _menuHandler: {fileID: 8414823}
+  _profileHandler: {fileID: 1570320323}
+  _sideSection: {fileID: 328072355}
+  _questionSection: {fileID: 1372449108}
+  _prePresentPFP: {fileID: 122909998}
+  _prePresentName: {fileID: 2094541209}
+  _presentPFP: {fileID: 1191279517}
+  _presentName: {fileID: 1234940739}
+  _presentTextBox: {fileID: 1322902853}
+  _questionText: {fileID: 314663890}
+  _promptText: {fileID: 25718576}
+  _answerText: {fileID: 1903683912}
+  _timeToPresenter: 3
+  _timeToPresentation: 10
+  _sideSectionOffset: -500
 --- !u!1 &284614196
 GameObject:
   m_ObjectHideFlags: 0
@@ -3154,26 +3215,14 @@ MonoBehaviour:
   OnProfileCompletion:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8414823}
-        m_TargetAssemblyTypeName: Menus.MenuHandler, Assembly-CSharp
-        m_MethodName: SwitchStateDelayed
-        m_Mode: 3
+      - m_Target: {fileID: 259589589}
+        m_TargetAssemblyTypeName: Gameplay.PresentationHandler, Assembly-CSharp
+        m_MethodName: StartPresentations
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 8414823}
-        m_TargetAssemblyTypeName: Menus.MenuHandler, Assembly-CSharp
-        m_MethodName: SwitchState
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3990,6 +4039,7 @@ Transform:
   - {fileID: 944846265}
   - {fileID: 1570320322}
   - {fileID: 1883524241}
+  - {fileID: 259589588}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2078509971
