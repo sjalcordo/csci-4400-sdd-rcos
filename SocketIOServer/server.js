@@ -198,6 +198,20 @@ io.on('connection', (socket) => {
         socket.emit('answers-return', answers);
     });
 
+    socket.on('timer-update', (hashedIP, time) => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[hashedIP].socket == null)
+            return;
+
+        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-timer-update', time);
+    });
+
+    socket.on('time-out', hashedIP => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
+            return;
+
+        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-time-out');
+    });
+
     /*
     TODO: when game is over
     io.emit('end-of-questions');

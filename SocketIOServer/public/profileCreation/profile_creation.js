@@ -96,13 +96,6 @@ socket.on('set-name-successful', (message) =>{
     console.log('Server response:', message);
 });
 
-socket.onAny((eventName, args) => {
-    if (args == null) {
-        args = "{null}";
-    }
-   console.log("Received Message\n\tEventName: " + eventName + "\n\tArgs: " + args);
-});
-
 socket.on('set-pfp-successful', function() {
     window.location.href = "/lobby/lobby.html";
 });
