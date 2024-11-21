@@ -50,12 +50,12 @@ function select(selectedAnswer) {
 
 socket.emit('request-prompt');
 
-socket.on('on-send-prompt',(question) =>{
+socket.on('on-send-prompt',(question, num) =>{
     const questionContainer = document.getElementById('questionContainer');
     questionContainer.innerHTML = ''; 
 
     const questionElement = document.createElement('h1');
-    questionElement.textContent = `Question 1`;
+    questionElement.textContent = `Question ` + num;
 
     const promptElement = document.createElement('h4');
     promptElement.textContent = `${question}`;

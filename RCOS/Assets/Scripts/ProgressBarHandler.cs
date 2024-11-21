@@ -5,31 +5,31 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ProgressBarHandler : MonoBehaviour
 {
-    private Slider slider;
+    [Header("References")]
+    [SerializeField] private TMP_Text _name;
+    [SerializeField] private RawImage _pfp;
+    [Space(5)]
+    [SerializeField] private Slider _slider;
+    [SerializeField] private GameObject _particleChild;
+
+    [Header("Parameters")]
+    [SerializeField] private float targetProgress = 0;
+    [SerializeField] float FillSpeed = 0.5f;
+
     private ParticleSystem particles;
-    public GameObject particleChild;
-    public float FillSpeed = 0.5f;
-    public float fillTarget = 0.0f;
-    private float targetProgress = 0;
 
     private void Awake() {
-        slider = gameObject.GetComponent<Slider>();
-        particles = particleChild.GetComponent<ParticleSystem>();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        setProgress(fillTarget);
+        particles = _particleChild.GetComponent<ParticleSystem>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (slider.value < targetProgress) {
-           slider.value += FillSpeed * Time.deltaTime;  
+        if (_slider.value < targetProgress) {
+           _slider.value += FillSpeed * Time.deltaTime;  
            if (!particles.isPlaying)
             particles.Play();
         }
@@ -40,7 +40,22 @@ public class ProgressBarHandler : MonoBehaviour
     }
 
     //Add incremental progress to the bar until targetProgress
-    public void setProgress(float newProgress) {
-        targetProgress = slider.value + newProgress;
+    public void AddProgress(float delta) {
+        targetProgress = _slider.value + delta;
+    }
+
+    public void SetProgress(float newProgress)
+    {
+        targetProgress = newProgress;
+    }
+
+    public void SetName(string name)
+    {
+        _name.text = name;
+    }
+
+    public void SetPfp(Texture texture)
+    {
+        _pfp.texture = texture;
     }
 }

@@ -25,6 +25,8 @@ namespace Gameplay
 
     public class LobbyHandler : MonoBehaviour
     {
+        [SerializeField] private ProgressHandler _progressHandler;
+
         // Reference Prefabs for lobby handling.
         [SerializeField] private GameObject _playerIconPrefab;
         [SerializeField] private GameObject _playerContainer;
@@ -109,9 +111,9 @@ namespace Gameplay
                 PlayerIcon playerIcon = IconObj.GetComponent<PlayerIcon>();
                 _playerIcons[hashedIP] = playerIcon;
                 _hashedIPs.Add(hashedIP);
+                _progressHandler.AddProgressBar(hashedIP);
             }
         }
-
 
         private void OnPlayerSetName(string hashedIP, string name)
         {
@@ -122,6 +124,7 @@ namespace Gameplay
 
             _names[hashedIP] = name;
             _playerIcons[hashedIP].SetName(name);
+            _progressHandler.SetProgressBarName(hashedIP, name);
         }
 
         private void OnPlayerSetPfp(string hashedIP, string b64)
@@ -130,9 +133,11 @@ namespace Gameplay
             {
                 return;
             }
-            
+
+            Texture texture = b64toTex.convert(b64);
             _b64Textures[hashedIP] = b64;
-            _playerIcons[hashedIP].SetPfp(b64toTex.convert(b64));
+            _playerIcons[hashedIP].SetPfp(texture);
+            _progressHandler.SetProgressBarPfp(hashedIP, texture);
         }
 
         public void AttemptCreateLobby()
