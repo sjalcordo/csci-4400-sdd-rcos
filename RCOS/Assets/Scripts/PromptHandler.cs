@@ -146,6 +146,16 @@ namespace Gameplay
             }
         }
 
+        public string GetRandomAnswer(string hashedIP)
+        {
+            if (!_answerPools.ContainsKey(hashedIP))
+            {
+                return "";
+            }
+
+            return _answerPools[hashedIP][Random.Range(0, _answerPools[hashedIP].Count)];
+        }
+
         public void RemoveAnswer(string hashedIP, string response)
         {
             if (!_answerPools.ContainsKey(hashedIP))

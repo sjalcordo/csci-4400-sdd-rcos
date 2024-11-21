@@ -67,6 +67,7 @@ namespace Gameplay
                     if (_timers[hashedIP] <= 0)
                     {
                         _timers[hashedIP] = _defaultTimers;
+                        OnPromptResponse(hashedIP, _promptHandler.GetRandomAnswer(hashedIP));
                         Sockets.ServerUtil.manager.SendEvent("time-out", hashedIP);
                     }
                 }
