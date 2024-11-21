@@ -113,7 +113,6 @@ namespace Gameplay
             if (!_promptHandler.currentPrompts.ContainsKey(hashedIP))
                 return;
 
-
             _playerResponses[hashedIP].Add(new Prompt(_promptHandler.currentPrompts[hashedIP], promptResponse));
             _progressHandler.UpdateProgress(hashedIP, (float) _playerResponses[hashedIP].Count / _maxAnswers);
 
