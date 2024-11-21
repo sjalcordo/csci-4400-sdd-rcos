@@ -89,6 +89,10 @@ socket.on('end-of-question', function() {
     window.location.href = "/swipe/swipe.html";
 });
 
+socket.on('on-move-to-waiting', function() {
+    window.location.href = "/waitingForPlayers/waiting.html";
+});
+
 
 
 

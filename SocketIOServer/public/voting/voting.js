@@ -21,14 +21,14 @@ socket.on('on-send-presenter-name', (player) => {
     UserName.textContent = player;
 });
 
-socket.on('on-between-presentations', function() {
-    window.location.href = "/swipe/swipe.html";
-});
-
 like.addEventListener('click',() =>{
     socket.emit('upvote');
 });
 
 dislike.addEventListener('click',() =>{
     socket.emit('downvote');
+});
+
+socket.on('on-move-to-waiting', function() {
+    window.location.href = "/waitingForPlayers/waiting.html";
 });

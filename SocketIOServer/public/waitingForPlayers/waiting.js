@@ -23,18 +23,20 @@ function animate () {
 
 animate();
 
-//When all the questions have been answered, lets go to the voting page
-socket.on('go-to-voting', function(){
-    window.location.href = "/voting/voting.html"
-})
-
 //If its the client turn, change webpage to presenting 
 socket.on('go-to-presentation', function(){
     window.location.href = "/presenting/presenting.html"
 });
 
-//If game is over, change webpage to postgame
-socket.on('go-to-postgame', function(){
-    window.location.href = "/postGame/postGame.html"
+socket.on('on-presentations-finished', function() {
+    window.location.href = "/postGame/postGame.html";
+});
+
+socket.on('on-between-presentations', function() {
+    window.location.href = "/swipe/swipe.html";
+});
+
+socket.on('end-of-question', function() {
+    window.location.href = "/swipe/swipe.html";
 });
 

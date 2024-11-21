@@ -268,6 +268,15 @@ io.on('connection', (socket) => {
         lobbyDict[lobbyID].players[user].socket.emit('end-of-question');
     });
 
+    socket.on('move-to-waiting', user => {
+        if (lobbyID == "") 
+             return;
+
+        Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
+            value.socket.emit("on-move-to-waiting");
+        });
+    });
+
     /*
     PRESENTATION
     */
@@ -307,6 +316,13 @@ io.on('connection', (socket) => {
         });
     });
  
+    socket.on('presentations-finished', user => {
+        if (lobbyID == "") 
+             return;
+
+        lobbyDict[lobbyID].players[user].socket.emit('on-presentations-finished');
+    });
+
     /* 
     DEBUGGING
     */

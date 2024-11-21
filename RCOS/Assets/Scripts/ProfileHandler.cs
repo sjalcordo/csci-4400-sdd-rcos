@@ -125,17 +125,20 @@ namespace Gameplay
                 _promptHandler.RemoveAnswer(hashedIP, promptResponse);
                 _promptHandler.SendNextPrompt(hashedIP);
                 _timers[hashedIP] = _defaultTimers;
+                return;
             }
-            else
-            {
-                _activePlayers[hashedIP] = false;
-                Sockets.ServerUtil.manager.SendEvent("questions-finished", hashedIP);
-            }
+
+            _activePlayers[hashedIP] = false;
 
             if(CheckCompletion())
             {
                 _creationActive = false;
                 OnProfileCompletion.Invoke();
+                Sockets.ServerUtil.manager.SendEvent("questions-finished", hashedIP);
+            }
+            else
+            {
+                Sockets.ServerUtil.manager.SendEvent("move-to-waiting", hashedIP);
             }
         }
 

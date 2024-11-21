@@ -182,7 +182,22 @@ namespace Gameplay
             _sideSection.anchoredPosition = Vector2.zero;
             _questionSection.gameObject.SetActive(false);
 
+            Invoke(nameof(ShowGraph), 5f);
+        }
+
+        private void ShowGraph()
+        {
+            _menuHandler.SwitchState(EMenuState.Graph);
+
             _votingHandler.StopVoting();
+
+            Sockets.ServerUtil.manager.SendEvent("move-to-waiting");
+
+            Invoke(nameof(PostGraph), 10f);
+        }
+
+        private void PostGraph()
+        {
             if (_users.Count > 0)
             {
                 Sockets.ServerUtil.manager.SendEvent("between-presentations");
