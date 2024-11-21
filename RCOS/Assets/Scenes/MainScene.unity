@@ -984,7 +984,6 @@ MonoBehaviour:
   _lobbyHandler: {fileID: 1903000569}
   _menuHandler: {fileID: 8414823}
   _profileHandler: {fileID: 1570320323}
-  _votingHandler: {fileID: 142463183}
   _sideSection: {fileID: 328072355}
   _questionSection: {fileID: 1372449108}
   _prePresentPFP: {fileID: 122909998}
@@ -3228,7 +3227,6 @@ MonoBehaviour:
   _progressHandler: {fileID: 1883524242}
   _maxAnswers: 5
   _defaultTimers: 30
-  _tickPerUpdate: 5
   OnProfileCompletion:
     m_PersistentCalls:
       m_Calls:

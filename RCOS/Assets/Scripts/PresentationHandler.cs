@@ -14,7 +14,6 @@ namespace Gameplay
         [SerializeField] private LobbyHandler _lobbyHandler;
         [SerializeField] private MenuHandler _menuHandler;
         [SerializeField] private ProfileHandler _profileHandler;
-        [SerializeField] private VotingHandler _votingHandler;
         [Space(8)]
         [SerializeField] private RectTransform _sideSection;
         [SerializeField] private RectTransform _questionSection;
@@ -45,11 +44,6 @@ namespace Gameplay
 
         private Coroutine _advanceTimer;
 
-        private bool _userIsPresenting = false;
-        private bool _canAdvancePrompt;
-
-        private bool _answerShown;
-
         private void Start()
         {
             // Adds a listener to when we receive a message from the server.
@@ -57,39 +51,24 @@ namespace Gameplay
         }
         private void OnSocket(string name, SocketIOResponse response)
         {
-            if (name != "on-next-presentation-slide" && name != "on-get-presenter-name")
+            if (name != "on-next-presentation-slide")
             {
                 return;
             }
 
-            switch (name)
-            {
-                case "on-next-presentation-slide":
-                    OnFinishPrompt();
-                    break;
-                case "on-get-presenter-name":
-                    Sockets.ServerUtil.manager.SendEvent("send-presenter-name", _lobbyHandler.names[_currentPresenter]);
-                    break;
-            }
+            OnFinishPrompt();
         }
 
         public void StartPresentations()
         {
             // Choose User
-            _users = new List<string>(_lobbyHandler.hashedIPs);
+            _users = _lobbyHandler.hashedIPs;
 
-            SetupNewPresentation();
-        }
-
-        private void SetupNewPresentation()
-        {
             ChooseUser();
 
             // Menus
             SwitchToPrePresent();
             Invoke(nameof(SwitchToPresenter), _timeToPresenter);
-            Invoke(nameof(SendUserPresenting), _timeToPresenter);
-            Invoke(nameof(SendUserVoting), _timeToPresenter + _timeToPresentation);
             Invoke(nameof(SwitchToPresentation), _timeToPresenter + _timeToPresentation);
         }
 
@@ -100,18 +79,6 @@ namespace Gameplay
             _users.RemoveAt(index);
 
             SetupPlayer(_currentPresenter);
-            _userIsPresenting = false;
-        }
-
-        private void SendUserPresenting()
-        {
-            Sockets.ServerUtil.manager.SendEvent("presentation-start", _currentPresenter);
-        }
-
-        private void SendUserVoting()
-        {
-            _votingHandler.StartVoting();
-            Sockets.ServerUtil.manager.SendEvent("voting-start", _currentPresenter);
         }
 
         private void SwitchToPrePresent()
@@ -127,7 +94,6 @@ namespace Gameplay
         private void SwitchToPresentation()
         {
             _menuHandler.SwitchState(EMenuState.Presenting);
-            _userIsPresenting = true;
         }
 
         private void SetupPlayer(string hashedIP)
@@ -163,9 +129,6 @@ namespace Gameplay
             _promptText.text = _currentPrompt.prompt;
             _answerText.text = _currentPrompt.response;
 
-            _answerText.gameObject.SetActive(false);
-            _answerShown = false;
-
             _advanceTimer = StartCoroutine(AutoFinishPrompt(_timeBeforeAutoProgress));
         }
 
@@ -182,11 +145,9 @@ namespace Gameplay
             _sideSection.anchoredPosition = Vector2.zero;
             _questionSection.gameObject.SetActive(false);
 
-            _votingHandler.StopVoting();
             if (_users.Count > 0)
             {
-                Sockets.ServerUtil.manager.SendEvent("between-presentations");
-                SetupNewPresentation();
+                Invoke(nameof(ChooseUser), 5f);
             }
             else
             {
@@ -197,8 +158,6 @@ namespace Gameplay
         [ContextMenu("Finish Prompt")]
         private void OnFinishPrompt()
         {
-            if (!_canAdvancePrompt || !_userIsPresenting) { return; }
-
             StopCoroutine(_advanceTimer);
 
             if (_currentPromptIndex >= _profileHandler.maxAnswers)
@@ -206,20 +165,10 @@ namespace Gameplay
                 return;
             }
 
-
-            if (!_answerShown)
-            {
-                _answerText.gameObject.SetActive(true);
-                _answerShown = true;
-
-                _advanceTimer = StartCoroutine(AutoFinishPrompt(_timeBeforeAutoProgress));
-                return;
-            }
-
             AddPromptToProfile(_currentPrompt);
 
             _currentPromptIndex++;
-            if (_currentPromptIndex >= _profileHandler.maxAnswers)
+            if (_currentPromptIndex >= _profileHandler.maxAnswers - 1)
             {
                 FinishAnswering();
                 return;
@@ -229,18 +178,6 @@ namespace Gameplay
 
         private IEnumerator AutoFinishPrompt(float time)
         {
-            _canAdvancePrompt = false;
-            if (time > 1f)
-            {
-                time -= 1f;
-                yield return new WaitForSeconds(1f);
-                _canAdvancePrompt = true;
-            }
-            else
-            {
-                _canAdvancePrompt = true;
-            }
-
             yield return new WaitForSeconds(time);
 
             OnFinishPrompt();
