@@ -532,7 +532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serverURI: http://companionship.cs.rpi.edu:3000
-  _useLocalHost: 1
+  _useLocalHost: 0
   _joinOnStart: 1
   OnSocketEvent:
     m_PersistentCalls:
