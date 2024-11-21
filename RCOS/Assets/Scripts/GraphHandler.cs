@@ -19,7 +19,7 @@ namespace Gameplay
         [SerializeField] private Color _averageColor;
 
         private Dictionary<string, Color> _colors = new Dictionary<string, Color>();
-        private List<int> _currentSums;
+        private List<int> _currentSums = new List<int>();
 
         public void GetPlayerColors()
         {
@@ -34,7 +34,7 @@ namespace Gameplay
             }
         }
 
-        public void Graph(Dictionary<string, List<int>> votes)
+        public void Graph(string name, Dictionary<string, List<int>> votes)
         {
             for (int i = _container.transform.childCount - 1; i >= 0; i--)
             {
@@ -53,6 +53,8 @@ namespace Gameplay
                 return;
             }
 
+            _name.text = name;
+
             for (int i = 0; i < votes[firstKey].Count; i++)
             {
                 _currentSums.Add(0);
@@ -70,14 +72,15 @@ namespace Gameplay
 
             for (int i = 0; i < _currentSums.Count; i++)
             {
-                SetupAndPlaceVoteIcon(_averageColor, i, _currentSums[i], _currentSums.Count);
+                
+                SetupAndPlaceVoteIcon(_averageColor, i, _currentSums[i] / votes.Count, _currentSums.Count);
             }
         }
 
-        private void SetupAndPlaceVoteIcon(Color color, int column, int value, int columnCount)
+        private void SetupAndPlaceVoteIcon(Color color, int column, float value, int columnCount)
         {
             GameObject voteIconObj = Instantiate(_voteIconPrefab);
-            voteIconObj.transform.parent = _container.transform;
+            voteIconObj.transform.SetParent(_container.transform);
             VoteIcon voteIcon = voteIconObj.GetComponent<VoteIcon>();
             voteIcon.image.color = color;
             voteIcon.rectTransform.anchoredPosition = new Vector2(column * (_container.sizeDelta.x / (columnCount - 1)), _container.sizeDelta.y / 2f + value * (_container.sizeDelta.y / 10f));
