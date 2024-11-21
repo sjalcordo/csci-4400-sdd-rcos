@@ -59,7 +59,7 @@ namespace Sockets
         private void Awake()
         {
             // Mark this object to not be destroyed upon scene swapping.
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
 
             // Depending on if we use the local host or not, connect using a localhost URL or the given URI.
             string uri = _useLocalHost ? "http://127.0.0.1:3000" : _serverURI;
