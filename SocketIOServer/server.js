@@ -338,7 +338,7 @@ io.on('connection', (socket) => {
     POST GAME
     */
     socket.on('start-post-game', () => {
-        if (lobbyID == "" || !lobbyID in lobbyDict || !user in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[user].socket == null)
+        if (lobbyID == "" || !lobbyID in lobbyDict)
             return;
 
         Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
