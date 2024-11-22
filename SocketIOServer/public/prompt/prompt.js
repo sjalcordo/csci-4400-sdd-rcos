@@ -1,5 +1,5 @@
 // Connect to the server
-const socket = io();
+// const socket = io(); /* DISABLED TEMPORARILY TO ALLOW COMPILATION */
 const timerBar = document.querySelector('.timerBar div');
 let firstConnect = true;
 let setTime;
@@ -15,18 +15,23 @@ function resetTimer(){
     document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
-// function select(selectedAnswer) {
-//     // if the answer was already selected and was clicked again, deselect answer
-//     const status = selectedAnswer.dataset.selected;
-//     answers.forEach((answer, index) => {
-//         answer.dataset.selected = 'false';
-//         answer.style.background = 'transparent';
-//     })
-//     if (status == 'false') {
-//         selectedAnswer.dataset.selected = 'true';
-//         selectedAnswer.style.background = '#ffb9c1';
-//     }
-// }
+// Calls reset after 3 seconds.
+setTimeout(() => {
+    resetTimer();
+}, 3000);
+
+function select(selectedAnswer) {
+    // if the answer was already selected and was clicked again, deselect answer
+    const status = selectedAnswer.dataset.selected;
+    answers.forEach((answer, index) => {
+        answer.dataset.selected = 'false';
+        answer.style.background = 'transparent';
+    })
+    if (status == 'false') {
+        selectedAnswer.dataset.selected = 'true';
+        selectedAnswer.style.background = '#ffb9c1';
+    }
+}
 
 socket.on('connect', () => {
     if (!firstConnect) {
