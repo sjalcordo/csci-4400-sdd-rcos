@@ -6,7 +6,7 @@ function animate () {
     images.forEach((image, index) => {
         setTimeout(() => {
             image.classList.add('jump');
-        }, 500 * (index + 1));
+        }, 500 + 100 * (index + 1));
     });
 
     // wait until above animation is done before resetting
