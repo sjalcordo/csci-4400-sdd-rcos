@@ -212,11 +212,6 @@ io.on('connection', (socket) => {
         lobbyDict[lobbyID].players[hashedIP].socket.emit('on-time-out');
     });
 
-    /*
-    TODO: when game is over
-    io.emit('end-of-questions');
-     */
-
     /* 
     VOTING
     */
