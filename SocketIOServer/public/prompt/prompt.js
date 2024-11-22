@@ -1,20 +1,19 @@
-let firstConnect = true;
-
 // Connect to the server
 const socket = io();
-
 const timerBar = document.querySelector('.timerBar div');
-
-/*
-// Set animation duration dynamically (in seconds)
-const durationInSeconds = timeRemaining + 5; // there's a 5 sec lag
-timerBar.style.animationDuration = `${durationInSeconds}s`;
-*/
+let firstConnect = true;
+let setTime;
 
 const answers = document.querySelectorAll('.answerCard');
 answers.forEach((answer, index) => {
     answer.addEventListener('click', () => select(answer))
 })
+
+function resetTimer(){
+    const minutes = Math.floor(setTime / 60);
+    const seconds = Math.ceil(setTime % 60);
+    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}
 
 function select(selectedAnswer) {
     // if the answer was already selected and was clicked again, deselect answer
@@ -69,17 +68,17 @@ socket.on('on-send-answers', (responses) =>{
         // When an answer is clicked, send it to the server
         answerButton.addEventListener('click', () => {
             socket.emit('prompt-response', response);
+            resetTimer();
         });
-
+        
         answersContainer.appendChild(answerButton);
     })
 
 });
 
 socket.on('on-timer-update', (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.ceil(time % 60);
-    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    setTime = time;
+    resetTimer();
 });
 
 socket.on('on-timeout', function() {
