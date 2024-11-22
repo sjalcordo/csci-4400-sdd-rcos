@@ -21,7 +21,6 @@ namespace Gameplay
         private Dictionary<string, Color> _colors = new Dictionary<string, Color>();
         private Dictionary<string, float> _playerAverages = new Dictionary<string, float>();
         public Dictionary<string, float> playerAverages => _playerAverages;
-        private List<int> _currentSums = new List<int>();
 
         public void GetPlayerColors()
         {
@@ -56,10 +55,11 @@ namespace Gameplay
             }
 
             _name.text = _lobbyHandler.names[hashedIP];
+            List<int> currentSums = new List<int>();
 
             for (int i = 0; i < votes[firstKey].Count; i++)
             {
-                _currentSums.Add(0);
+                currentSums.Add(0);
             }
 
             foreach(KeyValuePair<string, List<int>> pair in votes)
@@ -73,17 +73,17 @@ namespace Gameplay
                 for (int i = 0; i < pair.Value.Count; i++)
                 {
                     SetupAndPlaceVoteIcon(playerColor, i, pair.Value[i], pair.Value.Count);
-                    _currentSums[i] += pair.Value[i];
+                    currentSums[i] += pair.Value[i];
                 }
             }
 
             float average = 0;
-            for (int i = 0; i < _currentSums.Count; i++)
+            for (int i = 0; i < currentSums.Count; i++)
             {
-                average += _currentSums[i];
-                SetupAndPlaceVoteIcon(_averageColor, i, _currentSums[i] / votes.Count, _currentSums.Count);
+                average += currentSums[i];
+                SetupAndPlaceVoteIcon(_averageColor, i, currentSums[i] / votes.Count, currentSums.Count);
             }
-            average /= (float) _currentSums.Count;
+            average /= (float) currentSums.Count;
             _playerAverages[hashedIP] = average;
         }
 

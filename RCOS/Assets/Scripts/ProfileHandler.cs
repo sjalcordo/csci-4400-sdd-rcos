@@ -131,6 +131,7 @@ namespace Gameplay
                 _creationActive = false;
                 OnProfileCompletion.Invoke();
                 Sockets.ServerUtil.manager.SendEvent("questions-finished", hashedIP);
+                Sockets.ServerUtil.manager.SendEvent("between-presentations");
             }
             else
             {

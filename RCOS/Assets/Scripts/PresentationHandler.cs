@@ -201,8 +201,8 @@ namespace Gameplay
         private void PostGraph()
         {
             if (_users.Count > 0)
-            {
-                Sockets.ServerUtil.manager.SendEvent("between-presentations");
+                {
+                    Sockets.ServerUtil.manager.SendEvent("between-presentations");
                 SetupNewPresentation();
             }
             else

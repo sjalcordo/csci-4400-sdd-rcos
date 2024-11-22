@@ -1171,7 +1171,7 @@ MonoBehaviour:
   _menuHandler: {fileID: 8414823}
   _profileHandler: {fileID: 1570320323}
   _votingHandler: {fileID: 142463183}
-  _rankHandler: {fileID: 0}
+  _rankHandler: {fileID: 1913543538}
   _sideSection: {fileID: 328072355}
   _questionSection: {fileID: 1372449108}
   _prePresentPFP: {fileID: 122909998}
