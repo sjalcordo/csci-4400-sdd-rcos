@@ -51,6 +51,9 @@ namespace Gameplay
         [SerializeField] private List<Prompt> _prompts = new List<Prompt>();
         [SerializeField] private List<string> _answers = new List<string>();
 
+        private List<Prompt> _initialPrompts = new List<Prompt>();
+        private List<string> _initialAnswers = new List<string>();
+
         private Dictionary<string, string> _currentPrompts = new Dictionary<string, string>();
         private Dictionary<string, List<Prompt>> _availablePrompts = new Dictionary<string, List<Prompt>>();
         public Dictionary<string, string> currentPrompts => _currentPrompts;
@@ -65,6 +68,24 @@ namespace Gameplay
 
             ParsePrompts();
 
+        }
+
+        public void AddCustomPrompts(List<Prompt> additionalPrompts)
+        {
+            _prompts = new List<Prompt>(_initialPrompts);
+            foreach (Prompt prompt in additionalPrompts)
+            {
+                _prompts.Add(prompt);
+            }
+        }
+
+        public void AddCustomAnswers(List<string> additionalAnswers)
+        {
+            _answers = new List<string>(_initialAnswers);
+            foreach(string answer in additionalAnswers)
+            {
+                _answers.Add(answer);
+            }
         }
 
         public void PopulateAnswerPool()
@@ -201,6 +222,8 @@ namespace Gameplay
             {
                 _answers.Add(line["answers"].ToString());
             }
+            _initialPrompts = new List<Prompt>(_prompts);
+            _initialAnswers = new List<string>(_answers);
         }
     }
 }
