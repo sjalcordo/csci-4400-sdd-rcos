@@ -1,5 +1,10 @@
 #container {
-    padding-top: 80px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
     text-align: center;
 }
 
@@ -29,4 +34,17 @@
 
 .code:focus {
     background-color: #ffb9c1;
+}
+
+@media (max-width: 425px) or (max-height: 425px) {
+    #codeGroup {
+        gap: 4px;
+    }
+    .code {
+        font-size: 32px;
+        height: 68px;
+        width: 48px;
+        border-width: 2px;
+        border-radius: 18px;
+    }
 }

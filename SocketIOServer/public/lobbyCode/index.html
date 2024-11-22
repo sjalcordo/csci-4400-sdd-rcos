@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>RC:OS</title>
+    <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" type="text/css" href="../shared.css">
     <link rel="stylesheet" type="text/css" href="./index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,24 +13,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 </head>
 <body>
-<div id="container">
-    <h1>Game Code</h1>
-    <h3>Please enter your game code</h3>
-    <div>
-        <form id="codeForm">
-            <div id="codeGroup">
-                <input type="text" maxlength="1" class="code">
-                <input type="text" maxlength="1" class="code">
-                <input type="text" maxlength="1" class="code">
-                <input type="text" maxlength="1" class="code">
-                <input type="text" maxlength="1" class="code">
+    <div id="container">
+        <div>
+            <h1>Game Code</h1>
+            <h3>Please enter your game code</h3>
+            <div>
+                <form id="codeForm">
+                    <div id="codeGroup">
+                        <input type="text" maxlength="1" class="code">
+                        <input type="text" maxlength="1" class="code">
+                        <input type="text" maxlength="1" class="code">
+                        <input type="text" maxlength="1" class="code">
+                        <input type="text" maxlength="1" class="code">
+                    </div>
+                    <br>
+                    <button type="submit">Submit</button>
+                </form>
             </div>
-            <br>
-            <button type="submit">Submit</button>
-        </form>
+        </div>
     </div>
-</div>
-<script src="/socket.io/socket.io.js"></script>
-<script src="./index.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./index.js"></script>
 </body>
 </html>

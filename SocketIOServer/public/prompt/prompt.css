@@ -17,9 +17,10 @@
     padding: 10px 0 0 20px;
 }
 
-#prompt {
-    width: 90%;
-    margin: auto;
+.prompt {
+    padding: 10px 40px;
+    text-align: center;
+    overflow-wrap: break-word;
 }
 
 #answers {
@@ -34,8 +35,8 @@
 
 .answerCard {
     width: 25%;
-    height: 150px;
-    overflow: auto;
+    height: 120px;
+    overflow-wrap: break-word;
     border: 5px solid #D6202A;
     border-radius: 36px;
     padding: 10px;
@@ -44,16 +45,11 @@
     font-size: 16px;
     font-weight: 300;
     color: #000000;
+
 }
 
 .answerCard:hover {
     transform: scale(1.1);
-}
-
-#next {
-    position: absolute;
-    bottom: 50px;
-    right: 80px;
 }
 
 .timerBar {
@@ -78,5 +74,45 @@
     }
     to {
         transform: scaleX(1);
+    }
+}
+
+@media (max-width: 425px) or (max-height: 425px) {
+    #header img {
+        height: 48px;
+    }
+    #timer {
+        font-size: 20px;
+    }
+    #answers {
+        gap: 12px;
+    }
+    .answerCard {
+        border-width: 2px;
+        border-radius: 18px;
+        font-size: 12px;
+        padding: 5px;
+    }
+}
+
+@media (max-width: 425px) {
+    #questionContainer {
+        margin-top: 40px;
+    }
+    .prompt {
+        padding: 10px 40px 30px 40px;
+    }
+    .answerCard {
+        width: 45%;
+        height: 100px;
+    }
+}
+
+@media (max-height: 425px) {
+    .answerCard {
+        height: 72px;
+    }
+    .timerBar {
+        bottom: 8px;
     }
 }

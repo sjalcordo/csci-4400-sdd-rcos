@@ -2,6 +2,19 @@
     padding-top: 80px;
     text-align: center;
 }
+h1 {
+    padding: 0 10px;
+}
+#name {
+    color: black;
+}
+#buttons {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 48px;
+    margin-top: 10px;
+}
 .votingButton {
     border: 5px solid #D6202A;
     border-radius: 36px;
@@ -9,6 +22,11 @@
 }
 .votingButton:hover {
     transform: scale(1.1);
+}
+#submit {
+    position: absolute;
+    bottom: 50px;
+    right: 80px;
 }
 #confirmation {
     position: absolute;
@@ -30,5 +48,34 @@
     }
     to {
         opacity: 0;
+    }
+}
+
+@media (max-width: 425px) or (max-height: 425px) {
+    #container {
+        padding-top: 140px;
+    }
+    #name {
+        font-size: 60px;
+    }
+    #buttons {
+        gap: 20px;
+    }
+    .votingButton {
+        border-width: 2px;
+        border-radius: 18px;
+    }
+    .votingButton img {
+        width: 72px;
+    }
+    #submit {
+        bottom: 20px;
+        right: 30px;
+    }
+}
+
+@media (max-height: 425px) {
+    #container {
+        padding-top: 40px;
     }
 }

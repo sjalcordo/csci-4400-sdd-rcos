@@ -1,0 +1,17 @@
+#container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 60px;
+    background-image: url("../Resources/confetti.png");
+}
+#container h1 {
+    padding: 0 20px;
+}
+button {
+    width: 100vw;
+}
+

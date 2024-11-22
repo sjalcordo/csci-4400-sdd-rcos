@@ -14,22 +14,40 @@ body {
     width: 100vw;
 }
 
-#logo {
+img {
     height: 200px;
+}
+
+#logo {
     margin-bottom: 40px;
 }
 
 #rightHearts {
-    height: 200px;
     position: absolute;
     right: 50px;
     top: 50px;
 }
 
 #leftHearts {
-    height: 200px;
     transform: scaleX(-1);
     position: absolute;
     left: 50px;
     bottom: 50px;
+}
+
+@media (max-width: 425px) or (max-height: 425px) {
+    img {
+        height: 100px;
+    }
+    #logo {
+        margin-bottom: 10px;
+    }
+    #rightHearts {
+        right: 5px;
+        top: 5px;
+    }
+    #leftHearts {
+        left: 5px;
+        bottom: 5px;
+    }
 }

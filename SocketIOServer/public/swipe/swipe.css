@@ -1,0 +1,25 @@
+#container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#rightHearts {
+    height: 200px;
+    transform: scaleX(-1);
+}
+
+#leftHearts {
+    height: 200px;
+}
+
+@media (max-width: 425px) or (max-height: 425px) {
+    #container h1 {
+        font-size: 32px;
+    }
+    #rightHearts, #leftHearts {
+        height: 24px;
+    }
+}
