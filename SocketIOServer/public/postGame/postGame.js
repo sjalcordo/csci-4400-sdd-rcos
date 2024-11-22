@@ -3,7 +3,7 @@ const socket = io();
 
 var rankText = document.getElementById('rank');
 
-let firstConnect = false;
+let firstConnect = true;
 
 function SetRank(rank) {
     lastDigit = rank % 10;
