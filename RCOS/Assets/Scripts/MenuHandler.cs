@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Menus
 {
@@ -44,6 +45,12 @@ namespace Menus
             {
                 menuObj.gameObject.SetActive(false);
             }
+        }
+
+        public void ReloadScene()
+        {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentSceneName);
         }
 
         public void SwitchStateDelayed(int state)
