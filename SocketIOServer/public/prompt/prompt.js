@@ -3,7 +3,7 @@ let firstConnect = true;
 // Connect to the server
 const socket = io();
 
-const timerBar = document.querySelector('.timerBar div');
+// const timerBar = document.querySelector('.timerBar div');
 
 /*
 // Set animation duration dynamically (in seconds)
@@ -11,23 +11,23 @@ const durationInSeconds = timeRemaining + 5; // there's a 5 sec lag
 timerBar.style.animationDuration = `${durationInSeconds}s`;
 */
 
-const answers = document.querySelectorAll('.answerCard');
-answers.forEach((answer, index) => {
-    answer.addEventListener('click', () => select(answer))
-})
+// const answers = document.querySelectorAll('.answerCard');
+// answers.forEach((answer, index) => {
+//     answer.addEventListener('click', () => select(answer))
+// })
 
-function select(selectedAnswer) {
-    // if the answer was already selected and was clicked again, deselect answer
-    const status = selectedAnswer.dataset.selected;
-    answers.forEach((answer, index) => {
-        answer.dataset.selected = 'false';
-        answer.style.background = 'transparent';
-    })
-    if (status == 'false') {
-        selectedAnswer.dataset.selected = 'true';
-        selectedAnswer.style.background = '#ffb9c1';
-    }
-}
+// function select(selectedAnswer) {
+//     // if the answer was already selected and was clicked again, deselect answer
+//     const status = selectedAnswer.dataset.selected;
+//     answers.forEach((answer, index) => {
+//         answer.dataset.selected = 'false';
+//         answer.style.background = 'transparent';
+//     })
+//     if (status == 'false') {
+//         selectedAnswer.dataset.selected = 'true';
+//         selectedAnswer.style.background = '#ffb9c1';
+//     }
+// }
 
 socket.on('connect', () => {
     if (!firstConnect) {
@@ -63,7 +63,7 @@ socket.on('on-send-answers', (responses) =>{
         const answerButton = document.createElement('button');
         answerButton.textContent = response;
         answerButton.className = 'answerCard';
-        answerButton.dataSelected = 'false';
+        // answerButton.dataSelected = 'false';
 
 
         // When an answer is clicked, send it to the server
@@ -73,7 +73,6 @@ socket.on('on-send-answers', (responses) =>{
 
         answersContainer.appendChild(answerButton);
     })
-
 });
 
 socket.on('on-timer-update', (time) => {
