@@ -18,6 +18,7 @@ namespace Gameplay
         [SerializeField] private int _maxAnswers = 5;
         [Space(5)]
         [SerializeField] private float _defaultTimers = 30f;
+        public float timer;
         [SerializeField] private int _tickPerUpdate = 5;
         private int _currentTick = 0;
         private float _timeForUpdate = 0f;
@@ -33,6 +34,11 @@ namespace Gameplay
         private Dictionary<string, float> _timers = new Dictionary<string, float>();
 
         private bool _creationActive = false;
+
+        private void Awake()
+        {
+            timer = _defaultTimers;
+        }
 
         private void Start()
         {
@@ -66,7 +72,7 @@ namespace Gameplay
                     _timers[hashedIP] = _timers[hashedIP] - _timeForUpdate;
                     if (_timers[hashedIP] <= 0)
                     {
-                        _timers[hashedIP] = _defaultTimers;
+                        _timers[hashedIP] = timer;
                         OnPromptResponse(hashedIP, _promptHandler.GetRandomAnswer(hashedIP));
                         Sockets.ServerUtil.manager.SendEvent("time-out", hashedIP);
                     }
@@ -85,7 +91,7 @@ namespace Gameplay
             _creationActive = true;
             foreach (string hashedIP in _lobbyHandler.hashedIPs)
             {
-                _timers[hashedIP] = _defaultTimers;
+                _timers[hashedIP] = timer;
                 _activePlayers[hashedIP] = false;
                 _playerResponses[hashedIP] = new List<Prompt>();
             }
@@ -120,7 +126,7 @@ namespace Gameplay
             {
                 _promptHandler.RemoveAnswer(hashedIP, promptResponse);
                 _promptHandler.SendNextPrompt(hashedIP);
-                _timers[hashedIP] = _defaultTimers;
+                _timers[hashedIP] = timer;
                 return;
             }
 
