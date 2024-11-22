@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>RC:OS</title>
+    <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" type="text/css" href="../shared.css">
     <link rel="stylesheet" type="text/css" href="./voting.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,8 +13,8 @@
 <div id="container">
     <div id="voteContainer">
         <h1>Cast your vote for</h1>
-        <h1 id ="name" style="color: black">User</h1>
-        <div style="display: flex; justify-content: center; flex-direction: row; gap: 50px; margin-top: 20px;">
+        <h1 id ="name">User</h1>
+        <div id="buttons">
             <button id="like" class="votingButton" data-selected="false"><img src="../Resources/heart-filled.png" alt="Heart icon." width="160px"></button>
             <button id="dislike" class="votingButton" data-selected="false"><img src="../Resources/thumbs-down.png" alt="Downwards thumb for dislike." width="160px"></button>
         </div>

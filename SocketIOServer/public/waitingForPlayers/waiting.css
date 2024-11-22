@@ -1,0 +1,22 @@
+#container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    padding: 0 10px;
+}
+
+@media (max-width: 425px) or (max-height: 425px) {
+    img {
+        width: 48px;
+        height: 48px;
+    }
+}

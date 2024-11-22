@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Profile_Creation</title>
+        <meta name="viewport" content="width=device-width" />
         <link rel="stylesheet" type="text/css" href="../shared.css">
         <link rel="stylesheet" type="text/css" href="./profile_creation.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,14 +18,13 @@
             <form id="user_profile">
                 <div id="container">
                     <div id="imageContainer">
-                        <img src="../Resources/user-icon.png" alt="An icon representing a generic user." id="image" width="400px" height="300px">
+                        <img src="../Resources/user-icon.png" alt="An icon representing a generic user." id="image">
                         <div id="buttons">
-                            <button type="button" id="libraryButton"><img src="../Resources/image-icon.png" alt="An image icon" width="68px" ></button>
+                            <button type="button" id="libraryButton"><img src="../Resources/image-icon.png" alt="An image icon"></button>
                             <form>
                                 <label for="upload" id="uploadLabel"><img src="../Resources/upload-icon.png" alt="An upload icon."></label>
                                 <input type="file" id="upload" accept="image/*" hidden>
                             </form>
-
                         </div>
 
                     </div>
@@ -36,9 +36,9 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </form>
             <button id="next">Next</button>
-        </form>
+        </div>
         <div id="modal">
             <div id="modal-content">
                 <span id="close">&times;</span>
