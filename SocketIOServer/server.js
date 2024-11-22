@@ -250,13 +250,20 @@ io.on('connection', (socket) => {
     LOBBY SCREEN
     */
 
+    socket.on('update', ()=> {
+        if (lobbyID == "" || !(lobbyID in lobbyDict)) {
+            return;
+        }
+
+        lobbyDict[lobbyID].host.emit('request-player-info', hashedIP);
+    });
+
     socket.on('on-request-player-info', (names, b64) => {
         if (lobbyID == "" || !(lobbyID in lobbyDict)) {
             return;
         }
 
         Object.entries(lobbyDict[lobbyID].players).forEach(([key, value]) => {
-            console.log(key);
             value.socket.emit("updated-players", names, b64);
         });
     });

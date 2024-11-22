@@ -53,6 +53,11 @@ namespace Menus
             SceneManager.LoadScene(currentSceneName);
         }
 
+        public void Quit()
+        {
+            Application.Quit();
+        }
+
         public void SwitchStateDelayed(int state)
         {
             StartCoroutine(DelayedSwitch(state, _delayedTime));
