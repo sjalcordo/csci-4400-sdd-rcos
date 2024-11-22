@@ -116,6 +116,15 @@ io.on('connection', (socket) => {
 
         delete lobbyDict[lobby];
     });
+
+    socket.on('remove-player', (user) => {
+        if (lobbyID == "" || !lobbyID in lobbyDict) 
+            return;
+
+        lobbyDict[lobbyID].players[user].socket.emit("on-removal");
+        delete cachedPlayers[user];
+        delete lobbyDict[lobbyID].players[user];
+    });
     
     /* 
     PROFILE CREATION 

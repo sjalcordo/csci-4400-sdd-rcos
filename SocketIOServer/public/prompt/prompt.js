@@ -49,6 +49,7 @@ socket.on('on-send-prompt',(question, num) =>{
 
     const promptElement = document.createElement('h4');
     promptElement.textContent = `${question}`;
+    promptElement.className = 'prompt';
 
     questionContainer.appendChild(questionElement);
     questionContainer.appendChild(promptElement);

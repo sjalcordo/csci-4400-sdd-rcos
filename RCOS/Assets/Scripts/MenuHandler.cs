@@ -1,3 +1,7 @@
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Handles the transition between different menu sections.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
