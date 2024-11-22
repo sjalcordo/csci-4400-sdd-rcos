@@ -1,5 +1,5 @@
 // Connect to the server
-const socket = io();
+// const socket = io(); /* DISABLED TEMPORARILY TO ALLOW COMPILATION */
 const timerBar = document.querySelector('.timerBar div');
 let firstConnect = true;
 let setTime;
@@ -14,6 +14,11 @@ function resetTimer(){
     const seconds = Math.ceil(setTime % 60);
     document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
+
+// Calls reset after 3 seconds.
+setTimeout(() => {
+    resetTimer();
+}, 3000);
 
 function select(selectedAnswer) {
     // if the answer was already selected and was clicked again, deselect answer
