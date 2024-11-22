@@ -34,6 +34,7 @@ namespace Gameplay {
             if (_orderedPlayers == null || _orderedPlayers.Length <= 0)
             {
                 Sockets.ServerUtil.manager.SendEvent("send-rank", hashedIP, -1);
+                return;
             }
 
             for (int i = 0; i < _orderedPlayers.Length; i++)
@@ -41,6 +42,7 @@ namespace Gameplay {
                 if (hashedIP == _orderedPlayers[i].Key)
                 {
                     Sockets.ServerUtil.manager.SendEvent("send-rank", hashedIP, i + 1);
+                    return;
                 }
             }
 

@@ -9,6 +9,7 @@ namespace Gameplay
     {
         [Header("References")]
         [SerializeField] private LobbyHandler _lobbyHandler;
+        [SerializeField] private VotingHandler _votingHandler;
         [Space(5)]
         [SerializeField] private TMP_Text _name;
         [Space(5)]
@@ -81,7 +82,7 @@ namespace Gameplay
             for (int i = 0; i < currentSums.Count; i++)
             {
                 average += currentSums[i];
-                SetupAndPlaceVoteIcon(_averageColor, i, currentSums[i] / votes.Count, currentSums.Count);
+                SetupAndPlaceVoteIcon(_averageColor, i, currentSums[i] / (votes.Count - 1), currentSums.Count);
             }
             average /= (float) currentSums.Count;
             _playerAverages[hashedIP] = average;
@@ -93,7 +94,7 @@ namespace Gameplay
             voteIconObj.transform.SetParent(_container.transform);
             VoteIcon voteIcon = voteIconObj.GetComponent<VoteIcon>();
             voteIcon.image.color = color;
-            voteIcon.rectTransform.anchoredPosition = new Vector2(column * (_container.sizeDelta.x / (columnCount - 1)), _container.sizeDelta.y / 2f + value * (_container.sizeDelta.y / 10f));
+            voteIcon.rectTransform.anchoredPosition = new Vector2(column * (_container.sizeDelta.x / (columnCount - 1)), _container.sizeDelta.y / 2f + value * (_container.sizeDelta.y / (float) (_votingHandler.max - _votingHandler.min)));
         }
     }
 }

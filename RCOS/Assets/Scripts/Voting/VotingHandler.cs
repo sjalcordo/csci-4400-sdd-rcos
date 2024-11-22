@@ -21,7 +21,9 @@ namespace Gameplay
         [Header("Parameters")]
         [SerializeField] private float _timePerUnit;
         [SerializeField] private int _max;
+        public int max => _max;
         [SerializeField] private int _min;
+        public int min => _min;
 
         // The Nested Dictionary is in the form
         // Key: Presenting User's Hashed IP

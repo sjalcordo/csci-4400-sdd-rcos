@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SocketIOClient;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Gameplay
 {
@@ -30,6 +31,7 @@ namespace Gameplay
         // Reference Prefabs for lobby handling.
         [SerializeField] private GameObject _playerIconPrefab;
         [SerializeField] private GameObject _playerContainer;
+        [SerializeField] private Button _startButton;
 
         [Space(8)]
         [SerializeField] private float _connectTime = 2f;
@@ -80,8 +82,10 @@ namespace Gameplay
                 case "request-player-info":
                     List<string> names = new List<string>();
                     List<string> b64 = new List<string>();
+
                     foreach (string hashedIP in _hashedIPs)
                     {
+                        if (!_names.ContainsKey(hashedIP)) { continue;  }
                         string[] playerArray = new string[2];
                         names.Add(_names[hashedIP]);
                         b64.Add(_b64Textures[hashedIP]);
@@ -125,6 +129,10 @@ namespace Gameplay
             _names[hashedIP] = name;
             _playerIcons[hashedIP].SetName(name);
             _progressHandler.SetProgressBarName(hashedIP, name);
+            if (_hashedIPs.Count > 1)
+            {
+                _startButton.interactable = true;
+            }
         }
 
         private void OnPlayerSetPfp(string hashedIP, string b64)
