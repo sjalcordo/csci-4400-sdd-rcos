@@ -29,7 +29,6 @@ namespace Gameplay
         //          Value:  List of Vote Counts
         private Dictionary<string, Dictionary<string, List<int>> > _voteSections = new Dictionary<string, Dictionary<string, List<int>> >();
         private Coroutine _votingTimer;
-        private string _currentPresenter;
 
         // Start is run as the script is initialized
         private void Start()
@@ -44,21 +43,21 @@ namespace Gameplay
 
             string hashedIP = response.GetValue<string>(0);
 
-            bool invalidPresenter = _currentPresenter == null || _currentPresenter == "";
-            bool invalidSection = !_voteSections.ContainsKey(_currentPresenter) || _voteSections[_currentPresenter] == null;
-            bool invalidUser = !_voteSections[_currentPresenter].ContainsKey(hashedIP) || _voteSections[_currentPresenter][hashedIP] == null;
+            bool invalidPresenter = _presentationHandler.currentPresenter == null || _presentationHandler.currentPresenter == "";
+            bool invalidSection = !_voteSections.ContainsKey(_presentationHandler.currentPresenter) || _voteSections[_presentationHandler.currentPresenter] == null;
+            bool invalidUser = !_voteSections[_presentationHandler.currentPresenter].ContainsKey(hashedIP) || _voteSections[_presentationHandler.currentPresenter][hashedIP] == null;
             if (invalidPresenter || invalidSection || invalidUser) return;
 
-            int index = _voteSections[_currentPresenter][hashedIP].Count - 1;
+            int index = _voteSections[_presentationHandler.currentPresenter][hashedIP].Count - 1;
 
             Debug.Log("Received " + name);
             switch (name)
             {
                 case "on-upvote":
-                    _voteSections[_currentPresenter][hashedIP][index] = Mathf.Clamp(_voteSections[_currentPresenter][hashedIP][index] + 1, _min, _max);
+                    _voteSections[_presentationHandler.currentPresenter][hashedIP][index] = Mathf.Clamp(_voteSections[_presentationHandler.currentPresenter][hashedIP][index] + 1, _min, _max);
                     break;
                 case "on-downvote":
-                    _voteSections[_currentPresenter][hashedIP][index] = Mathf.Clamp(_voteSections[_currentPresenter][hashedIP][index] - 1, _min, _max);
+                    _voteSections[_presentationHandler.currentPresenter][hashedIP][index] = Mathf.Clamp(_voteSections[_presentationHandler.currentPresenter][hashedIP][index] - 1, _min, _max);
                     break;
             }
         }
@@ -85,20 +84,20 @@ namespace Gameplay
 
         private IEnumerator CreateVotingUnit()
         {
-            if (_currentPresenter == null || _currentPresenter == "") 
+            if (_presentationHandler.currentPresenter == null || _presentationHandler.currentPresenter == "") 
                 yield return null;
 
-            if (!_voteSections.ContainsKey(_currentPresenter))
+            if (!_voteSections.ContainsKey(_presentationHandler.currentPresenter))
             {
-                _voteSections[_currentPresenter] = new Dictionary<string, List<int>>();
+                _voteSections[_presentationHandler.currentPresenter] = new Dictionary<string, List<int>>();
             }
 
             foreach (string hashedIP in _lobbyHandler.hashedIPs)
             {
-                if (!_voteSections[_currentPresenter].ContainsKey(hashedIP)) {
-                    _voteSections[_currentPresenter][hashedIP] = new List<int>();
+                if (!_voteSections[_presentationHandler.currentPresenter].ContainsKey(hashedIP)) {
+                    _voteSections[_presentationHandler.currentPresenter][hashedIP] = new List<int>();
                 }
-                _voteSections[_currentPresenter][hashedIP].Add(0);
+                _voteSections[_presentationHandler.currentPresenter][hashedIP].Add(0);
             }
 
             yield return new WaitForSeconds(_timePerUnit);

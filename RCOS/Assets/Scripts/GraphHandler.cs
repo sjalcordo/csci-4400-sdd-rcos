@@ -64,6 +64,11 @@ namespace Gameplay
 
             foreach(KeyValuePair<string, List<int>> pair in votes)
             {
+                if (pair.Key == hashedIP)
+                {
+                    continue;
+                }
+
                 Color playerColor = _colors[pair.Key];
                 for (int i = 0; i < pair.Value.Count; i++)
                 {

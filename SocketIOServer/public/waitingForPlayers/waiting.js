@@ -1,3 +1,6 @@
+// Connect to the server
+const socket = io();
+
 // "loading" the hearts - change the image after 0.5 seconds
 const images = document.querySelectorAll('img');
 
