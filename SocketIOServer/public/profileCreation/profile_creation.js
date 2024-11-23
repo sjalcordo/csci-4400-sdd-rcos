@@ -10,6 +10,7 @@ var image = document.getElementById('image');
 var profile = document.getElementById('user_profile');
 var profileName = document.getElementById('name');
 var nextButton = document.getElementById('next');
+var errorMessage = document.getElementById('errorMessage');
 
 // Sends the profile image to the server
 function sendImage() {
@@ -19,7 +20,7 @@ function sendImage() {
     reader.onload = function() {
         const base64 = this.result.replace(/.*base64,/, '');
         socket.emit('set-pfp', base64);
-        //socket.emit('save-pfp',base64);
+        socket.emit('save-pfp',base64);
     };
 
     reader.onerror = function() {
@@ -49,20 +50,29 @@ window.onclick = function(event) {
 
 // Changes the user's profile image
 upload.addEventListener('change', (event) => {
-    // Get the selected file
     var file = event.target.files[0];
-    
-    // Check if a file was selected and if it is an image
-    if (file && file.type.startsWith('image/')) {
-        // Create a URL for the uploaded image
-        var imageUrl = URL.createObjectURL(file);
-        
-        // Replace the current image with the uploaded image
-        image.src = imageUrl;
-        image.style.display = 'block';
-    } else {
-        alert("Please select a valid image file.");
+    const maxSize = 2 *1024 *1024; //2MB
+
+    if (file && file.size > maxSize){
+        errorMessage.textContent = "The file size exceeds 2MB. Please upload a smaller image.";
+        errorMessage.style.display = "block";
+        file.value = ''; 
+        image.src = '../Resources/user-icon.png';
+    } else{
+        errorMessage.style.display = "none";
+        // Check if a file was selected and if it is an image
+        if (file.type.startsWith('image/')) {
+            var imageUrl = URL.createObjectURL(file);
+            image.src = imageUrl;
+            image.style.display = 'block';
+        } else {
+            errorMessage.textContent ="Please select a valid image file.";
+            errorMessage.style.display = "block";
+            file.value = ''; 
+            image.src = '../Resources/user-icon.png';
+        }
     }
+
 });
 
 // Sending Profile Creation to Server
@@ -72,22 +82,15 @@ nextButton.addEventListener('click',() =>{
         alert("You can't date without a name!");
         return;
     }
-    if (upload.files.length === 0) {
+    if (upload.files[0].value  === '') {
         alert("Please select an image file.");
         return;
     }
     
     //sends the data to the server
     socket.emit('set-name',profileName.value);
-
-    console.log(profileName.value);
     sendImage();
     
-    /*
-    //clear data
-    profileName.value = '';
-    image.src = '../Resources/user-icon.png';
-    */
 });
 
 // Listen for the 'profile-creation-successful' event from the server

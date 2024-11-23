@@ -212,6 +212,13 @@ io.on('connection', (socket) => {
         lobbyDict[lobbyID].players[hashedIP].socket.emit('on-time-out');
     });
 
+    socket.on('get-setDuration', (hashedIP, duration) =>{
+        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[hashedIP].socket == null)
+            return;
+
+        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-setDuration', duration);
+    })
+
     /* 
     VOTING
     */

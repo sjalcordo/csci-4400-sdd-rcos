@@ -84,7 +84,7 @@ socket.on('on-send-answers', (responses) =>{
 
 });
 
-socket.on('get-setDuration', (time) =>{
+socket.on('on-setDuration', (time) =>{
     setDuration = time;
 })
 
