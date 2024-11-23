@@ -52,47 +52,20 @@
     transform: scale(1.1);
 }
 
-#textboxForm {
-    display: none;
-}
-
-#textbox {
-    margin: auto;
-    display: block;
-    width: 800px;
-    height: 300px;
-    border: 5px solid #D6202A;
-    border-radius: 36px;
-    padding: 20px;
-    font-family: "Prompt", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 1.5em;
-}
-
-#buttons {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    gap: 40px;
-    margin-top: 20px;
-}
-
-.timerBar {
+#timeBarContainer {
     width: 80%;
     position: absolute;
     bottom: 30px;
     margin: 0 10%;
 }
 
-.timerBar div {
+#timeBar {
     height: 8px;
+    width: 100%;
     background: #D6202A;
     border-radius: 20px;
-    animation: timerBar linear forwards;
-    animation-Duration: 61s; 
     transform-origin: left center;
+    transition: width 0.1s linear; 
 }
 
 @keyframes timerBar {

@@ -1,24 +1,26 @@
 // Connect to the server
-// const socket = io(); /* DISABLED TEMPORARILY TO ALLOW COMPILATION */
-const timerBar = document.querySelector('.timerBar div');
+const socket = io(); 
 let firstConnect = true;
-let setTime;
+let setDuration = 3; 
+const timeBar = document.getElementById('timeBar');
 
 const answers = document.querySelectorAll('.answerCard');
 answers.forEach((answer, index) => {
     answer.addEventListener('click', () => select(answer))
 })
 
-function resetTimer(){
-    const minutes = Math.floor(setTime / 60);
-    const seconds = Math.ceil(setTime % 60);
+function resetTimer(time){
+    console.log("setDuration = " + setDuration);
+    console.log("Current Time = " + time);
+
+    const percentage = (time / setDuration) * 100;
+    timeBar.style.width = percentage + '%';
+
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.ceil(time % 60);
     document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
-// Calls reset after 3 seconds.
-setTimeout(() => {
-    resetTimer();
-}, 3000);
 
 function select(selectedAnswer) {
     // if the answer was already selected and was clicked again, deselect answer
@@ -32,6 +34,7 @@ function select(selectedAnswer) {
         selectedAnswer.style.background = '#ffb9c1';
     }
 }
+
 
 socket.on('connect', () => {
     if (!firstConnect) {
@@ -80,13 +83,17 @@ socket.on('on-send-answers', (responses) =>{
     })
 });
 
+socket.on('get-setDuration', (time) =>{
+    setDuration = time;
+})
+
 socket.on('on-timer-update', (time) => {
-    setTime = time;
-    resetTimer();
+    resetTimer(time);
 });
 
 socket.on('on-timeout', function() {
-
+    resetTimer(setDuration);
+    location.reload();
 });
 
 socket.on('end-of-question', function() {
@@ -96,9 +103,6 @@ socket.on('end-of-question', function() {
 socket.on('on-move-to-waiting', function() {
     window.location.href = "/waitingForPlayers/waiting.html";
 });
-
-
-
 
 
 
