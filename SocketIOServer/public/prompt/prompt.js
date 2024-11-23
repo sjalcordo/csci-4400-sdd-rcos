@@ -35,7 +35,6 @@ function select(selectedAnswer) {
     }
 }
 
-
 socket.on('connect', () => {
     if (!firstConnect) {
         return;
@@ -70,7 +69,7 @@ socket.on('on-send-answers', (responses) =>{
         const answerButton = document.createElement('button');
         answerButton.textContent = response;
         answerButton.className = 'answerCard';
-        answerButton.dataSelected = 'false';
+        // answerButton.dataSelected = 'false';
 
 
         // When an answer is clicked, send it to the server
@@ -81,7 +80,6 @@ socket.on('on-send-answers', (responses) =>{
         
         answersContainer.appendChild(answerButton);
     })
-
 });
 
 socket.on('on-setDuration', (time) =>{
