@@ -20,7 +20,7 @@ function sendImage() {
     reader.onload = function() {
         const base64 = this.result.replace(/.*base64,/, '');
         socket.emit('set-pfp', base64);
-        socket.emit('save-pfp',base64);
+        //socket.emit('save-pfp',base64);
     };
 
     reader.onerror = function() {
