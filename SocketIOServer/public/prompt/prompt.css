@@ -51,7 +51,6 @@
 .answerCard:hover {
     transform: scale(1.1);
 }
-
 #textboxForm {
     display: none;
 }
@@ -79,20 +78,20 @@
     margin-top: 20px;
 }
 
-.timerBar {
+#timeBarContainer {
     width: 80%;
     position: absolute;
     bottom: 30px;
     margin: 0 10%;
 }
 
-.timerBar div {
+#timeBar {
     height: 8px;
+    width: 100%;
     background: #D6202A;
     border-radius: 20px;
-    animation: timerBar linear forwards;
-    animation-Duration: 61s; 
     transform-origin: left center;
+    transition: width 0.1s linear; 
 }
 
 @keyframes timerBar {

@@ -1,33 +1,39 @@
-let firstConnect = true;
-
 // Connect to the server
-const socket = io();
+const socket = io(); 
+let firstConnect = true;
+let setDuration = 3; 
+const timeBar = document.getElementById('timeBar');
 
-// const timerBar = document.querySelector('.timerBar div');
+const answers = document.querySelectorAll('.answerCard');
+answers.forEach((answer, index) => {
+    answer.addEventListener('click', () => select(answer))
+})
 
-/*
-// Set animation duration dynamically (in seconds)
-const durationInSeconds = timeRemaining + 5; // there's a 5 sec lag
-timerBar.style.animationDuration = `${durationInSeconds}s`;
-*/
+function resetTimer(time){
+    console.log("setDuration = " + setDuration);
+    console.log("Current Time = " + time);
 
-// const answers = document.querySelectorAll('.answerCard');
-// answers.forEach((answer, index) => {
-//     answer.addEventListener('click', () => select(answer))
-// })
+    const percentage = (time / setDuration) * 100;
+    timeBar.style.width = percentage + '%';
 
-// function select(selectedAnswer) {
-//     // if the answer was already selected and was clicked again, deselect answer
-//     const status = selectedAnswer.dataset.selected;
-//     answers.forEach((answer, index) => {
-//         answer.dataset.selected = 'false';
-//         answer.style.background = 'transparent';
-//     })
-//     if (status == 'false') {
-//         selectedAnswer.dataset.selected = 'true';
-//         selectedAnswer.style.background = '#ffb9c1';
-//     }
-// }
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.ceil(time % 60);
+    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}
+
+
+function select(selectedAnswer) {
+    // if the answer was already selected and was clicked again, deselect answer
+    const status = selectedAnswer.dataset.selected;
+    answers.forEach((answer, index) => {
+        answer.dataset.selected = 'false';
+        answer.style.background = 'transparent';
+    })
+    if (status == 'false') {
+        selectedAnswer.dataset.selected = 'true';
+        selectedAnswer.style.background = '#ffb9c1';
+    }
+}
 
 socket.on('connect', () => {
     if (!firstConnect) {
@@ -69,20 +75,24 @@ socket.on('on-send-answers', (responses) =>{
         // When an answer is clicked, send it to the server
         answerButton.addEventListener('click', () => {
             socket.emit('prompt-response', response);
+            resetTimer();
         });
-
+        
         answersContainer.appendChild(answerButton);
     })
 });
 
+socket.on('on-setDuration', (time) =>{
+    setDuration = time;
+})
+
 socket.on('on-timer-update', (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.ceil(time % 60);
-    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    resetTimer(time);
 });
 
 socket.on('on-timeout', function() {
-
+    resetTimer(setDuration);
+    location.reload();
 });
 
 socket.on('end-of-question', function() {
@@ -92,9 +102,6 @@ socket.on('end-of-question', function() {
 socket.on('on-move-to-waiting', function() {
     window.location.href = "/waitingForPlayers/waiting.html";
 });
-
-
-
 
 
 
