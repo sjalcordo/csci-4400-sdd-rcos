@@ -31,32 +31,6 @@ submitButton.addEventListener('click', function () {
     resetTimer();
 });
 
-function resetTimer(time){
-    console.log("setDuration = " + setDuration);
-    console.log("Current Time = " + time);
-
-    const percentage = (time / setDuration) * 100;
-    timeBar.style.width = percentage + '%';
-
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.ceil(time % 60);
-    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-}
-
-function select(selectedAnswer) {
-    // if the answer was already selected and was clicked again, deselect answer
-    const status = selectedAnswer.dataset.selected;
-    answers.forEach((answer, index) => {
-        answer.dataset.selected = 'false';
-        answer.style.background = 'transparent';
-    })
-    if (status == 'false') {
-        selectedAnswer.dataset.selected = 'true';
-        selectedAnswer.style.background = '#ffb9c1';
-    }
-}
-
-
 socket.on('connect', () => {
     if (!firstConnect) {
         return;
@@ -111,7 +85,6 @@ socket.on('on-send-answers', (responses) =>{
             })
             answersContainer.appendChild(blankAnswerButton);   
         }
-        
     })
 });
 
