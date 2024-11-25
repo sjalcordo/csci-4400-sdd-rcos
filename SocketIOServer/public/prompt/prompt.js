@@ -9,6 +9,7 @@ const backButton = document.getElementById('back');
 const submitButton = document.getElementById('submit');
 const answers = document.querySelectorAll('.answerCard');
 const inputAnswer = document.getElementById('textbox');
+const profilePic = document.getElementById('profilePic');
 
 answers.forEach((answer, index) => {
     answer.addEventListener('click', () => select(answer))
@@ -39,8 +40,12 @@ socket.on('connect', () => {
     firstConnect = false;
     socket.emit('request-prompt');
     socket.emit('request-answers');
+    socket.emit('request-playerImage');
 });
 
+socket.on('playerImage', (playerImage) => {
+    profilePic.src = `data:image/png;base64,${playerImage}`;
+})
 
 socket.on('on-send-prompt',(question, num) =>{
     const questionContainer = document.getElementById('questionContainer');
