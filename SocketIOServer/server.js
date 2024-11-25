@@ -128,6 +128,7 @@ io.on('connection', (socket) => {
 
         lobbyDict[lobbyID].players[hashedIP].name = name;
         lobbyDict[lobbyID].host.emit("on-set-name", hashedIP, name);
+        socket.emit('set-pfp-successful',"Image has been successfully saved into server");
     });
 
     // Receives an image in base64 format and sends that string to the hosting client.
@@ -136,8 +137,27 @@ io.on('connection', (socket) => {
             return;
 
         lobbyDict[lobbyID].host.emit('on-set-pfp', hashedIP, base64);
-        socket.emit('set-pfp-successful',"Image has been successfully saved into server");
     });
+
+    socket.on('set-default', (colorFile) => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
+            return;
+        var base64 = convertDefaultImage(colorFile);
+        lobbyDict[lobbyID].host.emit('on-set-pfp', hashedIP, base64);
+    });
+
+    function convertDefaultImage(colorFile){
+        var colorPath = "./public/Resources/" + colorFile
+
+        fs.readFile(colorPath, (err, data) => {
+            if (err) {
+                console.error('Error reading file:', err);
+                return;
+            }
+            const base64 = data.toString('base64');
+            return base64
+        });
+    }
 
     /*
     PROMPTS
