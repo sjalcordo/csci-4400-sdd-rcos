@@ -11,10 +11,18 @@ var profile = document.getElementById('user_profile');
 var profileName = document.getElementById('name');
 var nextButton = document.getElementById('next');
 var errorMessage = document.getElementById('errorMessage');
+var yellow_player = document.getElementById('yellow_player');
+var orange_player = document.getElementById('orange_player');
+var pink_player = document.getElementById('pink_player');
+var blue_player = document.getElementById('blue_player');
+
+var selected_image = false;
+var color = "none";
 
 // Sends the profile image to the server
 function sendImage() {
     const file = upload.files[0];
+    console.log(file);
     const reader = new FileReader();
 
     reader.onload = function() {
@@ -48,6 +56,34 @@ window.onclick = function(event) {
     }
 }
 
+yellow_player.addEventListener('click', function () {
+    image.src = '../Resources/yellow_player.png';
+    modal.style.display = "none";
+    selected_image = false;
+    colorFile = 'yellow_player.png';
+})
+
+orange_player.addEventListener('click', function () {
+    image.src = '../Resources/orange_player.png';
+    modal.style.display = "none";
+    selected_image = false;
+    colorFile = 'orange_player.png';
+})
+
+pink_player.addEventListener('click', function () {
+    image.src = '../Resources/pink_player.png';
+    modal.style.display = "none";
+    selected_image = false;
+    colorFile = 'pink_player.png';
+})
+
+blue_player.addEventListener('click', function () {
+    image.src = '../Resources/blue_player.png';
+    modal.style.display = "none";
+    selected_image = false;
+    colorFile = 'blue_player.png';
+})
+
 // Changes the user's profile image
 upload.addEventListener('change', (event) => {
     var file = event.target.files[0];
@@ -65,12 +101,13 @@ upload.addEventListener('change', (event) => {
             var imageUrl = URL.createObjectURL(file);
             image.src = imageUrl;
             image.style.display = 'block';
+            selected_image = true;
         } else {
             errorMessage.textContent ="Please select a valid image file.";
             errorMessage.style.display = "block";
             file.value = ''; 
             image.src = '../Resources/user-icon.png';
-        }
+            color = "none";        }
     }
 
 });
@@ -79,18 +116,35 @@ upload.addEventListener('change', (event) => {
 nextButton.addEventListener('click',() =>{
     //checks if both text input and image are provided
     if (!profileName.value) {
-        alert("You can't date without a name!");
+        errorMessage.textContent = "You can't date without a name!";
+        errorMessage.style.display = "block";
         return;
+    } else {
+        errorMessage.style.display = "none";
     }
-    if (upload.files[0].value  === '') {
-        alert("Please select an image file.");
-        return;
+
+    if (selected_image){
+        if (upload.files[0].value  === '' ) {
+            errorMessage.textContent = "Please select an image file.";
+            errorMessage.style.display = "block";
+            return;
+        } else {
+            errorMessage.style.display = "none";
+            sendImage();
+        }
+    } else{
+        if (colorFile == "none"){
+            errorMessage.textContent = "Please select an image file.";
+            errorMessage.style.display = "block";
+            return;
+        } else{
+            errorMessage.style.display = "none";
+            socket.emit('set-default', colorFile);
+        }
     }
     
     //sends the data to the server
-    socket.emit('set-name',profileName.value);
-    sendImage();
-    
+    socket.emit('set-name', profileName.value);
 });
 
 // Listen for the 'profile-creation-successful' event from the server
