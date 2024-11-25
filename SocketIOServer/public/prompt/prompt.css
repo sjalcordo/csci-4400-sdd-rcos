@@ -51,6 +51,24 @@
 .answerCard:hover {
     transform: scale(1.1);
 }
+
+#timeBarContainer {
+    width: 80%;
+    position: absolute;
+    bottom: 30px;
+    margin: 0 10%;
+}
+
+#timeBar {
+    height: 8px;
+    width: 100%;
+    background: #D6202A;
+    border-radius: 20px;
+    transform-origin: left center;
+    transition: width 0.1s linear; 
+}
+
+
 #textboxForm {
     display: none;
 }
@@ -76,22 +94,6 @@
     flex-direction: row;
     gap: 40px;
     margin-top: 20px;
-}
-
-#timeBarContainer {
-    width: 80%;
-    position: absolute;
-    bottom: 30px;
-    margin: 0 10%;
-}
-
-#timeBar {
-    height: 8px;
-    width: 100%;
-    background: #D6202A;
-    border-radius: 20px;
-    transform-origin: left center;
-    transition: width 0.1s linear; 
 }
 
 @keyframes timerBar {

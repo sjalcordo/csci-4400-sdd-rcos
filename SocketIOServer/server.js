@@ -193,6 +193,11 @@ io.on('connection', (socket) => {
         console.log("User press: " + response);
     });
 
+    // Unsure if you want a different signal for blankprompt response
+    socket.on('blankprompt-response', (response) => {
+        console.log("User input: " + response);
+    })
+
     socket.on('send-answer', function(){
         console.log("Sending over answers");
         socket.emit('answers-return', answers);
@@ -431,6 +436,6 @@ function GenerateLobbyName(lobbyDictionary) {
 }
 
 // Open server to the 3000 port.
-server.listen(3000, () => {
+server.listen(2800, () => {
     console.log('RC:OS Server listening on *:3000');
 });
