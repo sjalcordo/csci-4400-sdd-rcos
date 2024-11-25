@@ -17,12 +17,19 @@
         </div>
         <div id="questionContainer"></div>
         <div id="answers"></div>
+        <form id="textboxForm">
+            <textarea id="textbox" placeholder="Type your answer here!"></textarea>
+            <div id="buttons">
+                <button id="back" type="button">Go Back</button>
+                <button id="submit" type="button">Submit</button>
+            </div>
+        </form>
         <div id="timeBarContainer">
             <div id="timeBar"></div>
         </div>
     </div>
-    
-    <script src="prompt.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./prompt.js"></script>
     
 </body>
 </html>

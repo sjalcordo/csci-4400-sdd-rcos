@@ -1,13 +1,35 @@
 // Connect to the server
 const socket = io(); 
 let firstConnect = true;
-let setDuration = 3; 
+let setDuration = 20; 
 const timeBar = document.getElementById('timeBar');
-
+const inputContainer = document.getElementById('textboxForm');
+const answersContainer = document.getElementById('answers');
+const backButton = document.getElementById('back');
+const submitButton = document.getElementById('submit');
 const answers = document.querySelectorAll('.answerCard');
+const inputAnswer = document.getElementById('textbox');
+
 answers.forEach((answer, index) => {
     answer.addEventListener('click', () => select(answer))
 })
+
+backButton.addEventListener('click', function () {
+    console.log("back pressed")
+    answersContainer.style.display = "block";
+    inputContainer.style.display = "none";
+});
+
+submitButton.addEventListener('click', function () {
+    console.log(inputAnswer.value);
+    if (inputAnswer.value === ''){
+        alert('Please enter a message!');
+        return;
+    }
+    console.log("submited")
+    socket.emit('blankprompt-response', inputAnswer.value)
+    resetTimer();
+});
 
 function resetTimer(time){
     console.log("setDuration = " + setDuration);
@@ -20,7 +42,6 @@ function resetTimer(time){
     const seconds = Math.ceil(time % 60);
     document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
-
 
 function select(selectedAnswer) {
     // if the answer was already selected and was clicked again, deselect answer
@@ -67,19 +88,30 @@ socket.on('on-send-answers', (responses) =>{
     answersContainer.innerHTML = '';
 
     responses.forEach((response) => {
-        const answerButton = document.createElement('button');
-        answerButton.textContent = response;
-        answerButton.className = 'answerCard';
-        // answerButton.dataSelected = 'false';
-
+        if (response != ""){
+            const answerButton = document.createElement('button');
+            answerButton.textContent = response;
+            answerButton.className = 'answerCard';
 
         // When an answer is clicked, send it to the server
-        answerButton.addEventListener('click', () => {
-            socket.emit('prompt-response', response);
-            resetTimer();
-        });
+            answerButton.addEventListener('click', () => {
+                socket.emit('prompt-response', response);
+                console.log("here?");
+                resetTimer();
+            });
+            answersContainer.appendChild(answerButton);   
+        } else {
+            const blankAnswerButton = document.createElement('button');
+            blankAnswerButton.textContent = "Type in an Answer!"
+            blankAnswerButton.className = 'answerCard';
+
+            blankAnswerButton.addEventListener('click', () => {
+                answersContainer.style.display = "none";
+                inputContainer.style.display = "block";
+            })
+            answersContainer.appendChild(blankAnswerButton);   
+        }
         
-        answersContainer.appendChild(answerButton);
     })
 });
 
@@ -104,5 +136,42 @@ socket.on('on-move-to-waiting', function() {
     window.location.href = "/waitingForPlayers/waiting.html";
 });
 
+//DEBUGGING
+function createAnswers(){
+    answersContainer.innerHTML = '';
 
+    responses = ["Love it! Sweet and salty, just like me!",
+                "Only if I’m trying to impress my taste buds.",
+                "It’s an unforgivable sin, honestly.",
+                "If you like it, we are not compatible.", ""] 
+
+    responses.forEach((response) => {
+        if (response != ""){
+            const answerButton = document.createElement('button');
+            answerButton.textContent = response;
+            answerButton.className = 'answerCard';
+
+        // When an answer is clicked, send it to the server
+            answerButton.addEventListener('click', () => {
+                socket.emit('prompt-response', response);
+                console.log("here?");
+                resetTimer();
+            });
+            answersContainer.appendChild(answerButton);   
+        } else {
+            const blankAnswerButton = document.createElement('button');
+            blankAnswerButton.textContent = "Type in an Answer!"
+            blankAnswerButton.className = 'answerCard';
+
+            blankAnswerButton.addEventListener('click', () => {
+                answersContainer.style.display = "none";
+                inputContainer.style.display = "block";
+            })
+            answersContainer.appendChild(blankAnswerButton);   
+        }
+        
+    })
+}
+
+//createAnswers();
 
