@@ -224,6 +224,11 @@ io.on('connection', (socket) => {
         lobbyDict[lobbyID].players[hashedIP].socket.emit('on-setDuration', duration);
     })
 
+    socket.on('request-playerImage',() => {
+        //return the base64 of players image
+        socket.emit('playerImage', profileImage);
+    })
+
     /* 
     VOTING
     */
