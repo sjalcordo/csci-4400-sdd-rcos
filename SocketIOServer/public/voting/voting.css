@@ -51,7 +51,7 @@ h1 {
     }
 }
 
-@media (max-width: 425px) or (max-height: 425px) {
+@media (max-width: 500px) or (max-height: 500px) {
     #container {
         padding-top: 140px;
     }
@@ -74,7 +74,7 @@ h1 {
     }
 }
 
-@media (max-height: 425px) {
+@media (max-height: 500px) {
     #container {
         padding-top: 40px;
     }

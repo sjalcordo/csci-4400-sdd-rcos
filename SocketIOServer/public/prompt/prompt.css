@@ -105,7 +105,7 @@
     }
 }
 
-@media (max-width: 425px) or (max-height: 425px) {
+@media (max-width: 500px) or (max-height: 500px) {
     #header img {
         height: 48px;
     }
@@ -123,7 +123,7 @@
     }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 500px) {
     #questionContainer {
         margin-top: 40px;
     }
@@ -136,7 +136,7 @@
     }
 }
 
-@media (max-height: 425px) {
+@media (max-height: 500px) {
     .answerCard {
         height: 72px;
     }
