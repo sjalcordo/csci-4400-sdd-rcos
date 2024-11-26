@@ -51,7 +51,7 @@ submitButton.addEventListener('click', function () {
         return;
     }
     console.log("submited")
-    answersContainer.style.display = "block";
+    answersContainer.style.display = "flex";
     inputContainer.style.display = "none";
     socket.emit("used-fill-in");
     socket.emit('prompt-response', inputAnswer.value);
