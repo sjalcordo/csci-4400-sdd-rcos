@@ -1,7 +1,8 @@
 // Connect to the server
 const socket = io(); 
 let firstConnect = true;
-let setDuration = 20; 
+let setDuration = 20;
+let updateTime = setDuration; 
 const timeBar = document.getElementById('timeBar');
 const inputContainer = document.getElementById('textboxForm');
 const answersContainer = document.getElementById('answers');
@@ -112,11 +113,13 @@ socket.on('on-send-answers', (responses) =>{
 
 socket.on('on-send-timer-duration', (time) =>{
     setDuration = time;
+    updateTime = setDuration; 
     console.log(setDuration);
 })
 
 socket.on('on-timer-update', (time) => {
-    resetTimer(time);
+    updateTime = updateTime - 1;
+    resetTimer(updateTime);
 });
 
 socket.on('on-timeout', function() {
