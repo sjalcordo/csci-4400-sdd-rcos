@@ -11,13 +11,29 @@
 </head>
 
 <body>
-<div id="container">
-    <h1>You're presenting!<br>Good luck on your date!</h1>
-    <button id="next">Next</button>
-</div>
+    <!--    MENU    -->
+    <button id="menu">
+        <img src="../Resources/rcos-square-red.png" alt="Square RC:OS logo.">
+    </button>
+    <div id="settings" style="display: none;">
+        <div>
+            <button id="settingsClose" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>Settings</h3>
+            <button class="option" id="newGame">Join New Game</button>
+            <button class="option" id="homeScreen">Go Back to Home</button>
+        </div>
+    </div>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="presenting.js"></script>
+    <div id="container">
+        <h1>You're presenting!<br>Good luck on your date!</h1>
+        <button id="next">Next</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="presenting.js"></script>
+    <script src="../menu.js"></script>
 
 </body>
 </html>

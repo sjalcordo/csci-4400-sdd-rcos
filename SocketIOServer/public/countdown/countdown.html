@@ -12,6 +12,21 @@
 
 
 <body>
+    <!--    MENU    -->
+    <button id="menu">
+        <img src="../Resources/rcos-square-red.png" alt="Square RC:OS logo.">
+    </button>
+    <div id="settings" style="display: none;">
+        <div>
+            <button id="settingsClose" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>Settings</h3>
+            <button class="option" id="newGame">Join New Game</button>
+            <button class="option" id="homeScreen">Go Back to Home</button>
+        </div>
+    </div>
+
     <div id="container">
         <h1 style="line-height: 0.7">3</h1>
         <img src="../Resources/heart-outline.png" alt="A red heart">
@@ -20,5 +35,6 @@
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="countdown.js"></script>
+    <script src="../menu.js"></script>
 </body>
 </html>

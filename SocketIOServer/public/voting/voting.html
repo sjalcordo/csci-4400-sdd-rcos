@@ -10,17 +10,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-<div id="container">
-    <div id="voteContainer">
-        <h1>Cast your vote for</h1>
-        <h1 id ="name">User</h1>
-        <div id="buttons">
-            <button id="like" class="votingButton" data-selected="false"><img src="../Resources/heart-filled.png" alt="Heart icon." width="160px"></button>
-            <button id="dislike" class="votingButton" data-selected="false"><img src="../Resources/thumbs-down.png" alt="Downwards thumb for dislike." width="160px"></button>
+    <!--    MENU    -->
+    <button id="menu">
+        <img src="../Resources/rcos-square-red.png" alt="Square RC:OS logo.">
+    </button>
+    <div id="settings" style="display: none;">
+        <div>
+            <button id="settingsClose" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>Settings</h3>
+            <button class="option" id="newGame">Join New Game</button>
+            <button class="option" id="homeScreen">Go Back to Home</button>
         </div>
     </div>
-</div>
-<script src="/socket.io/socket.io.js"></script>
-<script src="voting.js"></script>
+
+    <div id="container">
+        <div id="voteContainer">
+            <h1>Cast your vote for</h1>
+            <h1 id ="name">User</h1>
+            <div id="buttons">
+                <button id="like" class="votingButton" data-selected="false"><img src="../Resources/heart-filled.png" alt="Heart icon." width="160px"></button>
+                <button id="dislike" class="votingButton" data-selected="false"><img src="../Resources/thumbs-down.png" alt="Downwards thumb for dislike." width="160px"></button>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="voting.js"></script>
+    <script src="../menu.js"></script>
 </body>
 </html>

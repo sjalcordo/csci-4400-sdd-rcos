@@ -1,7 +1,8 @@
 // "loading" the hearts - change the image after 0.5 seconds
 const number = document.querySelector('h1');
-const images = document.querySelectorAll('img');
 const container = document.getElementById('container');
+const images = container.querySelectorAll('img');
+
 let current = Number(number.innerHTML);
 
 function animate (count) {

@@ -13,6 +13,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!--    MENU    -->
+    <button id="menu">
+        <img src="../Resources/rcos-square-red.png" alt="Square RC:OS logo.">
+    </button>
+    <div id="settings" style="display: none;">
+        <div>
+            <button id="settingsClose" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>Settings</h3>
+            <button class="option" id="newGame">Join New Game</button>
+            <button class="option" id="homeScreen">Go Back to Home</button>
+        </div>
+    </div>
+
     <div id="container">
         <div>
             <h1>Game Code</h1>
@@ -32,7 +47,8 @@
             </div>
         </div>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="../../node_modules/socket.io/client-dist/socket.io.js"></script>
     <script src="./index.js"></script>
+    <script src="../menu.js"></script>
 </body>
 </html>

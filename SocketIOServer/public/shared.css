@@ -1,3 +1,49 @@
+/* MENU */
+#menu {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+#menu img {
+    width: 50px;
+    height: 50px;
+}
+
+#settings {
+    display: none;
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFF5F5;
+    border: 5px solid #D6202A;
+    border-radius: 36px;
+    padding: 40px;
+    text-align: center;
+    z-index: 10;
+}
+
+.option {
+    margin: 0 auto; /* to make buttons be on their own line */
+}
+
+#settingsClose {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    float: right;
+    font-size: 50px;
+    line-height: 0.5em;
+}
+
+
+
+/* REST OF THE PAGE */
 body {
     width: 100vw;
     height: 100vh;
@@ -48,9 +94,11 @@ button {
     color: #D6202A;
     background-color: transparent;
     border: none;
+    padding:  0;
+    display: block;
 }
 
-button:hover {
+button:hover:enabled {
     cursor: pointer;
     transform: scale(1.2);
 }
@@ -60,7 +108,7 @@ button:hover {
         font-size: 40px;
     }
     h3 {
-        font-size: 16px;
+        font-size: 20px;
     }
     h4 {
         font-size: 14px;
@@ -68,4 +116,18 @@ button:hover {
     button {
         font-size: 1em;
     }
+
+    #menu {
+        top: 8px;
+        right: 8px;
+    }
+    #menu img {
+        width: 32px;
+        height: 32px;
+    }
+    #settings {
+        width: 150px;
+        padding: 30px;
+    }
+
 }
