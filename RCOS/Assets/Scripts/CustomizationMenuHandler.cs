@@ -1,3 +1,8 @@
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Custom helper class to go through customization menus.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -167,3 +167,7 @@ socket.on('imageBack', (imageBase64) => {
     returnedImage.src = `data:image/png;base64,${imageBase64}`;
     returnedImage.style.display = 'block';  // Display the image
 });
+
+socket.on("on-removal", () =>{
+    window.location.href = "/index.html"
+});

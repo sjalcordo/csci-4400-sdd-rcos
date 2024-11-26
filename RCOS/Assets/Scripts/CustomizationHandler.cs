@@ -1,3 +1,8 @@
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Handles the customization options, saving them, and loading them.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

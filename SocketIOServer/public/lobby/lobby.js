@@ -46,3 +46,7 @@ socket.on('updated-players', (names, b64) => {
 socket.on('on-game-start', function(){
     window.location.href = "/countdown/countdown.html";
 });
+
+socket.on("on-removal", () =>{
+    window.location.href = "/index.html"
+});

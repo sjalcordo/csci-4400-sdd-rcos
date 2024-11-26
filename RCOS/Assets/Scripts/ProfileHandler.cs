@@ -55,12 +55,14 @@ namespace Gameplay
 
             _timeForUpdate += Time.deltaTime;
 
+            // Prevents overloading the server with too many signals
             if (_currentTick < _tickPerUpdate)
             {
                 _currentTick++;
                 return;
             }
 
+            // Iterates and sends out the time to each player.
             foreach (string hashedIP in _lobbyHandler.hashedIPs)
             {
                 if (!_timers.ContainsKey(hashedIP) || !_activePlayers.ContainsKey(hashedIP) || !_activePlayers[hashedIP]) { continue; }
@@ -145,6 +147,10 @@ namespace Gameplay
             }
         }
 
+        /// <summary>
+        /// Checks if all players have completed their prompts.
+        /// </summary>
+        /// <returns></returns>
         private bool CheckCompletion()
         {
             foreach (List<Prompt> prompts in _playerResponses.Values)

@@ -6,11 +6,27 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Gameplay;
 
 public class PlayerIcon : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private TMP_Text _nameObj;
     [SerializeField] private RawImage _pfp;
+
+    // Member Variables
+    private string _hashedIP;
+    private LobbyHandler _lobbyHandler;
+
+    public void SetLobbyHandler(LobbyHandler handler)
+    {
+        _lobbyHandler = handler;
+    }
+
+    public void SetHashedIP(string hash)
+    {
+        _hashedIP = hash;
+    }
 
     public void SetName(string name)
     {
@@ -20,5 +36,11 @@ public class PlayerIcon : MonoBehaviour
     public void SetPfp(Texture pfp)
     {
         _pfp.texture = pfp;
+    }
+
+    public void RemovePlayer()
+    {
+        _lobbyHandler.RemovePlayer(_hashedIP);
+        Destroy(gameObject);
     }
 }

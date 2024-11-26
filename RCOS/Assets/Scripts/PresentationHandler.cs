@@ -1,3 +1,9 @@
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Handles the presentation gameflow and properly setting up the screen. 
+ *  Also handles progressing through each profile.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

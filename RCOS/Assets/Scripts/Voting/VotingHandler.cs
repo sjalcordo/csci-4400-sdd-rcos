@@ -21,7 +21,9 @@ namespace Gameplay
         [Header("Parameters")]
         [SerializeField] private float _timePerUnit;
         [SerializeField] private int _max;
+        public int max => _max;
         [SerializeField] private int _min;
+        public int min => _min;
 
         // The Nested Dictionary is in the form
         // Key: Presenting User's Hashed IP
@@ -36,6 +38,13 @@ namespace Gameplay
             // Adds a listener to when we receive a message from the server.
             Sockets.ServerUtil.manager.OnSocketEvent.AddListener(OnSocket);
         }
+
+        /// <summary>
+        /// Called when each event is received from the socket manager.
+        /// Includes "on-upvote" and "on-downvote".
+        /// </summary>
+        /// <param name="name">The name of the event passed.</param>
+        /// <param name="response">The data given with the response.</param>
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
@@ -50,7 +59,6 @@ namespace Gameplay
 
             int index = _voteSections[_presentationHandler.currentPresenter][hashedIP].Count - 1;
 
-            Debug.Log("Received " + name);
             switch (name)
             {
                 case "on-upvote":

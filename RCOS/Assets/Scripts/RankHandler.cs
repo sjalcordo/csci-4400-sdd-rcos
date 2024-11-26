@@ -1,3 +1,8 @@
+/*
+ *  AUTHOR: Sean (alcors@rpi.edu)
+ *  DESC: Handles the ranking of each players and starts the post game.
+ */
+
 using Menus;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +30,12 @@ namespace Gameplay {
             Sockets.ServerUtil.manager.OnSocketEvent.AddListener(OnSocket);
         }
 
+        /// <summary>
+        /// Called when each event is received from the socket manager.
+        /// Includes "on-get-rank".
+        /// </summary>
+        /// <param name="name">The name of the event passed.</param>
+        /// <param name="response">The data given with the response.</param>
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
@@ -34,6 +45,7 @@ namespace Gameplay {
             if (_orderedPlayers == null || _orderedPlayers.Length <= 0)
             {
                 Sockets.ServerUtil.manager.SendEvent("send-rank", hashedIP, -1);
+                return;
             }
 
             for (int i = 0; i < _orderedPlayers.Length; i++)
@@ -41,14 +53,16 @@ namespace Gameplay {
                 if (hashedIP == _orderedPlayers[i].Key)
                 {
                     Sockets.ServerUtil.manager.SendEvent("send-rank", hashedIP, i + 1);
+                    return;
                 }
             }
 
             Sockets.ServerUtil.manager.SendEvent("send-rank", hashedIP, -1);
         }
 
-
-
+        /// <summary>
+        /// Orders the players, sets the first player, moves to the post game menu, and sends the "start-post-game" signal to the server.
+        /// </summary>
         public void StartPostGame()
         {
             _orderedPlayers = GetOrderedPlayers(_graphHandler.playerAverages);
@@ -59,6 +73,11 @@ namespace Gameplay {
             Sockets.ServerUtil.manager.SendEvent("start-post-game");
         }
 
+        /// <summary>
+        /// Orders the players based on their average values, reverses it, and returns it as an array.
+        /// </summary>
+        /// <param name="sums"></param>
+        /// <returns></returns>
         private KeyValuePair<string, float>[] GetOrderedPlayers(Dictionary<string, float> sums)
         {
             if (sums.Count == 0)
