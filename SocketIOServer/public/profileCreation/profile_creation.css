@@ -125,6 +125,16 @@ input:focus {
     cursor: pointer;
 }
 
+#errorMessage {
+    display: block;
+    width: fit-content;
+    color: #D6202A;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 10px;
+    margin: 0 auto;
+}
+
 #continueButton {
     position: absolute;
     bottom: 20px;

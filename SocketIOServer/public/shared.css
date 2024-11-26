@@ -65,6 +65,9 @@ button:hover {
     h4 {
         font-size: 14px;
     }
+    p {
+        font-size: 12px;
+    }
     button {
         font-size: 1em;
     }

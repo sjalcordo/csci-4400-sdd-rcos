@@ -77,7 +77,9 @@ socket.on('join-lobby-success', function() {
 // Listen for the 'lobbyConnection' event from the server
 socket.on('join-lobby-fail-dne', function(){
     //When lobby doesn't exist prints that the lobby doesn't exist
-    document.getElementById('response').textContent = "Lobby does not exist.";
+    const error = document.getElementById('response');
+    error.textContent = "Lobby does not exist. Please try again.";
+    error.style.display='block';
 });
 
 
