@@ -16,16 +16,25 @@ answers.forEach((answer, index) => {
     answer.addEventListener('click', () => select(answer))
 })
 
-function resetTimer(time){
+function resetTimer(){
     console.log("setDuration = " + setDuration);
     console.log("Current Time = " + time);
+    timerInterval = setInterval(() => {
+        updateTime--;
+        
 
-    const percentage = (time / setDuration) * 100;
+        const percentage = (updateTime / setDuration) * 100;
     timeBar.style.width = percentage + '%';
 
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.ceil(time % 60);
+    const minutes = Math.floor(updateTime / 60);
+    const seconds = Math.ceil(updateTime % 60);
     document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        // End the timer when it reaches 0
+        if (updateTime <= 0) {
+            clearInterval(timerInterval);
+        }
+    }, 1000);
 }
 
 
@@ -118,12 +127,11 @@ socket.on('on-send-timer-duration', (time) =>{
 })
 
 socket.on('on-timer-update', (time) => {
-    updateTime = updateTime - 1;
-    resetTimer(updateTime);
 });
 
 socket.on('on-timeout', function() {
-    resetTimer(setDuration);
+    updateTime = setDuration;
+    resetTimer();
     location.reload();
 });
 
