@@ -28,7 +28,10 @@ submitButton.addEventListener('click', function () {
         return;
     }
     console.log("submited")
-    socket.emit('blankprompt-response', inputAnswer.value)
+    answersContainer.style.display = "block";
+    inputContainer.style.display = "none";
+    socket.emit("used-fill-in");
+    socket.emit('prompt-response', inputAnswer.value);
     resetTimer();
 });
 
@@ -40,11 +43,12 @@ socket.on('connect', () => {
     firstConnect = false;
     socket.emit('request-prompt');
     socket.emit('request-answers');
-    socket.emit('request-playerImage');
+    socket.emit('request-player-b64');
+    socket.emit('get-timer-duration');
 });
 
-socket.on('playerImage', (playerImage) => {
-    profilePic.src = `data:image/png;base64,${playerImage}`;
+socket.on('on-send-player-b64', (b64) => {
+    profilePic.src = `data:image/png;base64,${b64}`;
 })
 
 socket.on('on-send-prompt',(question, num) =>{
@@ -93,7 +97,7 @@ socket.on('on-send-answers', (responses) =>{
     })
 });
 
-socket.on('on-setDuration', (time) =>{
+socket.on('on-send-timer-duration', (time) =>{
     setDuration = time;
 })
 
