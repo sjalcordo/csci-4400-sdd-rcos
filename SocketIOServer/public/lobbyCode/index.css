@@ -42,7 +42,7 @@ button {
 }
 
 #response {
-    display: none;
+    display: block;
     width: fit-content;
     color: #D6202A;
     font-weight: 400;
