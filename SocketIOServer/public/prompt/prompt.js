@@ -31,7 +31,8 @@ function resetTimer(){
 
         // End the timer when it reaches 0
         if (updateTime <= 0) {
-            clearInterval(timerInterval);
+            updateTime = setDuration;
+            
         }
     }, 1000);
 }
@@ -73,6 +74,7 @@ socket.on('connect', () => {
 socket.on('on-send-prompt',(question, num) =>{
     const questionContainer = document.getElementById('questionContainer');
     questionContainer.innerHTML = ''; 
+    updateTime = setDuration;
 
     const questionElement = document.createElement('h1');
     questionElement.textContent = `Question ` + num;
