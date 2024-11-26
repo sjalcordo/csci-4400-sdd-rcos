@@ -1,5 +1,4 @@
 #container {
-    /*width: 100vw;*/
     height: 100vh;
     overflow: hidden;
 }
@@ -34,10 +33,6 @@
     }
 }
 
-#players:hover {
-    animation-play-state: paused;
-}
-
 .playerCard {
     display: block;
     float: left;  /* to have the player card be left aligned, set float: left; clear: right; */
@@ -51,12 +46,12 @@
 }
 
 .userImage{
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
     border-bottom: 2px solid #D6202A;
-    border-top-left-radius: 36px;
-    border-top-right-radius: 36px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
 }
 
 @media (max-width: 425px) or (max-height: 425px) {
@@ -70,8 +65,8 @@
     .userImage {
         width: 100px;
         height: 100px;
-        border-top-left-radius: 18px;
-        border-top-right-radius: 18px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
     }
 }
 
