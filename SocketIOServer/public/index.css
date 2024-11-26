@@ -6,6 +6,10 @@ body {
     flex-wrap: wrap;
 }
 
+button {
+    margin: 0 auto;
+}
+
 #container {
     display: flex;
     justify-content: space-evenly;
@@ -43,11 +47,11 @@ img {
         margin-bottom: 10px;
     }
     #rightHearts {
-        right: 5px;
-        top: 5px;
+        right: 20px;
+        top: 200px;
     }
     #leftHearts {
-        left: 5px;
-        bottom: 5px;
+        left: 20px;
+        bottom: 200px;
     }
 }

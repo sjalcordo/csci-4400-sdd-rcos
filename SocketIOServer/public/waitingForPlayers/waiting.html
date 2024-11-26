@@ -11,17 +11,33 @@
 </head>
 
 <body>
-<div id="container">
-    <div>
-        <div style="display: flex; justify-content: center;">
-            <img src="../Resources/heart-outline.png" alt="A red heart">
-            <img src="../Resources/heart-outline.png" alt="A red heart">
-            <img src="../Resources/heart-outline.png" alt="A red heart">
+<!--    MENU    -->
+    <button id="menu">
+        <img src="../Resources/rcos-square-red.png" alt="Square RC:OS logo.">
+    </button>
+    <div id="settings" style="display: none;">
+        <div>
+            <button id="settingsClose" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>Settings</h3>
+            <button class="option" id="newGame">Join New Game</button>
+            <button class="option" id="homeScreen">Go Back to Home</button>
         </div>
-        <h3>Waiting for other players...</h3>
     </div>
-</div>
-<script src="/socket.io/socket.io.js"></script>
-<script src="waiting.js"></script>
+
+    <div id="container">
+        <div>
+            <div style="display: flex; justify-content: center;">
+                <img src="../Resources/heart-outline.png" alt="A red heart">
+                <img src="../Resources/heart-outline.png" alt="A red heart">
+                <img src="../Resources/heart-outline.png" alt="A red heart">
+            </div>
+            <h3>Waiting for other players...</h3>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="waiting.js"></script>
+    <script src="../menu.js"></script>
 </body>
 </html>

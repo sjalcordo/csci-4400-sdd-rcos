@@ -20,7 +20,7 @@ input:focus {
     background-color: #ffb9c1;
 }
 
-#outerContainer {
+#container {
     display: flex;
     height: 100vh;
     justify-content: center;
@@ -29,7 +29,7 @@ input:focus {
     margin-top: -30px;
 }
 
-#container {
+#innerContainer {
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -132,7 +132,7 @@ input:focus {
 }
 
 @media (max-width: 425px) or (max-height: 425px) {
-    #container {
+    #innerContainer {
         gap: 30px;
     }
     #imageContainer {

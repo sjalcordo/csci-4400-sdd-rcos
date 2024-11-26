@@ -1,4 +1,4 @@
-const images = document.querySelectorAll('img');
+const images = document.querySelectorAll('#container img');
 
 function animate () {
 

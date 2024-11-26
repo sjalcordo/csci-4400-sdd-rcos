@@ -8,6 +8,10 @@
     text-align: center;
 }
 
+button {
+    margin: 0 auto;
+}
+
 #codeForm {
     padding-top: 10px;
 }

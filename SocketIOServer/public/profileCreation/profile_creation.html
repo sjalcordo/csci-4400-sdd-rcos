@@ -13,10 +13,25 @@
         <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
     </head>
     <body>
-        <div id="outerContainer">
+        <!--    MENU    -->
+        <button id="menu">
+            <img src="../Resources/rcos-square-red.png" alt="Square RC:OS logo.">
+        </button>
+        <div id="settings" style="display: none;">
+            <div>
+                <button id="settingsClose" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3>Settings</h3>
+                <button class="option" id="newGame">Join New Game</button>
+                <button class="option" id="homeScreen">Go Back to Home</button>
+            </div>
+        </div>
+
+        <div id="container">
             <h1 id="profile">Profile</h1>
             <form id="user_profile">
-                <div id="container">
+                <div id="innerContainer">
                     <div id="imageContainer">
                         <img src="../Resources/user-icon.png" alt="An icon representing a generic user." id="image">
                         <div id="buttons">
@@ -50,10 +65,10 @@
                 <img src="../Resources/pink_player.png" id="pink_player" style="width: 200px; height: 200px; cursor: pointer;">
             </div>
         </div>
-        
+
         <script src="/socket.io/socket.io.js"></script>
         <script type="module" src="./profile_creation.js"></script>
-       
+        <script src="../menu.js"></script>
     </body>
 
 
