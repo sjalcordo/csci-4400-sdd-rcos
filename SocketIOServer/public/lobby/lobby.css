@@ -36,7 +36,7 @@
 .playerCard {
     display: block;
     float: left;  /* to have the player card be left aligned, set float: left; clear: right; */
-    clear: left;
+    clear: right;
     border: 5px solid #D6202A;
     border-radius: 36px;
     width: fit-content;
