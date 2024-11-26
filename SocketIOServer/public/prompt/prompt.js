@@ -124,6 +124,7 @@ socket.on('on-send-timer-duration', (time) =>{
     setDuration = time;
     updateTime = setDuration; 
     console.log(setDuration);
+    resetTimer()
 })
 
 socket.on('on-timer-update', (time) => {
