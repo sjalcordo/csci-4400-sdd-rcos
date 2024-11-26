@@ -88,6 +88,7 @@ socket.on('on-send-prompt',(question, num) =>{
 socket.on('on-send-answers', (responses) =>{
     const answersContainer = document.getElementById('answers');
     answersContainer.innerHTML = '';
+    updateTime = setDuration;
 
     responses.forEach((response) => {
         if (response != ""){
