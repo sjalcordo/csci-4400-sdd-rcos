@@ -22,6 +22,10 @@ socket.on('updated-players', (names, b64) => {
         
         const playerCard = document.createElement('div');
         playerCard.className = 'playerCard';
+        if (i % 2 !== 0) {
+            playerCard.style.float = 'right';
+            playerCard.style.clear = 'left';
+        }
         
         // User image
         let imageElement = document.createElement('img');
