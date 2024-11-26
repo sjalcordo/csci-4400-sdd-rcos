@@ -39,7 +39,7 @@ function resetTimer(){
 
 backButton.addEventListener('click', function () {
     console.log("back pressed")
-    answersContainer.style.display = "block";
+    answersContainer.style.display = "flex";
     inputContainer.style.display = "none";
 });
 
