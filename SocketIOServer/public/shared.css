@@ -103,7 +103,7 @@ button:hover:enabled {
     transform: scale(1.2);
 }
 
-@media (max-width: 425px) or (max-height: 425px) {
+@media (max-width: 500px) or (max-height: 500px) {
     h1 {
         font-size: 40px;
     }
