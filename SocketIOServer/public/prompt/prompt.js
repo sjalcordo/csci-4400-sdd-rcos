@@ -15,6 +15,19 @@ answers.forEach((answer, index) => {
     answer.addEventListener('click', () => select(answer))
 })
 
+function resetTimer(time){
+    console.log("setDuration = " + setDuration);
+    console.log("Current Time = " + time);
+
+    const percentage = (time / setDuration) * 100;
+    timeBar.style.width = percentage + '%';
+
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.ceil(time % 60);
+    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}
+
+
 backButton.addEventListener('click', function () {
     console.log("back pressed")
     answersContainer.style.display = "block";
