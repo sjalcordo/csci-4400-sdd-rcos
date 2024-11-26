@@ -41,6 +41,16 @@ button {
     background-color: #ffb9c1;
 }
 
+#response {
+    display: none;
+    width: fit-content;
+    color: #D6202A;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 10px;
+    margin: 0 auto;
+}
+
 @media (max-width: 425px) or (max-height: 425px) {
     #codeGroup {
         gap: 4px;
