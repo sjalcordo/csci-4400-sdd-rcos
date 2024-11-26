@@ -18,7 +18,6 @@ answers.forEach((answer, index) => {
 
 function resetTimer(){
     console.log("setDuration = " + setDuration);
-    console.log("Current Time = " + time);
     timerInterval = setInterval(() => {
         updateTime--;
         
@@ -70,9 +69,6 @@ socket.on('connect', () => {
     socket.emit('get-timer-duration');
 });
 
-socket.on('on-send-player-b64', (b64) => {
-    profilePic.src = `data:image/png;base64,${b64}`;
-})
 
 socket.on('on-send-prompt',(question, num) =>{
     const questionContainer = document.getElementById('questionContainer');
@@ -124,7 +120,6 @@ socket.on('on-send-timer-duration', (time) =>{
     setDuration = time;
     updateTime = setDuration; 
     console.log(setDuration);
-    resetTimer()
 })
 
 socket.on('on-timer-update', (time) => {
@@ -132,7 +127,6 @@ socket.on('on-timer-update', (time) => {
 
 socket.on('on-timeout', function() {
     updateTime = setDuration;
-    resetTimer();
     location.reload();
 });
 
@@ -183,3 +177,4 @@ function createAnswers(){
 
 //createAnswers();
 
+resetTimer();
