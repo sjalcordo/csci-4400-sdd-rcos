@@ -60,6 +60,7 @@ namespace Gameplay
         private Dictionary<string, List<string>> _answerPools = new Dictionary<string, List<string>>();
         private Dictionary<string, List<string>> _availableAnswers = new Dictionary<string, List<string>>();
         private Dictionary<string, List<Prompt>> _playerResponses = new Dictionary<string, List<Prompt>>();
+        private Dictionary<string, bool> _fillInAvailable = new Dictionary<string, bool>();
 
         private void Start()
         {
@@ -93,6 +94,7 @@ namespace Gameplay
             foreach (string hashedIP in _lobbyHandler.hashedIPs)
             {
                 _answerPools[hashedIP] = new List<string>();
+                _fillInAvailable[hashedIP] = true;
 
                 RefillAnswers(hashedIP);
 
@@ -125,6 +127,14 @@ namespace Gameplay
                 _answerPools[hashedIP].Add(_availableAnswers[hashedIP][index]);
                 _availableAnswers[hashedIP].RemoveAt(index);
             }
+
+            if (_fillInAvailable[hashedIP])
+            {
+                if (!_answerPools[hashedIP].Contains(""))
+                {
+                    _answerPools[hashedIP].Add("");
+                }
+            }
         }
 
         public void SetPrompt(string ID, string prompt)
@@ -135,7 +145,7 @@ namespace Gameplay
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
-            if (name != "on-request-prompt" && name != "on-request-answers") return;
+            if (name != "on-request-prompt" && name != "on-request-answers" && name != "on-used-fill-in") return;
 
             switch (name)
             {
@@ -147,6 +157,12 @@ namespace Gameplay
                 case "on-request-answers":
                     hashedIP = response.GetValue<string>(0);
                     Sockets.ServerUtil.manager.SendEvent("send-answers", hashedIP, _answerPools[hashedIP]);
+                    break;
+                case "on-used-fill-in":
+                    hashedIP = response.GetValue<string>(0);
+                    _answerPools[hashedIP].Remove("");
+                    _fillInAvailable[hashedIP] = false;
+                    RefillAnswers(hashedIP);
                     break;
             }
         }

@@ -72,7 +72,7 @@ namespace Gameplay
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
-            if (name != "verify-lobby" && name != "new-player" && name != "on-set-name" && name != "on-set-pfp" && name != "request-player-info") return;
+            if (name != "verify-lobby" && name != "new-player" && name != "on-set-name" && name != "on-set-pfp" && name != "request-player-info" && name != "on-request-player-b64") return;
 
             switch (name)
             {
@@ -90,6 +90,10 @@ namespace Gameplay
                     break;
                 case "request-player-info":
                     GetPlayerInfo();
+                    break;
+                case "on-request-player-b64":
+                    string user = response.GetValue<string>(0);
+                    Sockets.ServerUtil.manager.SendEvent("send-player-b64", user, b64Textures[user]);
                     break;
             }
         }

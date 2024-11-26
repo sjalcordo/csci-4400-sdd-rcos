@@ -102,7 +102,7 @@ namespace Gameplay
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
-            if (name != "on-prompt-response" && name != "on-request-prompt") return;
+            if (name != "on-prompt-response" && name != "on-request-prompt" && name != "on-get-timer-duration") return;
 
             switch (name)
             {
@@ -112,6 +112,9 @@ namespace Gameplay
                 case "on-request-prompt":
                     Debug.Log("connected player: " + response.GetValue<string>(0));
                     _activePlayers[response.GetValue<string>(0)] = true;
+                    break;
+                case "on-get-timer-duration":
+                    Sockets.ServerUtil.manager.SendEvent("send-timer-duration", response.GetValue<string>(0), timer);
                     break;
             }
         }

@@ -222,6 +222,13 @@ io.on('connection', (socket) => {
         console.log("User press: " + response);
     });
 
+    socket.on('used-fill-in', () => {
+        if (lobbyID == "") 
+             return;
+ 
+         lobbyDict[lobbyID].host.emit('on-used-fill-in', hashedIP); 
+     });
+
     // Unsure if you want a different signal for blankprompt response
     socket.on('blankprompt-response', (response) => {
         console.log("User input: " + response);
@@ -233,7 +240,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('timer-update', (hashedIP, time) => {
-        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[hashedIP].socket == null)
+        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[hashedIP] == null || lobbyDict[lobbyID].players[hashedIP].socket == null)
             return;
 
         lobbyDict[lobbyID].players[hashedIP].socket.emit('on-timer-update', time);
@@ -246,17 +253,33 @@ io.on('connection', (socket) => {
         lobbyDict[lobbyID].players[hashedIP].socket.emit('on-time-out');
     });
 
-    socket.on('get-setDuration', (hashedIP, duration) =>{
+    socket.on('get-timer-duration', () =>{
         if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[hashedIP].socket == null)
             return;
 
-        lobbyDict[lobbyID].players[hashedIP].socket.emit('on-setDuration', duration);
-    })
+        lobbyDict[lobbyID].host.emit('on-get-timer-duration', hashedIP);
+    });
 
-    socket.on('request-playerImage',() => {
-        //return the base64 of players image
-        socket.emit('playerImage', profileImage);
-    })
+    socket.on('send-timer-duration', (user, duration) => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !user in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[user].socket == null)
+            return;
+
+        lobbyDict[lobbyID].players[user].socket.emit('on-send-timer-duration', duration);
+    });
+
+    socket.on('request-player-b64',() => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[hashedIP].socket == null)
+            return;
+
+        lobbyDict[lobbyID].host.emit('on-request-player-b64', hashedIP);
+    });
+
+    socket.on('send-player-b64', (user, b64) => {
+        if (lobbyID == "" || !lobbyID in lobbyDict || !user in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[user].socket == null)
+            return;
+
+        lobbyDict[lobbyID].players[user].socket.emit('on-send-player-b64', b64);
+    });
 
     /* 
     VOTING
@@ -470,6 +493,6 @@ function GenerateLobbyName(lobbyDictionary) {
 }
 
 // Open server to the 3000 port.
-server.listen(2800, () => {
+server.listen(3000, () => {
     console.log('RC:OS Server listening on *:3000');
 });
