@@ -99,6 +99,7 @@ socket.on('on-send-answers', (responses) =>{
 
 socket.on('on-send-timer-duration', (time) =>{
     setDuration = time;
+    console.log(setDuration);
 })
 
 socket.on('on-timer-update', (time) => {
