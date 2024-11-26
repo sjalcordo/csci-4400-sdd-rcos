@@ -1,7 +1,8 @@
 // Connect to the server
 const socket = io(); 
 let firstConnect = true;
-let setDuration = 20; 
+let setDuration = 20;
+let updateTime = setDuration; 
 const timeBar = document.getElementById('timeBar');
 const inputContainer = document.getElementById('textboxForm');
 const answersContainer = document.getElementById('answers');
@@ -14,6 +15,19 @@ const profilePic = document.getElementById('profilePic');
 answers.forEach((answer, index) => {
     answer.addEventListener('click', () => select(answer))
 })
+
+function resetTimer(time){
+    console.log("setDuration = " + setDuration);
+    console.log("Current Time = " + time);
+
+    const percentage = (time / setDuration) * 100;
+    timeBar.style.width = percentage + '%';
+
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.ceil(time % 60);
+    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}
+
 
 backButton.addEventListener('click', function () {
     console.log("back pressed")
@@ -99,11 +113,13 @@ socket.on('on-send-answers', (responses) =>{
 
 socket.on('on-send-timer-duration', (time) =>{
     setDuration = time;
+    updateTime = setDuration; 
     console.log(setDuration);
 })
 
 socket.on('on-timer-update', (time) => {
-    resetTimer(time);
+    updateTime = updateTime - 1;
+    resetTimer(updateTime);
 });
 
 socket.on('on-timeout', function() {
