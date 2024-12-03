@@ -1,3 +1,6 @@
+// Connect to the server
+const socket = io();
+
 // inputs is equivalent to entire code, each input is one character of the code
 const inputs = document.querySelectorAll('#codeForm input');
 inputs.forEach((input, index) => {
@@ -41,35 +44,35 @@ function handleKeyDown(event, input) {
                 previousInput.value = "";
             }
         }
+    } else if (event.key === "Enter"){
+        const codeInputs = document.querySelectorAll('.code');
+        let codeValues = "";
+
+        codeInputs.forEach(input => {
+            codeValues += input.value; 
+        });
+
+        socket.emit('join-lobby', codeValues.toLowerCase());
+        codeInputs.forEach(input => input.value = '');
     }
 }
 
-// Connect to the server
-const socket = io();
-
-// Listen to form submission
+// Listen for code submission - button
 document.getElementById('codeForm').addEventListener('submit', (event) => {
      event.preventDefault(); 
 
-     // Get all input elements with class "code"
      const codeInputs = document.querySelectorAll('.code');
-     
      let codeValues = "";
 
-     // Loop through each input and get its value
      codeInputs.forEach(input => {
          codeValues += input.value; 
      });
 
-     // Send the array of code values to the server
      socket.emit('join-lobby', codeValues.toLowerCase());
-
-     // Clear the input fields after submission
      codeInputs.forEach(input => input.value = '');
  });
 
 // Listen for the 'lobbyConnection' event from the server
-
 socket.on('join-lobby-success', function() {
     window.location.href = "/profileCreation/profile_creation.html";
 });
