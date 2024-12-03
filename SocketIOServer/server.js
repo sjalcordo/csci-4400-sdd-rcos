@@ -305,7 +305,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('send-presenter-name', (user, username) => {
-        if (lobbyID == "" || !lobbyID in lobbyDict || !user in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[user].socket == null)
+        if (lobbyID == "" || !lobbyID in lobbyDict || !user in lobbyDict[lobbyID].players || lobbyDict[lobbyID].players[user] == null)
             return;
 
         lobbyDict[lobbyID].players[user].socket.emit('on-send-presenter-name', username);

@@ -153,6 +153,7 @@ namespace Gameplay
 
             _presentTextBox.text = "";
 
+
             _currentPromptIndex = 0;
             SetupAnswer(_currentPromptIndex);
             _sideSection.anchoredPosition = Vector2.right * _sideSectionOffset;
