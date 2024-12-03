@@ -1,7 +1,7 @@
 // Connect to the server
 const socket = io();
 
-let firstConnect = false;
+let firstConnect = true;
 
 var like = document.getElementById("like");
 var dislike = document.getElementById("dislike");

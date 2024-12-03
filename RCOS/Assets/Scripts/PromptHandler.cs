@@ -113,6 +113,8 @@ namespace Gameplay
             if (!_answerPools.ContainsKey(hashedIP))
                 return;
 
+            _answerPools[hashedIP].Remove("");
+
             while (_answerPools[hashedIP].Count < 5)
             {
                 // If there are no more available answers, refill the list.
