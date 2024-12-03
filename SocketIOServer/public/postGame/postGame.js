@@ -1,3 +1,18 @@
+window.onload = (event) => {
+    confetti({
+        particleCount: 150,
+        spread: 200,
+        gravity: 0.5,
+        origin: {x: 0, y: 0.8}
+    });
+    confetti({
+        particleCount: 150,
+        spread: 200,
+        gravity: 0.5,
+        origin: {x: 1, y: 0.8}
+    });
+};
+
 // Connect to the server
 const socket = io();
 
