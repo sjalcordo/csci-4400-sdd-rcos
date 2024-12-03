@@ -14,10 +14,10 @@ socket.on('connect', () => {
 // Listen for updates to the lobby list from the server
 socket.on('updated-players', (names, b64) => {
     const lobbyContainer = document.getElementById('players');
-    lobbyContainer.innerHTML = ''; // Clear existing player cards
+    lobbyContainer.innerHTML = ''; 
 
     for(var i = 0; i < names.length; i++) {
-        let name = names[i];
+        let name = names[i].toUpperCase() ;
         let base64 = b64[i];
         
         const playerCard = document.createElement('div');
@@ -37,11 +37,8 @@ socket.on('updated-players', (names, b64) => {
         let nameElement = document.createElement('h3');
         nameElement.textContent = name;
 
-        // Append elements to the player card
         playerCard.appendChild(imageElement);
         playerCard.appendChild(nameElement);
-        
-        // Append the player card to the lobby container
         lobbyContainer.appendChild(playerCard);
     }
 });
