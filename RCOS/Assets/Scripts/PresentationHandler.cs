@@ -75,7 +75,7 @@ namespace Gameplay
                     OnFinishPrompt();
                     break;
                 case "on-get-presenter-name":
-                    Sockets.ServerUtil.manager.SendEvent("send-presenter-name", _lobbyHandler.names[_currentPresenter]);
+                    Sockets.ServerUtil.manager.SendEvent("send-presenter-name", response.GetValue<string>(0), _lobbyHandler.names[_currentPresenter].ToUpper());
                     break;
             }
         }
