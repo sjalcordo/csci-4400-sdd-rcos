@@ -2,6 +2,7 @@
   "dependencies": {
     "express": "^4.21.0",
     "js-md5": "^0.8.3",
+    "nexe": "^4.0.0-rc.6",
     "socket.io": "^4.7.5"
   }
 }

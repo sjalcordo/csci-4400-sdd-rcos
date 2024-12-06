@@ -44,6 +44,7 @@ namespace Sockets
     public class ServerManager : MonoBehaviour
     {
         // Private variables exposed to the inspector.
+        [Header("Parameters")]
         [SerializeField] private string _serverURI = "http://companionship.cs.rpi.edu:3000";
         [SerializeField] private bool _useLocalHost;
         [SerializeField] private bool _joinOnStart;
@@ -94,7 +95,7 @@ namespace Sockets
             {
                 Debug.Log("disconnect: " + e);
             };
-        }
+        } // Awake
 
         private void Start()
         {
@@ -115,7 +116,6 @@ namespace Sockets
         /// <summary>
         /// Sends an event with only its name and null parameters.
         /// </summary>
-        /// <param name="eventName"></param>
         public void SendEvent(string eventName)
         {
             _socket.Emit(eventName);
@@ -124,13 +124,12 @@ namespace Sockets
         /// <summary>
         /// Seds an event with its name and an array of parameters.
         /// </summary>
-        /// <param name="eventName"></param>
-        /// <param name="data"></param>
         public void SendEvent(string eventName, params object[] data)
         {
             _socket.Emit(eventName, data);
         }
 
+        // This is a Unity Message called when the object or script is destroyed.
         private void OnDestroy()
         {
             OnDisconnect.Invoke();
