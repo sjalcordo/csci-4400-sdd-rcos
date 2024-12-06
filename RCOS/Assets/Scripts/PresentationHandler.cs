@@ -80,6 +80,9 @@ namespace Gameplay
             }
         }
 
+        /// <summary>
+        /// Starts the presentation process.
+        /// </summary>
         public void StartPresentations()
         {
             // Choose User
@@ -88,6 +91,9 @@ namespace Gameplay
             SetupNewPresentation();
         }
 
+        /// <summary>
+        /// Chooses a user and goes to the next part of the game process.
+        /// </summary>
         private void SetupNewPresentation()
         {
             ChooseUser();
@@ -100,6 +106,9 @@ namespace Gameplay
             Invoke(nameof(SwitchToPresentation), _timeToPresenter + _timeToPresentation);
         }
 
+        /// <summary>
+        /// Chooses a random user from the list of presenting players.
+        /// </summary>
         private void ChooseUser()
         {
             int index = Random.Range(0, _users.Count);
@@ -110,33 +119,53 @@ namespace Gameplay
             _userIsPresenting = false;
         }
 
+        /// <summary>
+        /// Sends which user is presenting to the server.
+        /// </summary>
         private void SendUserPresenting()
         {
             Sockets.ServerUtil.manager.SendEvent("presentation-start", _currentPresenter);
         }
 
+        /// <summary>
+        /// Sends the the signal to send other players to vote.
+        /// </summary>
         private void SendUserVoting()
         {
             _votingHandler.StartVoting();
             Sockets.ServerUtil.manager.SendEvent("voting-start", _currentPresenter);
         }
 
+        /// <summary>
+        /// Switches the menu state to pre-presenting.
+        /// </summary>
         private void SwitchToPrePresent()
         {
             _menuHandler.SwitchState(EMenuState.PrePresenting);
         }
 
+        /// <summary>
+        /// Switches the menu state to the presenter.
+        /// </summary>
         private void SwitchToPresenter()
         {
             _menuHandler.SwitchState(EMenuState.Presenter);
         }
 
+
+        /// <summary>
+        /// Switches the menu state to presenting.
+        /// </summary>
         private void SwitchToPresentation()
         {
             _menuHandler.SwitchState(EMenuState.Presenting);
             _userIsPresenting = true;
         }
 
+
+        /// <summary>
+        /// Sets up the player by setting the text for the presenter, the profile picture, and sets up the first answer..
+        /// </summary>
         private void SetupPlayer(string hashedIP)
         {
             if (!_lobbyHandler.names.ContainsKey(hashedIP) || !_lobbyHandler.b64Textures.ContainsKey(hashedIP))
@@ -160,6 +189,10 @@ namespace Gameplay
             _questionSection.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// Sets up the currently active answer for the profile.
+        /// </summary>
+        /// <param name="index"></param>
         private void SetupAnswer(int index)
         {
             if (!_profileHandler.playerResponses.ContainsKey(_currentPresenter)) {
@@ -177,6 +210,10 @@ namespace Gameplay
             _advanceTimer = StartCoroutine(AutoFinishPrompt(_timeBeforeAutoProgress));
         }
 
+        /// <summary>
+        /// Adds a prompt to the profile text box.
+        /// </summary>
+        /// <param name="prompt"></param>
         private void AddPromptToProfile(Prompt prompt)
         {
             string text = "";
@@ -185,6 +222,9 @@ namespace Gameplay
             _presentTextBox.text += text;
         }
 
+        /// <summary>
+        /// Finishes answer for the player and shows the graph.
+        /// </summary>
         private void FinishAnswering()
         {
             _sideSection.anchoredPosition = Vector2.zero;
@@ -193,6 +233,9 @@ namespace Gameplay
             Invoke(nameof(ShowGraph), 5f);
         }
 
+        /// <summary>
+        /// Shows the graph for the presentation and sends players to waiting.
+        /// </summary>
         private void ShowGraph()
         {
             _menuHandler.SwitchState(EMenuState.Graph);
@@ -205,6 +248,9 @@ namespace Gameplay
             Invoke(nameof(PostGraph), 10f);
         }
 
+        /// <summary>
+        /// After the graph, send the players to sit between presentations.
+        /// </summary>
         private void PostGraph()
         {
             if (_users.Count > 0)
@@ -218,6 +264,9 @@ namespace Gameplay
             }
         }
 
+        /// <summary>
+        /// Used to finish a prompt early for comedic timing.
+        /// </summary>
         [ContextMenu("Finish Prompt")]
         private void OnFinishPrompt()
         {
@@ -251,6 +300,11 @@ namespace Gameplay
             SetupAnswer(_currentPromptIndex);
         }
 
+        /// <summary>
+        /// Coroutine used to finish a prompt automatically if the user does not move to the next.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
         private IEnumerator AutoFinishPrompt(float time)
         {
             _canAdvancePrompt = false;

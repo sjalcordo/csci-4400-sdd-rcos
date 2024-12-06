@@ -35,6 +35,9 @@ namespace Menus
             SwitchState(ECustomizationMenuState.Answers);
         }
 
+        /// <summary>
+        /// Disables the previous states.
+        /// </summary>
         private void DisableAllStates()
         {
             foreach (CustomizationMenuObject menuObj in _menuObjs)
@@ -43,7 +46,10 @@ namespace Menus
             }
         }
         
-
+        /// <summary>
+        /// Disables the state through an integer instead of the enumerator.
+        /// </summary>
+        /// <param name="state"></param>
         public void SwitchState(int state)
         {
             SwitchState((ECustomizationMenuState)state);

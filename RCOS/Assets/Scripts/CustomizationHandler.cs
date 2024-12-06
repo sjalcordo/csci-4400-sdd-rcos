@@ -57,6 +57,9 @@ namespace Gameplay
             SendCustomProperties();
         }
 
+        /// <summary>
+        /// Sends the custom properties to the prompt handler and profile handler.
+        /// </summary>
         public void SendCustomProperties()
         {
             _promptHandler.AddCustomPrompts(_currentProperties.prompts);
@@ -64,6 +67,9 @@ namespace Gameplay
             _profileHandler.timer = _currentProperties.customTimer;
         }
 
+        /// <summary>
+        /// Adds the answer to the container so that it can be seen and removed.
+        /// </summary>
         private void AddAnswerToContainer(string answer)
         {
             GameObject fieldObj = Instantiate(_fieldPrefab);
@@ -72,6 +78,9 @@ namespace Gameplay
             fieldObj.GetComponent<CustomField>().Setup(true);
         }
 
+        /// <summary>
+        /// Adds the prompt to the container so that it can be seen and removed.
+        /// </summary>
         private void AddPromptToContainer(Prompt prompt)
         {
             GameObject fieldObj = Instantiate(_fieldPrefab);
@@ -79,6 +88,9 @@ namespace Gameplay
             fieldObj.GetComponent<CustomField>().textObj.text = prompt.prompt;
         }
 
+        /// <summary>
+        /// Adds an answer to the saved properties and the container.
+        /// </summary>
         public void SubmitAnswer()
         {
             if (_answerField.text == "") { return;  }
@@ -87,11 +99,18 @@ namespace Gameplay
             _answerField.text = "";
         }
 
+        /// <summary>
+        /// Removes an answer from the saved properties.
+        /// </summary>
+        /// <param name="answer"></param>
         public void RemoveAnswer(string answer)
         {
             _currentProperties.answers.Remove(answer);
         }
 
+        /// <summary>
+        /// Adds an answer to the saved properties and the container.
+        /// </summary>
         public void SubmitPrompt()
         {
             if (_promptField.text == "") { return; }
@@ -101,6 +120,9 @@ namespace Gameplay
             _promptField.text = "";
         }
 
+        /// <summary>
+        /// Changes the custom timer.
+        /// </summary>
         public void SubmitTimer()
         {
             if (_timerField.text == "") { return; }
@@ -108,6 +130,10 @@ namespace Gameplay
             _currentProperties.customTimer = float.Parse(_timerField.text);
         }
 
+        /// <summary>
+        /// Removes the prompt from the current properties.
+        /// </summary>
+        /// <param name="promptText"></param>
         public void RemovePrompt(string promptText)
         {
             foreach (Prompt prompt in _currentProperties.prompts)
@@ -120,6 +146,9 @@ namespace Gameplay
             }
         }
 
+        /// <summary>
+        /// Saves the answers and prompts to player prefs.
+        /// </summary>
         public void SaveAnswersAndPrompts()
         {
             PlayerPrefs.SetString(_customSaveKey, JsonUtility.ToJson(_currentProperties));

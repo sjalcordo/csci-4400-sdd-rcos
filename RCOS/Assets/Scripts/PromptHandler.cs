@@ -51,6 +51,7 @@ namespace Gameplay
         [SerializeField] private List<Prompt> _prompts = new List<Prompt>();
         [SerializeField] private List<string> _answers = new List<string>();
 
+        // Member Variables
         private List<Prompt> _initialPrompts = new List<Prompt>();
         private List<string> _initialAnswers = new List<string>();
 
@@ -71,6 +72,9 @@ namespace Gameplay
 
         }
 
+        /// <summary>
+        /// Adds the given list to the prompts to be distributed.
+        /// </summary>
         public void AddCustomPrompts(List<Prompt> additionalPrompts)
         {
             _prompts = new List<Prompt>(_initialPrompts);
@@ -80,6 +84,10 @@ namespace Gameplay
             }
         }
 
+        /// <summary>
+        /// Adds given list of answers to the answers to be distributed.
+        /// </summary>
+        /// <param name="additionalAnswers"></param>
         public void AddCustomAnswers(List<string> additionalAnswers)
         {
             _answers = new List<string>(_initialAnswers);
@@ -89,6 +97,9 @@ namespace Gameplay
             }
         }
 
+        /// <summary>
+        /// Refreshes and populates the answer pool by calling Refill on each hashedIP.
+        /// </summary>
         public void PopulateAnswerPool()
         {
             foreach (string hashedIP in _lobbyHandler.hashedIPs)
@@ -97,16 +108,12 @@ namespace Gameplay
                 _fillInAvailable[hashedIP] = true;
 
                 RefillAnswers(hashedIP);
-
-                string log = hashedIP + "'s answers:\n";
-                foreach(string answer in _answerPools[hashedIP])
-                {
-                    log += "\t" + answer + "\n";
-                }
-                Debug.Log(log);
             }
         }
 
+        /// <summary>
+        /// Refills the answers for a given hashedIP.
+        /// </summary>
         public void RefillAnswers(string hashedIP)
         {
             // If the key does not exist
@@ -139,11 +146,17 @@ namespace Gameplay
             }
         }
 
+        /// <summary>
+        /// Sets the current prompt for a given hashedIP.
+        /// </summary>
         public void SetPrompt(string ID, string prompt)
         {
             _currentPrompts[ID] = prompt;
         }
 
+        /// <summary>
+        /// Goes through each possible socket option for this script.
+        /// </summary>
         private void OnSocket(string name, SocketIOResponse response)
         {
             // Only listen for verify lobby commands
@@ -169,6 +182,9 @@ namespace Gameplay
             }
         }
 
+        /// <summary>
+        /// Starts the game by distributing the prompts.
+        /// </summary>
         public void StartPrompts()
         {
             Sockets.ServerUtil.manager.SendEvent("game-start");
@@ -185,6 +201,9 @@ namespace Gameplay
             }
         }
 
+        /// <summary>
+        /// Gets a random answer from the given pool.
+        /// </summary>
         public string GetRandomAnswer(string hashedIP)
         {
             if (!_answerPools.ContainsKey(hashedIP))
@@ -195,6 +214,9 @@ namespace Gameplay
             return _answerPools[hashedIP][Random.Range(0, _answerPools[hashedIP].Count)];
         }
 
+        /// <summary>
+        /// Removes an answer from the pool associated with the given hashedIP.
+        /// </summary>
         public void RemoveAnswer(string hashedIP, string response)
         {
             if (!_answerPools.ContainsKey(hashedIP))
@@ -206,6 +228,9 @@ namespace Gameplay
             RefillAnswers(hashedIP);
         }
 
+        /// <summary>
+        /// Sends the next prompt for the hashedIP.
+        /// </summary>
         public void SendNextPrompt(string hashedIP)
         {
             RefillAnswers(hashedIP);
@@ -214,6 +239,9 @@ namespace Gameplay
             Sockets.ServerUtil.manager.SendEvent("send-prompt", hashedIP, _currentPrompts[hashedIP], _profileHandler.GetResponseCount(hashedIP) + 1);
         }
 
+        /// <summary>
+        /// Gets a random prompt from the prompt pool for the hashedIP.
+        /// </summary>
         private string GetRandomPrompt(string hashedIP)
         {
             if (!_availablePrompts.ContainsKey(hashedIP))
@@ -227,6 +255,9 @@ namespace Gameplay
             return prompt;
         }
 
+        /// <summary>
+        /// Goes through the prompts and answers in the CSV file.
+        /// </summary>
         private void ParsePrompts()
         {
             List<Dictionary<string, object>> sheetLines = Helpers.CSVReader.Read(_promptFilename);
