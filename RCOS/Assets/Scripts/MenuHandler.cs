@@ -32,6 +32,7 @@ namespace Menus
 
     public class MenuHandler : MonoBehaviour
     {
+        [Header("Parameters")]
         [SerializeField] private MenuObject _currentState;
         [SerializeField] private MenuObject[] _menuObjs;
         [Space(5)]
@@ -43,6 +44,9 @@ namespace Menus
             SwitchState(EMenuState.MainMenu);
         }
 
+        /// <summary>
+        /// Disables all of the states before they will be set to be active.
+        /// </summary>
         private void DisableAllStates()
         {
             foreach (MenuObject menuObj in _menuObjs)
@@ -51,27 +55,45 @@ namespace Menus
             }
         }
 
+        /// <summary>
+        /// Reloads the scene.
+        /// </summary>
         public void ReloadScene()
         {
             string currentSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentSceneName);
         }
 
+        /// <summary>
+        /// Quits the game.
+        /// </summary>
         public void Quit()
         {
             Application.Quit();
         }
 
+        /// <summary>
+        /// Switches the state with a given delay as they cannot be easily passed through buttons.
+        /// </summary>
+        /// <param name="state"></param>
         public void SwitchStateDelayed(int state)
         {
             StartCoroutine(DelayedSwitch(state, _delayedTime));
         }
 
+        /// <summary>
+        /// Switches the state of the menu through an integer.
+        /// </summary>
+        /// <param name="state"></param>
         public void SwitchState(int state)
         {
             SwitchState((EMenuState)state);
         }
 
+        /// <summary>
+        /// Switches the state by disabling the previous state and enabling the next state.
+        /// </summary>
+        /// <param name="state"></param>
         public void SwitchState(EMenuState state)
         {
             // If we attempt to switch to the same state, simply return.
