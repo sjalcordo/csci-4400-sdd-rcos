@@ -1,4 +1,5 @@
-﻿/*
+﻿// DEPRECATED
+/*
  *  AUTHOR: Sean (alcors@rpi.edu)
  *  DESC: Runs an executable that holds the webserver that is used for sending files to connected
  *        webclients and the connection through Socket.IO.
@@ -11,6 +12,7 @@ namespace Webserver
 {
     public class RunServer : MonoBehaviour
     {
+        [Header("Parameters")]
         [Tooltip("The path of the server, originating at source folder.")]
         [SerializeField] private string _serverPath;
         [Tooltip("The name of the server application.")]

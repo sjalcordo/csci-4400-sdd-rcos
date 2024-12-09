@@ -1,6 +1,6 @@
 /*
  *  AUTHOR: Sean (alcors@rpi.edu)
- *  DESC: Script used to draw custom inspector GUI to include custom buttons.
+ *  DESC: Editor script used to draw custom inspector GUI to include custom buttons.
  */
 using UnityEditor;
 using UnityEngine;
