@@ -87,10 +87,10 @@ blue_player.addEventListener('click', function () {
 // Changes the user's profile image
 upload.addEventListener('change', (event) => {
     var file = event.target.files[0];
-    const maxSize = 2 *1024 *1024; //2MB
+    const maxSize = 500 *1024 *1024; //500MB
 
     if (file && file.size > maxSize){
-        errorMessage.textContent = "The file size exceeds 2MB. Please upload a smaller image.";
+        errorMessage.textContent = "The file size exceeds 500MB. Please upload a smaller image.";
         errorMessage.style.display = "block";
         file.value = ''; 
         image.src = '../Resources/user-icon.png';
