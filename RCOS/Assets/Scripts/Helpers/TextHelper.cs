@@ -10,6 +10,7 @@ namespace Helpers
 {
     public class TextHelper : MonoBehaviour
     {
+        // Member Variables
         private TMP_Text _textObj;
 
         private void Awake()
@@ -17,6 +18,9 @@ namespace Helpers
             _textObj = GetComponent<TMP_Text>();
         }
 
+        /// <summary>
+        /// Changes the text to match the given string.
+        /// </summary>
         public void ChangeText(string text)
         {
             _textObj.text = text;

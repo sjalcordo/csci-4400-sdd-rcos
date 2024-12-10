@@ -12,14 +12,18 @@ namespace Gameplay
 {
     public class ProfileHandler : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField] private LobbyHandler _lobbyHandler;
         [SerializeField] private PromptHandler _promptHandler;
         [SerializeField] private ProgressHandler _progressHandler;
+        [Header("Parameters")]
         [SerializeField] private int _maxAnswers = 5;
         [Space(5)]
         [SerializeField] private float _defaultTimers = 30f;
         public float timer;
         [SerializeField] private int _tickPerUpdate = 5;
+
+        // Member Variables
         private int _currentTick = 0;
         private float _timeForUpdate = 0f;
 
@@ -81,13 +85,19 @@ namespace Gameplay
                 }
             }
             _timeForUpdate = 0f;
-        }
+        } // Update
 
+        /// <summary>
+        /// Starts the profile creation after a delay.
+        /// </summary>
         public void StartProfileCreation()
         {
             Invoke(nameof(DelayedStartProfiles), 0.5f);
         }
 
+        /// <summary>
+        /// Used to delay start profiles, this will reset all of the timers.
+        /// </summary>
         private void DelayedStartProfiles()
         {
             _creationActive = true;
@@ -118,6 +128,10 @@ namespace Gameplay
                     break;
             }
         }
+
+        /// <summary>
+        /// On a response to the prompt, as well as continuation of the game flow.
+        /// </summary>
         private void OnPromptResponse(string hashedIP, string promptResponse)
         {
             // If there is no active prompt for the current key.
@@ -127,6 +141,7 @@ namespace Gameplay
             _playerResponses[hashedIP].Add(new Prompt(_promptHandler.currentPrompts[hashedIP], promptResponse));
             _progressHandler.UpdateProgress(hashedIP, (float) _playerResponses[hashedIP].Count / _maxAnswers);
 
+            // Check if we have already answered all of the prompts.
             if (_playerResponses[hashedIP].Count < _maxAnswers)
             {
                 _promptHandler.RemoveAnswer(hashedIP, promptResponse);
@@ -137,6 +152,7 @@ namespace Gameplay
 
             _activePlayers[hashedIP] = false;
 
+            // Checks if all players have finished their prompts.
             if(CheckCompletion())
             {
                 _creationActive = false;
@@ -148,7 +164,7 @@ namespace Gameplay
             {
                 Sockets.ServerUtil.manager.SendEvent("move-to-waiting", hashedIP);
             }
-        }
+        } // OnPromptResponse
 
         /// <summary>
         /// Checks if all players have completed their prompts.

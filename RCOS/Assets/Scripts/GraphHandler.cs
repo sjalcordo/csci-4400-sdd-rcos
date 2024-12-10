@@ -106,7 +106,7 @@ namespace Gameplay
             average /= (float) currentSums.Count;
             // Stores the average
             _playerAverages[presenterID] = average;
-        }
+        } // Graph
 
         /// <summary>
         /// Helper method used to easily place graph icons..
