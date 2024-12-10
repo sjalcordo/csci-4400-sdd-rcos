@@ -30,5 +30,5 @@ dislike.addEventListener('click',() =>{
 });
 
 socket.on('on-move-to-waiting', function() {
-    window.location.href = "/waitingForPlayers/waiting.html";
+    window.location.href = "/waitingGraph/waitingGraph.html";
 });
