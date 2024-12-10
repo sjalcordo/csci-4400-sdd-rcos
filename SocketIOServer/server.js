@@ -98,6 +98,7 @@ io.on('connection', (socket) => {
         lobbyID = GenerateLobbyName(lobbyDict);
         
         lobbyDict[lobbyID] = new Lobby(socket);
+        lobbyDict[lobbyID].players = {};
         socket.emit('verify-lobby', lobbyID);
     });
 
