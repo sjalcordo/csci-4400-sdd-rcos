@@ -143,6 +143,7 @@ io.on('connection', (socket) => {
 
     // Receives an image in base64 format and sends that string to the hosting client.
     socket.on('set-pfp', (base64) => {
+        console.log("Lobby ID: " + lobbyID);
         if (lobbyID == "" || !lobbyID in lobbyDict || !hashedIP in lobbyDict[lobbyID].players)
             return;
 
