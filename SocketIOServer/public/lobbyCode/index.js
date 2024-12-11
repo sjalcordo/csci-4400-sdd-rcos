@@ -96,7 +96,7 @@ document.getElementById('codeForm').addEventListener('submit', (event) =>
 // Listen for the 'lobbyConnection' event from the server
 socket.on('join-lobby-success', function()
 {
-    window.location.href = "/profileCreation/profile_creation.html";
+    window.location.href = "/profileCreation/profileCreation.html";
 });
 
 // Listen for the 'lobbyConnection' event from the server
