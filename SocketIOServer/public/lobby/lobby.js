@@ -1,9 +1,14 @@
+// AUTHORS: Nneoma (anaemn@rpi.edu) and Sean (alcors@rpi.edu)
+// DESC: Updates Lobby page with players that joined the game and remove those kicked by the host
+
 // Connect to the server
 const socket = io();
 let firstConnect = true;
 
-socket.on('connect', () => {
-    if (!firstConnect) {
+socket.on('connect', () =>
+{
+    if (!firstConnect)
+    {
         return;
     }
 
@@ -12,17 +17,20 @@ socket.on('connect', () => {
 });
 
 // Listen for updates to the lobby list from the server
-socket.on('updated-players', (names, b64) => {
+socket.on('updated-players', (names, b64) =>
+{
     const lobbyContainer = document.getElementById('players');
     lobbyContainer.innerHTML = ''; 
 
-    for(var i = 0; i < names.length; i++) {
+    for(var i = 0; i < names.length; i++)
+    {
         let name = names[i].toUpperCase() ;
         let base64 = b64[i];
         
         const playerCard = document.createElement('div');
         playerCard.className = 'playerCard';
-        if (i % 2 !== 0) {
+        if (i % 2 !== 0)
+        {
             playerCard.style.float = 'right';
             playerCard.style.clear = 'left';
         }
@@ -43,10 +51,12 @@ socket.on('updated-players', (names, b64) => {
     }
 });
 
-socket.on('on-game-start', function(){
+socket.on('on-game-start', function()
+{
     window.location.href = "/countdown/countdown.html";
 });
 
-socket.on("on-removal", () =>{
+socket.on("on-removal", () =>
+{
     window.location.href = "/index.html"
 });

@@ -1,34 +1,52 @@
-#container {
+/* AUTHOR: Amanda (ruana2@rpi.edu) */
+/* DESC: Styling for the Voting page. */
+
+#container
+{
     padding-top: 80px;
     text-align: center;
 }
-h1 {
+
+h1
+{
     padding: 0 10px;
 }
-#name {
+
+#name
+{
     color: black;
 }
-#buttons {
+
+#buttons
+{
     display: flex;
     justify-content: center;
     flex-direction: row;
     gap: 48px;
     margin-top: 10px;
 }
-.votingButton {
+
+.votingButton
+{
     border: 5px solid #D6202A;
     border-radius: 36px;
     padding: 20px;
 }
-.votingButton:hover:enabled {
+
+.votingButton:hover:enabled
+{
     transform: scale(1.1);
 }
-#submit {
+
+#submit
+{
     position: absolute;
     bottom: 50px;
     right: 80px;
 }
-#confirmation {
+
+#confirmation
+{
     position: absolute;
     bottom: 50px;
     left: 50%;
@@ -36,46 +54,68 @@ h1 {
     animation-duration: 3s;
     animation-fill-mode: forwards;
 }
-.hidden {
+
+.hidden
+{
     display:none;
 }
-.fadeOut {
+
+.fadeOut
+{
     animation-name: fadeOut;
 }
-@keyframes fadeOut {
-    from {
+
+@keyframes fadeOut
+{
+    from
+    {
         opacity: 1;
     }
-    to {
+    to
+    {
         opacity: 0;
     }
 }
 
-@media (max-width: 500px) or (max-height: 500px) {
-    #container {
+@media (max-width: 500px) or (max-height: 500px)
+{
+    #container
+    {
         padding-top: 140px;
     }
-    #name {
+
+    #name
+    {
         font-size: 60px;
     }
-    #buttons {
+
+    #buttons
+    {
         gap: 20px;
     }
-    .votingButton {
+
+    .votingButton
+    {
         border-width: 2px;
         border-radius: 18px;
     }
-    .votingButton img {
+
+    .votingButton img
+    {
         width: 72px;
     }
-    #submit {
+
+    #submit
+    {
         bottom: 20px;
         right: 30px;
     }
 }
 
-@media (max-height: 500px) {
-    #container {
+@media (max-height: 500px)
+{
+    #container
+    {
         padding-top: 40px;
     }
 }

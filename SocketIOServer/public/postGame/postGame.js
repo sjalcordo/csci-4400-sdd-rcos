@@ -1,11 +1,20 @@
-window.onload = (event) => {
-    confetti({
+// AUTHORS: Amanda (ruana2@rpi.edu) and Sean (alcors@rpi.edu)
+// DESC: Implement the confetti animation for the post game page,
+//       as well as retrieve the user ranking.
+
+
+// Confetti animation
+window.onload = (event) =>
+{
+    confetti(
+        {
         particleCount: 150,
         spread: 200,
         gravity: 0.5,
         origin: {x: 0, y: 0.8}
     });
-    confetti({
+    confetti(
+        {
         particleCount: 150,
         spread: 200,
         gravity: 0.5,
@@ -20,10 +29,12 @@ var rankText = document.getElementById('rank');
 
 let firstConnect = true;
 
-function SetRank(rank) {
+function SetRank(rank)
+{
     lastDigit = rank % 10;
     suffix = "th";
-    switch (lastDigit) {
+    switch (lastDigit)
+    {
         case 1:
             suffix = "st";
             break;
@@ -37,8 +48,10 @@ function SetRank(rank) {
     rankText.textContent = "You won " + rank + suffix + " place!";
 }
 
-socket.on('connect', () => {
-    if (!firstConnect) {
+socket.on('connect', () =>
+{
+    if (!firstConnect)
+    {
         return;
     }
 
@@ -46,6 +59,7 @@ socket.on('connect', () => {
     socket.emit("get-rank");
 });
 
-socket.on("on-send-rank", (rank) => {
+socket.on("on-send-rank", (rank) =>
+{
     SetRank(rank);
 });
