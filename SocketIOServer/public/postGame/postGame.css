@@ -1,4 +1,8 @@
-#container {
+/*  AUTHOR: Amanda (ruana2@rpi.edu) */
+/*  DESC: Styling for Post Game page.  */
+
+#container
+{
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -7,10 +11,14 @@
     flex-direction: column;
     gap: 60px;
 }
-#container h1 {
+
+#container h1
+{
     padding: 0 20px;
 }
-#rejoin, #quit {
+
+#rejoin, #quit
+{
     margin: 0 auto;
 }
 

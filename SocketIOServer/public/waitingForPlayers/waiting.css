@@ -1,4 +1,8 @@
-#container {
+/* AUTHOR: Amanda (ruana2@rpi.edu) */
+/* DESC: Styling for the Waiting page. */
+
+#container
+{
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -7,15 +11,19 @@
     align-items: flex-end;
     flex-wrap: wrap;
 }
-img {
+
+img
+{
     width: 100px;
     height: 100px;
     object-fit: cover;
     padding: 0 10px;
 }
 
-@media (max-width: 500px) or (max-height: 500px) {
-    img {
+@media (max-width: 500px) or (max-height: 500px)
+{
+    img
+    {
         width: 48px;
         height: 48px;
     }

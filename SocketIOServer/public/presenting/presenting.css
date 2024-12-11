@@ -1,4 +1,8 @@
-#container {
+/* AUTHOR: Amanda (ruana2@rpi.edu) */
+/* DESC: Styling for the Presenting page. */
+
+#container
+{
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -8,12 +12,15 @@
     gap: 80px;
 }
 
-#container h1 {
+#container h1
+{
     padding: 0 20px;
 }
 
-@media (max-width: 500px) or (max-height: 500px) {
-    #container {
+@media (max-width: 500px) or (max-height: 500px)
+{
+    #container
+    {
         gap: 40px;
     }
 }

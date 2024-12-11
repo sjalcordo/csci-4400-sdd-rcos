@@ -1,4 +1,8 @@
-#container {
+/*  AUTHOR: Amanda (ruana2@rpi.edu)*/
+/*  DESC: Styling for the Lobby Code page. */
+
+#container
+{
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -8,22 +12,26 @@
     text-align: center;
 }
 
-button {
+button
+{
     margin: 0 auto;
 }
 
-#codeForm {
+#codeForm
+{
     padding-top: 10px;
 }
 
-#codeGroup {
+#codeGroup
+{
     display: flex;
     justify-content: center;
     flex-direction: row;
     gap: 20px;
 }
 
-.code {
+.code
+{
     font-family: "Anta", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -37,11 +45,13 @@ button {
     border-radius: 36px;
 }
 
-.code:focus {
+.code:focus
+{
     background-color: #ffb9c1;
 }
 
-#response {
+#response
+{
     display: block;
     width: fit-content;
     color: #D6202A;
@@ -51,11 +61,14 @@ button {
     margin: 0 auto;
 }
 
-@media (max-width: 500px) or (max-height: 500px) {
-    #codeGroup {
+@media (max-width: 500px) or (max-height: 500px)
+{
+    #codeGroup
+    {
         gap: 4px;
     }
-    .code {
+    .code
+    {
         font-size: 32px;
         height: 68px;
         width: 48px;

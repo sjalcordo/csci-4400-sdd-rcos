@@ -1,10 +1,14 @@
+<!-- AUTHOR: Amanda (ruana2@rpi.edu) and Nneoma (anaemn@rpi.edu) -->
+<!-- DESC: Web layout of the Profile Creation page, where users can choose/upload their
+           profile picture and choose a name. -->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Profile_Creation</title>
         <meta name="viewport" content="width=device-width" />
         <link rel="stylesheet" type="text/css" href="../shared.css">
-        <link rel="stylesheet" type="text/css" href="./profile_creation.css">
+        <link rel="stylesheet" type="text/css" href="./profileCreation.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -59,15 +63,15 @@
             <div id="modal-content">
                 <span id="close">&times;</span>
                 <h3>Select an Image</h3>
-                <img src="../Resources/yellow_player.png" id="yellow_player" style="width: 200px; height: 200px; cursor: pointer;">
-                <img src="../Resources/blue_player.png" id="blue_player" style="width: 200px; height: 200px; cursor: pointer;">
-                <img src="../Resources/orange_player.png" id="orange_player" style="width: 200px; height: 200px; cursor: pointer;">
-                <img src="../Resources/pink_player.png" id="pink_player" style="width: 200px; height: 200px; cursor: pointer;">
+                <img src="../Resources/yellow_player.png" id="yellowPlayer" style="width: 200px; height: 200px; cursor: pointer;">
+                <img src="../Resources/blue_player.png" id="bluePlayer" style="width: 200px; height: 200px; cursor: pointer;">
+                <img src="../Resources/orange_player.png" id="orangePlayer" style="width: 200px; height: 200px; cursor: pointer;">
+                <img src="../Resources/pink_player.png" id="pinkPlayer" style="width: 200px; height: 200px; cursor: pointer;">
             </div>
         </div>
 
         <script src="/socket.io/socket.io.js"></script>
-        <script type="module" src="./profile_creation.js"></script>
+        <script type="module" src="./profileCreation.js"></script>
         <script src="../menu.js"></script>
     </body>
 

@@ -1,5 +1,9 @@
+/* AUTHOR: Amanda (ruana2@rpi.edu) */
+/* DESC: Consists of the styling for the menu, as well as styles common across all files. */
+
 /* MENU */
-#menu {
+#menu
+{
     display: block;
     position: absolute;
     top: 20px;
@@ -7,12 +11,14 @@
     z-index: 10;
 }
 
-#menu img {
+#menu img
+{
     width: 50px;
     height: 50px;
 }
 
-#settings {
+#settings
+{
     display: none;
     width: fit-content;
     height: fit-content;
@@ -28,11 +34,13 @@
     z-index: 10;
 }
 
-.option {
+.option
+{
     margin: 0 auto; /* to make buttons be on their own line */
 }
 
-#settingsClose {
+#settingsClose
+{
     position: absolute;
     top: 20px;
     right: 20px;
@@ -44,7 +52,8 @@
 
 
 /* REST OF THE PAGE */
-body {
+body
+{
     width: 100vw;
     height: 100vh;
     margin: 0;
@@ -54,7 +63,8 @@ body {
     font-style: normal;
 }
 
-h1 {
+h1
+{
     letter-spacing: 1px;
     text-align: center;
     line-height: 1.2;
@@ -64,19 +74,22 @@ h1 {
     margin: 0;
 }
 
-h3 {
+h3
+{
     font-size: 36px;
     font-weight: 500;
     margin: 0;
 }
 
-h4 {
+h4
+{
     font-size: 28px;
     font-weight: 400;
     margin: 0;
 }
 
-p {
+p
+{
     letter-spacing: 1px;
     line-height: 1.6;
     font-size: 16px;
@@ -86,7 +99,8 @@ p {
 }
 
 
-button {
+button
+{
     font-family: "Prompt", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -98,37 +112,53 @@ button {
     display: block;
 }
 
-button:hover:enabled {
+button:hover:enabled
+{
     cursor: pointer;
     transform: scale(1.2);
 }
 
-@media (max-width: 500px) or (max-height: 500px) {
-    h1 {
+@media (max-width: 500px) or (max-height: 500px)
+{
+    h1
+    {
         font-size: 40px;
     }
-    h3 {
+
+    h3
+    {
         font-size: 20px;
     }
-    h4 {
+
+    h4
+    {
         font-size: 14px;
     }
-    p {
+
+    p
+    {
         font-size: 12px;
     }
-    button {
+
+    button
+    {
         font-size: 1em;
     }
 
-    #menu {
+    #menu
+    {
         top: 8px;
         right: 8px;
     }
-    #menu img {
+
+    #menu img
+    {
         width: 32px;
         height: 32px;
     }
-    #settings {
+
+    #settings
+    {
         width: 150px;
         padding: 30px;
     }
