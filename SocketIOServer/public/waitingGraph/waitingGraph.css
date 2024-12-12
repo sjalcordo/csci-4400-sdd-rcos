@@ -1,4 +1,8 @@
-#container {
+/* AUTHOR: Amanda (ruana2@rpi.edu) */
+/* DESC: Styling for the waiting page while graph is displayed. */
+
+#container
+{
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -7,31 +11,42 @@
     align-items: flex-end;
     flex-wrap: wrap;
 }
-img {
+
+img
+{
     width: 80px;
     height: 80px;
     object-fit: cover;
     padding: 0 10px;
 }
 
-@keyframes jump {
-    0%, 20% {
+@keyframes jump
+{
+    0%, 20%
+    {
         transform: translateY(0);
     }
-    50% {
+
+    50%
+    {
         transform: translateY(-60px);
     }
-    100% {
+
+    100%
+    {
         transform: translateY(0);
     }
 }
 
-.jump {
+.jump
+{
     animation: jump 0.6s ease forwards;
 }
 
-@media (max-width: 500px) or (max-height: 500px) {
-    img {
+@media (max-width: 500px) or (max-height: 500px)
+{
+    img
+    {
         width: 60px;
         height: 60px;
     }

@@ -1,4 +1,8 @@
-#container {
+/* AUTHOR: Amanda (ruana2@rpi.edu) */
+/* DESC: Styling for the Swipe page. */
+
+#container
+{
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -6,20 +10,25 @@
     align-items: center;
     flex-wrap: wrap;
 }
-#rightHearts {
+#rightHearts
+{
     height: 200px;
     transform: scaleX(-1);
 }
 
-#leftHearts {
+#leftHearts
+{
     height: 200px;
 }
 
-@media (max-width: 500px) or (max-height: 500px) {
-    #container h1 {
+@media (max-width: 500px) or (max-height: 500px)
+{
+    #container h1
+    {
         font-size: 32px;
     }
-    #rightHearts, #leftHearts {
+    #rightHearts, #leftHearts
+    {
         height: 24px;
     }
 }

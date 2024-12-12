@@ -1,3 +1,7 @@
+// AUTHOR: Nneoma (anaemn@rpi.edu)
+// DESC: Display the prompt and answers from the server, as well as
+//       implement the timer animation. 
+
 // Connect to the server
 const socket = io(); 
 let firstConnect = true;
@@ -12,41 +16,46 @@ const answers = document.querySelectorAll('.answerCard');
 const inputAnswer = document.getElementById('textbox');
 const profilePic = document.getElementById('profilePic');
 
-answers.forEach((answer, index) => {
+answers.forEach((answer, index) => 
+{
     answer.addEventListener('click', () => select(answer))
 })
 
-function resetTimer(){
+function ResetTimer()
+{
     console.log("setDuration = " + setDuration);
-    timerInterval = setInterval(() => {
+    timerInterval = setInterval(() => 
+    {
         updateTime--;
         
-
         const percentage = (updateTime / setDuration) * 100;
-    timeBar.style.width = percentage + '%';
-
-    const minutes = Math.floor(updateTime / 60);
-    const seconds = Math.ceil(updateTime % 60);
-    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        timeBar.style.width = percentage + '%';
+    
+        const minutes = Math.floor(updateTime / 60);
+        const seconds = Math.ceil(updateTime % 60);
+        document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
         // End the timer when it reaches 0
-        if (updateTime <= 0) {
+        if (updateTime <= 0) 
+        {
             updateTime = setDuration;
-            
         }
     }, 1000);
 }
 
 
-backButton.addEventListener('click', function () {
+backButton.addEventListener('click', function () 
+{
     console.log("back pressed")
     answersContainer.style.display = "flex";
     inputContainer.style.display = "none";
 });
 
-submitButton.addEventListener('click', function () {
+submitButton.addEventListener('click', function () 
+{
     console.log(inputAnswer.value);
-    if (inputAnswer.value === ''){
+    if (inputAnswer.value === '')
+    {
         alert('Please enter a message!');
         return;
     }
@@ -55,10 +64,11 @@ submitButton.addEventListener('click', function () {
     inputContainer.style.display = "none";
     socket.emit("used-fill-in");
     socket.emit('prompt-response', inputAnswer.value);
-    resetTimer();
+    ResetTimer();
 });
 
-socket.on('connect', () => {
+socket.on('connect', () => 
+{
     if (!firstConnect) {
         return;
     }
@@ -71,7 +81,8 @@ socket.on('connect', () => {
 });
 
 
-socket.on('on-send-prompt',(question, num) =>{
+socket.on('on-send-prompt',(question, num) =>
+{
     const questionContainer = document.getElementById('questionContainer');
     questionContainer.innerHTML = ''; 
     updateTime = setDuration;
@@ -87,30 +98,37 @@ socket.on('on-send-prompt',(question, num) =>{
     questionContainer.appendChild(promptElement);
 });
 
-socket.on('on-send-answers', (responses) =>{
+socket.on('on-send-answers', (responses) =>
+{
     const answersContainer = document.getElementById('answers');
     answersContainer.innerHTML = '';
     updateTime = setDuration;
 
-    responses.forEach((response) => {
-        if (response != ""){
+    responses.forEach((response) => 
+    {
+        if (response != "")
+        {
             const answerButton = document.createElement('button');
             answerButton.textContent = response;
             answerButton.className = 'answerCard';
 
         // When an answer is clicked, send it to the server
-            answerButton.addEventListener('click', () => {
+            answerButton.addEventListener('click', () => 
+            {
                 socket.emit('prompt-response', response);
                 console.log("here?");
-                resetTimer();
+                ResetTimer();
             });
             answersContainer.appendChild(answerButton);   
-        } else {
+        } 
+        else 
+        {
             const blankAnswerButton = document.createElement('button');
             blankAnswerButton.textContent = "Type in an Answer!"
             blankAnswerButton.className = 'answerCard';
 
-            blankAnswerButton.addEventListener('click', () => {
+            blankAnswerButton.addEventListener('click', () => 
+            {
                 answersContainer.style.display = "none";
                 inputContainer.style.display = "block";
             })
@@ -119,30 +137,34 @@ socket.on('on-send-answers', (responses) =>{
     })
 });
 
-socket.on('on-send-timer-duration', (time) =>{
+socket.on('on-send-timer-duration', (time) =>
+{
     setDuration = time;
     updateTime = setDuration; 
     console.log(setDuration);
 })
 
-socket.on('on-timer-update', (time) => {
-});
+socket.on('on-timer-update', (time) => {});
 
-socket.on('on-timeout', function() {
+socket.on('on-timeout', function() 
+{
     updateTime = setDuration;
     location.reload();
 });
 
-socket.on('end-of-question', function() {
+socket.on('end-of-question', function() 
+{
     window.location.href = "/swipe/swipe.html";
 });
 
-socket.on('on-move-to-waiting', function() {
+socket.on('on-move-to-waiting', function() 
+{
     window.location.href = "/waitingForPlayers/waiting.html";
 });
 
 //DEBUGGING
-function createAnswers(){
+function CreateAnswers()
+{
     answersContainer.innerHTML = '';
 
     responses = ["Love it! Sweet and salty, just like me!",
@@ -150,25 +172,31 @@ function createAnswers(){
                 "It’s an unforgivable sin, honestly.",
                 "If you like it, we are not compatible.", ""] 
 
-    responses.forEach((response) => {
-        if (response != ""){
+    responses.forEach((response) =>
+    {
+        if (response != "")
+        {
             const answerButton = document.createElement('button');
             answerButton.textContent = response;
             answerButton.className = 'answerCard';
 
-        // When an answer is clicked, send it to the server
-            answerButton.addEventListener('click', () => {
+            // When an answer is clicked, send it to the server
+            answerButton.addEventListener('click', () =>
+            {
                 socket.emit('prompt-response', response);
                 console.log("here?");
-                resetTimer();
+                ResetTimer();
             });
             answersContainer.appendChild(answerButton);   
-        } else {
+        }
+        else
+        {
             const blankAnswerButton = document.createElement('button');
             blankAnswerButton.textContent = "Type in an Answer!"
             blankAnswerButton.className = 'answerCard';
 
-            blankAnswerButton.addEventListener('click', () => {
+            blankAnswerButton.addEventListener('click', () =>
+            {
                 answersContainer.style.display = "none";
                 inputContainer.style.display = "block";
             })
@@ -178,6 +206,6 @@ function createAnswers(){
     })
 }
 
-//createAnswers();
+//CreateAnswers();
 
-resetTimer();
+ResetTimer();

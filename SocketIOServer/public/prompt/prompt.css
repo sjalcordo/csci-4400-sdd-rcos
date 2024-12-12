@@ -1,29 +1,37 @@
-#container {
+/* AUTHOR: Amanda (ruana2@rpi.edu) */
+/* DESC: Styling for the Prompt page. */
+
+#container
+{
     width: 100vw;
     height: 100vh;
     text-align: center;
     position: relative;
 }
 
-#header {
+#header
+{
     display: flex;
     justify-content: space-between;
 }
 
-#timer {
+#timer
+{
     font-size: 40px;
     font-weight: 800;
     color: #D6202A;
     padding: 10px 0 0 20px;
 }
 
-.prompt {
+.prompt
+{
     padding: 10px 40px;
     text-align: center;
     overflow-wrap: break-word;
 }
 
-#answers {
+#answers
+{
     width: 80%;
     margin: auto;
     display: flex;
@@ -33,7 +41,8 @@
     flex-wrap: wrap;
 }
 
-.answerCard {
+.answerCard
+{
     width: 25%;
     height: 120px;
     overflow-wrap: break-word;
@@ -45,21 +54,23 @@
     font-size: 16px;
     font-weight: 300;
     color: #000000;
-
 }
 
-.answerCard:hover {
+.answerCard:hover
+{
     transform: scale(1.1);
 }
 
-#timeBarContainer {
+#timeBarContainer
+{
     width: 80%;
     position: absolute;
     bottom: 30px;
     margin: 0 10%;
 }
 
-#timeBar {
+#timeBar
+{
     height: 8px;
     width: 100%;
     background: #D6202A;
@@ -69,11 +80,13 @@
 }
 
 
-#textboxForm {
+#textboxForm
+{
     display: none;
 }
 
-#textbox {
+#textbox
+{
     margin: auto;
     display: block;
     width: 800px;
@@ -87,7 +100,8 @@
     font-size: 1.5em;
 }
 
-#buttons {
+#buttons
+{
     width: 100%;
     display: flex;
     justify-content: center;
@@ -96,16 +110,20 @@
     margin-top: 20px;
 }
 
-@keyframes timerBar {
-    from {
+@keyframes timerBar
+{
+    from
+    {
         transform: scaleX(0);
     }
-    to {
+    to
+    {
         transform: scaleX(1);
     }
 }
 
-@media (max-width: 500px) or (max-height: 500px) {
+@media (max-width: 500px) or (max-height: 500px)
+{
     #header img {
         height: 48px;
     }
@@ -123,24 +141,31 @@
     }
 }
 
-@media (max-width: 500px) {
-    #questionContainer {
+@media (max-width: 500px)
+{
+    #questionContainer
+    {
         margin-top: 40px;
     }
-    .prompt {
+    .prompt
+    {
         padding: 10px 40px 30px 40px;
     }
-    .answerCard {
+    .answerCard
+    {
         width: 45%;
         height: 100px;
     }
 }
 
-@media (max-height: 500px) {
-    .answerCard {
+@media (max-height: 500px)
+{
+    .answerCard
+    {
         height: 72px;
     }
-    .timerBar {
+    .timerBar
+    {
         bottom: 8px;
     }
 }
